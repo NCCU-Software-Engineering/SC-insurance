@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>XX人壽</title>
+
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/buy.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <div class="row">
+                <a class="brand pull-left" href="/">XX人壽</a>
+                <ul class="list-inline list-unstyled pull-right">
+                    <li><a href="signin">登入</a></li>
+                    <li><a href="signup">註冊帳號</a></li>
+                </ul>
+            </div>
+    </header>
+
+    <section id="progress">
+        <div class="container">
+            <div class="row text-center">
+                <div id="step1" class="col-md-4">
+                    輸入基本資料
+                </div>
+                <div id="step2" class="col-md-4">
+                    投保資料輸入
+                </div>
+                <div id="step3" class="col-md-4">
+                    繳費
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="basic">
+        <div class="container">
+            <div class="row">
+                <h2 class="text-center">基本資料</h2>
+                <div class="col-md-8 col-md-offset-2">
+                    <form class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="contact-name">姓名</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" id="contact-name" placeholder="全名">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="contact-email">年齡</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" id="contact-email" placeholder="您的生日">
+                            </div>
+                            <div class="col-sm-2">
+                                XX歲
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="contact-name">身分證字號</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" id="contact-name" placeholder="身分證字號">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="contact-email">電子郵件</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" id="contact-email" placeholder="你的電子郵件地址">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="contact-name">行動電話</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" id="contact-name" placeholder="行動電話">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="contact-name">身故受益人</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" id="contact-name" placeholder="身故受益人">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <div id="basic_bt" class="btn btn-success btn-lg">送出</div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="insured">
+        <div class="container">
+            <div class="row">
+                <h2 class="text-center">投保資料</h2>
+                <div class="col-md-8 col-md-offset-2">
+                    <form class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="contact-name">選擇保險費</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" id="contact-name" placeholder="1到10萬">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="contact-name">年金給付開始日</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" id="contact-name" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="contact-name">年金給付方式</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" id="contact-name" placeholder="月給付 年給付">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <div id="insured_bt" class="btn btn-success btn-lg">送出</div>
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="payment">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h2 class="text-center">繳費</h2>
+                    <ul class="list-unstyled">
+                        <li>銀行轉帳</li>
+                        <li>線上刷卡</li>
+                        <li>商店付款</li>
+                    </ul>
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <a href="agreement" class="btn btn-success btn-lg" type="submit">送出</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="col-sm-2">
+                <img src="imgs/logo.png" class="img-responsive">
+            </div>
+            <div class="col-sm-2">
+                <h5>公司</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">文件資料</a></li>
+                    <li><a href="#">Packt出版社</a></li>
+                    <li><a href="#">關於我們</a></li>
+                    <li><a href="#">聯絡資訊</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-2 ">
+                <h5>社群</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">部落格</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-2">
+                <h5>客戶支援</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">聯絡資訊</a></li>
+                    <li><a href="#">隱私政策</a></li>
+                    <li><a href="#">條款與細則</a></li>
+                    <li><a href="#">服務台</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                <address>
+                    <strong>某某股份有限公司</strong> 地址第 1 行<br> 地址第 2 行<br>
+                    <abbr title="Phone">TEL：</abbr> (02) 1234-5678
+                </address>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/jquery-3.1.1.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/buy.js"></script>
+
+</body>
+
+</html>

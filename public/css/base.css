@@ -1,0 +1,34 @@
+header {
+  background-color: #F8F8F8;
+}
+header ul {
+  margin: 0;
+}
+
+header a,
+header li {
+  padding: 1.4rem 0;
+  color: #777;
+  font-weight: bold;
+}
+
+footer {
+  background-color: #444444;
+  color: #ADADAD;
+  margin-top: 3em;
+}
+
+footer h5,
+footer img {
+  margin-top: 5em;
+  font-weight: bold;
+}
+footer address {
+  margin-top: 5em;
+  margin-bottom: 5em;
+  color: #5A5A5A;
+}
+
+footer ul {
+  margin-bottom: 5em;
+}

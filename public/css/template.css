@@ -1,0 +1,20 @@
+#traditional-contract {
+    display: block;
+    font-family: monospace;
+    margin: 1em 0;
+    overflow: auto;
+    height: 80vh;
+    border:5px solid red;
+    border-radius:10px
+}
+#smart-contract {
+    display: block;
+    font-family: monospace;
+    margin: 1em 0;
+    white-space: pre;
+    overflow: auto;
+    height: 80vh;
+    border:5px solid red;
+    padding-left: 2rem;
+}
+
