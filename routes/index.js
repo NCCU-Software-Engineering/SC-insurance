@@ -3,6 +3,7 @@ var express = require('express');
 var web3 = require('../web3.js');
 var router = express.Router();
 var mysql = require('mysql');
+var contract = require('../contract.js');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -30,15 +31,16 @@ router.get('/template', function (req, res, next) {
 });
 
 router.get('/newAccount', function (req, res, next) {
-  res.sendFile(path.resolve('public', 'newAccount.html'));
   web3.personal.newAccount("123456");
   console.log("create a new account");
+  res.sendFile(path.resolve('public', 'newAccount.html'));
 });
 
 router.get('/deploy', function (req, res, next) {
-  res.sendFile(path.resolve('public', 'deploy.html'));
-  var contract = require('../contract.js');
+  var date = new Date();
+  var deploy = new contract(date.getFullYear(), date.getMonth()+1, date.getDate());
   console.log("deploy the contract");
+  res.sendFile(path.resolve('public', 'deploy.html'));
 });
 
 router.post('/registration', function (req, res, next) {
