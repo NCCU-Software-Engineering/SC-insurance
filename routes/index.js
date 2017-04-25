@@ -33,11 +33,25 @@ router.get('/template', function (req, res, next) {
   res.sendFile(path.resolve('public', 'template.html'));
 });
 
+<<<<<<< HEAD
 router.get('/deploy', function(req, res, next) {
   var contract = new Contract();
   contract.deploy();
   console.log("deploy the contract");
   res.sendFile(path.resolve('public','index.html'));
+=======
+router.get('/newAccount', function(req, res, next) {
+  web3.personal.newAccount("123456");
+  res.sendFile(path.resolve('public','newAccount.html'));
+  console.log("create a new account");
+});
+
+router.get('/deploy', function(req, res, next) {
+  var c = new contract();
+  c.deploy();
+  res.sendFile(path.resolve('public','deploy.html'));
+  console.log("deploy the contract");
+>>>>>>> origin/master
 });
 
 router.post('/registration', function (req, res, next) {
