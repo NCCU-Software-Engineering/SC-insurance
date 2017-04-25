@@ -10,21 +10,21 @@ contract Annuity {
     address private timerAddress;
 
     //保費(待填入*)
-    uint Money = 0;
+    uint money = 0;
     //部署時間
-    uint DeployTime;
+    uint deployTime;
     //紀錄時間
-    uint NowTime;
+    uint nowTime;
     //撤銷期限
-    uint RevocationPeriod;
+    uint revocationPeriod;
     //給付年金日
-    uint PayTime;
+    uint payTime;
 	
     //合約狀態 0.未被確認 1.契撤期 2.確認並等待給付 3.結束給付 4.被撤銷
     uint status;
     string[5] statusStrings;
     //給付間隔 (待填入*)
-    uint TimeInterval = 1 years;
+    uint timeInterval = 1 years;
     
     //事件
     event PayEvent();
@@ -40,10 +40,10 @@ contract Annuity {
         
         status = 0;
         //部署日期
-        DeployTime = time;
-        NowTime = time;
+        deployTime = time;
+        nowTime = time;
         //給付年金日 (待填入*)
-        PayTime = NowTime + 20 years;
+        payTime = nowTime + 20 years;
         
         statusStrings[0] = "unconfirmed";
         statusStrings[1] = "canBeRevoked";
@@ -77,7 +77,7 @@ contract Annuity {
         status = 1;
         
         //設定契約撤銷期限
-        RevocationPeriod = NowTime + 10 days;
+        revocationPeriod = nowTime + 10 days;
         //通知保險公司傳送契約撤銷確認email
         RevocationMailEvent();
     }
@@ -112,20 +112,20 @@ contract Annuity {
     function time(uint time) {
         
         //紀錄時間
-        NowTime = time;
+        nowTime = time;
         //由第三方時間伺服器設定時間
         if(msg.sender != timerAddress) {
             throw;  
         }
         //撤銷期結束
         if(status == 1) {
-            if(NowTime >= RevocationPeriod){
+            if(nowTime >= revocationPeriod){
                 status = 2;
             }
         }
         //開始給付年金
         else if(status == 2) {
-            if(NowTime >= PayTime){
+            if(nowTime >= payTime){
                 status = 2;
                 //通知保險公司給付年金
                 PayEvent();
@@ -135,7 +135,7 @@ contract Annuity {
     //已經給付年金
     function FinishPayment(){
         //確認下次給付時間
-        PayTime += TimeInterval;
+        payTime += timeInterval;
     }
     
     //摧毀合約
@@ -143,6 +143,6 @@ contract Annuity {
          if (msg.sender == companyAddress) { 
              suicide(companyAddress);
         }
-    } 
+    }
     
 }
