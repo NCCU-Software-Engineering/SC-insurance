@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/test.css">
+
+    <link rel="shortcut icon" href="imgs/favicon.ico"/>
+    <link rel="bookmark" href="imgs/favicon.ico"/>
 </head>
 
 <body>
@@ -47,25 +50,21 @@
                         <p id="year">25歲</p>
                     </div>
                 </div>
-
-                <h2>日期</h2>
-                <p id="date">XXXX年XX月XX日</p>
-
-                <button class="col-md-2 col-md-offset-2 btn btn-success btn-lg" id="up">長大</button>
-                <button class="col-md-2 col-md-offset-2 btn btn-success btn-lg" id="reset">死亡</button>
-                <button class="col-md-2 col-md-offset-2 btn btn-success btn-lg" id="reset">失蹤</button>
             </div>
         </div>
     </section>
 
-    <section id="bt">
+    <section id="event_button">
         <div class="container">
             <div class="row">
-
-                <button class="col-md-2 col-md-offset-2 btn btn-success btn-lg" id="up">人臉辨識成功</button>
-                <button class="col-md-2 col-md-offset-2 btn btn-success btn-lg" id="reset">人臉辨識失敗</button>
-                <button class="col-md-2 col-md-offset-2 btn btn-success btn-lg" id="reset">沒有驗證</button>
-
+                <div class="btn-group.btn-group-justified" role="group"> 
+                    <button class="btn btn-success btn-lg" id="next_event">下一個事件</button>
+                    <button class="btn btn-success btn-lg" id="next_day">下一天</button>
+                    <button class="btn btn-success btn-lg" id="dead">死亡</button>
+                    <button class="btn btn-success btn-lg" id="missing">失蹤</button>
+                    <button class="btn btn-success btn-lg" id="identify_success">人臉辨識成功</button>
+                    <button class="btn btn-success btn-lg" id="Identify_failure">人臉辨識失敗</button>
+                </div>
             </div>
         </div>
     </section>
@@ -73,20 +72,17 @@
     <section id="out">
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
-                    <h3>被保人事件</h3>
-                    <p id="a">
-                    </p>
-                </div>
-                <div class="col-md-4">
-                    <h3>保險公司事件</h3>
-                    <p id="b">
-                    </p>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <h3>合約狀態</h3>
-                    <p id="c">
-                    </p>
+                    <p id="contract_status"></p>
+                </div>
+                <div class="col-md-6">
+                    <h3>被保人事件</h3>
+                    <p id="a"></p>
+                </div>
+                <div class="col-md-6">
+                    <h3>保險公司事件</h3>
+                    <p id="b"></p>
                 </div>
             </div>
         </div>
@@ -135,7 +131,7 @@
     <script src="js/jquery-3.1.1.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/test.js"></script>
-    <script src="js/contract-b.js"></script>
+    <script src="js/contract_b.js"></script>
 </body>
 
 </html>

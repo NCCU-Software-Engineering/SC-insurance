@@ -1,4 +1,9 @@
-#a, #b, #c {
+#a, #b {
     height: 40rem;
+    border-style:solid;
+}
+
+#contract_status {
+    height: 10rem;
     border-style:solid;
 }
