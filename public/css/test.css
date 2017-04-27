@@ -1,9 +1,9 @@
-#a, #b {
-    height: 40rem;
+#contract_status {
+    height: 15rem;
     border-style:solid;
 }
 
-#contract_status {
-    height: 13rem;
+#a, #b {
+    height: 40rem;
     border-style:solid;
 }

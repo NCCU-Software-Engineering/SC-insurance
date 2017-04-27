@@ -19,6 +19,8 @@ contract Annuity {
     uint revocationPeriod;
     //給付年金日
     uint payTime;
+    
+    string ver = "1.0.2";
 	
     //合約狀態 0.未被確認 1.契撤期 2.確認並等待給付 3.結束給付 4.被撤銷
     uint status;
@@ -60,6 +62,16 @@ contract Annuity {
     }
     function getStatus() constant returns (string){
         return statusStrings[status];
+    }
+    
+    function getNowTime() constant returns (uint){
+        return nowTime;
+    }
+    function getRevocationPeriod() constant returns (uint){
+        return revocationPeriod;
+    }
+    function getPayTime() constant returns (uint){
+        return payTime;
     }
     
     //確認合約
@@ -133,9 +145,13 @@ contract Annuity {
         }
     }
     //已經給付年金
-    function FinishPayment(){
-        //確認下次給付時間
+    function finishPayment(){
+        //下次給付時間
         payTime += timeInterval;
+    }
+    
+    function version() constant returns(string) {
+        return ver;
     }
     
     //摧毀合約

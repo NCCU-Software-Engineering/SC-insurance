@@ -38,7 +38,15 @@ router.get('/deploy', function(req, res, next) {
   var contract = new Contract();
   contract.deploy();
   console.log("deploy the contract");
-  res.sendFile(path.resolve('public','index.html'));
+  //res.sendFile(path.resolve('public','index.html'));
+});
+
+router.post('/test', function(req, res, next) {
+  var todo = req.body.todo;
+  if(todo == "addyear")
+    res.send(req.body.todo);
+  else
+    res.send("nothing")
 });
 
 router.post('/registration', function (req, res, next) {
