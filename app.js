@@ -6,16 +6,28 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-//var users = require('./routes/users');
+var users = require('./routes/users');
 
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+//view engine setup
+var handlebars = require('express-handlebars').create({
+    defaultLayout:'main',
+    helpers: {
+        section: function(name, options){
+            if(!this._sections) this._sections = {};
+            this._sections[name] = options.fn(this);
+            return null;
+        }
+    }
+});
+app.engine('handlebars', handlebars.engine);
+app.set('view engine', 'handlebars');
+
+app.set('port', process.env.PORT || 50000);
 
 //uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'imgs', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,26 +35,23 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-//app.use('/users', users);
 
-// catch 404 and forward to error handler
+//catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+    res.status(404);
+    res.render('404');
 });
 
-// error handler
+//error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    console.error(err.stack);
+    res.status(500);
+    res.render('500');
 });
 
-app.listen(50000);
+app.listen(app.get('port'), function(){
+    console.log( 'Express started on http://localhost:' + app.get('port') + '\n'
+    + 'press Ctrl-C to terminate' );
+});
 
 module.exports = app;
