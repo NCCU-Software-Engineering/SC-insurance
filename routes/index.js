@@ -1,19 +1,20 @@
 var path = require('path');
 var express = require('express');
-var web3 = require('../web3.js');
+var web3 = require('../lib/web3.js');
 var router = express.Router();
-var Contract = require('../Contract.js');
+var Contract = require('../lib/contract.js');
+var connection = require('../lib/SQL.js');
 
 router.get('/', function (req, res, next) {
     res.render('index');
 });
 
-router.get('/signin', function (req, res, next) {
-    res.render('signin');
+router.get('/sign_in', function (req, res, next) {
+    res.render('sign_in');
 });
 
-router.get('/signup', function (req, res, next) {
-    res.render('signup');
+router.get('/sign_up', function (req, res, next) {
+    res.render('sign_up');
 });
 
 router.get('/buy', function (req, res, next) {
@@ -32,7 +33,7 @@ router.get('/deploy', function (req, res, next) {
     var contract = new Contract();
     contract.deploy();
     console.log("deploy the contract");
-    //res.sendFile(path.resolve('public','index.html'));
+    res.redirect('/');
 });
 
 router.get('/test', function (req, res, next) {
@@ -49,13 +50,11 @@ router.post('/test', function (req, res, next) {
 
 router.post('/registration', function (req, res, next) {
 
-    console.log("registration");
+    console.log("註冊");
     console.log(req.body);
 
-    web3.personal.newAccount("1234");
-    console.log("create a new account");
-
-    var connection = require('../lib/SQL.js');
+    //web3.personal.newAccount("1234");
+    console.log("create a new account not work in testrpc");
 
     //開始連接
     connection.connect();
@@ -70,7 +69,16 @@ router.post('/registration', function (req, res, next) {
     //結束連線
     connection.end();
 
-    res.sendFile(path.resolve('public', 'index.html'));
+    res.redirect('/');
+});
+
+router.post('/login', function (req, res, next) {
+
+    console.log("登錄");
+    console.log(req.body);
+
+    res.cookie('ID', req.password);
+    res.redirect('/');
 });
 
 module.exports = router;

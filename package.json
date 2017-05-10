@@ -3,16 +3,20 @@
   "version": "0.0.4",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "solc": "concurrently \"solcjs --optimize --bin -o ./build ./contract/Annuity.sol\" \"solcjs --optimize --abi -o ./build ./contract/Annuity.sol\""
   },
   "dependencies": {
     "body-parser": "~1.15.2",
+    "concurrently": "^3.4.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "express": "~4.14.0",
     "express-handlebars": "^3.0.0",
     "morgan": "~1.7.0",
     "mysql": "^2.13.0",
+    "nodemailer": "^4.0.1",
+    "scrypt": "^6.0.3",
     "serve-favicon": "~2.3.0",
     "solc": "^0.4.10",
     "web3": "~0.18.4"
