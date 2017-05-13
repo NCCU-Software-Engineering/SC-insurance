@@ -9,8 +9,7 @@
 	<title>XX人壽</title>
 
 	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/base.css">
-	{{{_sections.css}}}
+	<link rel="stylesheet" href="css/base.css"> {{{_sections.css}}}
 
 	<link rel="shortcut icon" href="imgs/favicon.ico" />
 	<link rel="bookmark" href="imgs/favicon.ico" />
@@ -25,8 +24,12 @@
 				<a class="brand pull-left" href="/">XX人壽</a>
 				<ul class="list-inline list-unstyled pull-right">
 					<li><a href="test">測試頁面</a></li>
-					<li><a href="sign_in">登入</a></li>
-					<li><a href="sign_up">註冊帳號</a></li>
+
+					<li class="sign"><a href="personal" id="ID">會員名稱</a></li>
+					<li class="sign"><a href="sign_out">登出</a></li>
+
+					<li class="unsign"><a href="sign_in" >登入</a></li>
+					<li class="unsign"><a href="sign_up">註冊帳號</a></li>
 				</ul>
 			</div>
 	</header>
@@ -75,8 +78,9 @@
 
 	<script src="js/jquery-3.1.1.js"></script>
 	<script src="js/bootstrap.js"></script>
+	<script src="js/cookies.js"></script>
 	{{{_sections.script}}}
-
+	
 </body>
 
 </html>

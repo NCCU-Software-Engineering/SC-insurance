@@ -5,18 +5,24 @@ var router = express.Router();
 var Contract = require('../lib/contract.js');
 var connection = require('../lib/SQL.js');
 
+//首頁
 router.get('/', function (req, res, next) {
     res.render('index');
 });
 
+//會員管理
 router.get('/sign_in', function (req, res, next) {
     res.render('sign_in');
 });
-
 router.get('/sign_up', function (req, res, next) {
     res.render('sign_up');
 });
+router.get('/sign_out', function (req, res, next) {
+    res.clearCookie("ID");
+    res.redirect('/');
+});
 
+//網頁導向
 router.get('/buy', function (req, res, next) {
     res.render('buy');
 });
@@ -31,7 +37,7 @@ router.get('/template', function (req, res, next) {
 
 router.get('/deploy', function (req, res, next) {
     var contract = new Contract();
-    contract.deploy();
+    contract.deploy(req.cookies.ID);
     console.log("deploy the contract");
     res.redirect('/');
 });
@@ -40,6 +46,7 @@ router.get('/test', function (req, res, next) {
     res.render('test');
 });
 
+//post-------------------------------------------------------
 router.post('/test', function (req, res, next) {
     var todo = req.body.todo;
     if (todo == "addyear")
@@ -77,7 +84,8 @@ router.post('/login', function (req, res, next) {
     console.log("登錄");
     console.log(req.body);
 
-    res.cookie('ID', req.password);
+    res.cookie('ID', req.body.ID);
+    res.cookie('signed_ID', req.body.ID, {signed: true});
     res.redirect('/');
 });
 

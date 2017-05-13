@@ -1,9 +1,11 @@
 #contract_status {
     height: 15rem;
-    border-style:solid;
 }
 
 #a, #b {
     height: 40rem;
-    border-style:solid;
+}
+
+button {
+    width: 15%;
 }
