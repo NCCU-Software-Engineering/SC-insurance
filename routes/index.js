@@ -43,7 +43,25 @@ router.get('/deploy', function (req, res, next) {
 });
 
 router.get('/test', function (req, res, next) {
-    res.render('test');
+
+    let li = "";
+
+    connection.connect();
+
+    connection.query('SELECT address FROM smart.contract where id=\'' + req.cookies.ID + '\';', function (error, rows, fields) {
+        if (error) {
+            console.log('寫入讀取失敗！');
+            throw error;
+        }
+        for(var i=0; i<rows.length; i++) {
+            li += "<li><input name=\"smart\" type=\"radio\" value=\"" + rows[i].address + "\">智能合約" + (i+1) + ":" + rows[i].address + "</li>"
+        }
+        console.log(li);
+        res.render('test', {radio: li});
+    });
+
+    //結束連線
+    connection.end();
 });
 
 //post-------------------------------------------------------

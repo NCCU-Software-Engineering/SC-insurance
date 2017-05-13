@@ -186,8 +186,8 @@ var abiArray = [{
     "name": "NotRevocationEvent",
     "type": "event"
 }];
-
-var contract;
+//var contractAddress = "0xf0f025a6c4a6343662c24912ae08b92c434fdf42";
+//var contract = web3.eth.contract(abiArray).at(contractAddress);
 
 function getCompanyAddress() {
     return contract.getCompanyAddress();
@@ -233,101 +233,3 @@ function revoke() {
         gas: 3000000
     });
 }
-
-//----------------------------------------------------------------------------------
-
-var myDate = new Date();
-
-$(function () {
-    myDate.setFullYear(getNowTime()[0]);
-    myDate.setMonth(getNowTime()[1] - 1);
-    myDate.setDate(getNowTime()[2]);
-});
-
-$(document).ready(function () {
-    $("#radio_group :radio").change(function () {
-        contract = web3.eth.contract(abiArray).at( $(this).val() );
-        update();
-    });
-});
-
-function update() {
-
-    console.log("update");
-
-    $("#status_body").html(
-        "CompanyAddress : " + getCompanyAddress() + "<br>" +
-        "InsurerAddress : " + getInsurerAddress() + "<br>" +
-        "Status : " + getStatus() + "<br>" +
-        "合約時間 : " + getNowTime() + "<br>" +
-        "契撤期限 : " + getRevocationPeriod() + "<br>" +
-        "年金給付 : " + getPayTime()
-    );
-    $("#status").removeClass();
-    switch (getStatus()) {
-        case "unconfirmed":
-            $("#status").addClass("panel panel-warning");
-            $("#status_heading").html("合約狀態：合約未被確認");
-            break;
-        case "canBeRevoked":
-            $("#status").addClass("panel panel-info");
-            $("#status_heading").html("合約狀態：合約撤銷期內");
-            break;
-        case "confirmed":
-            $("#status").addClass("panel panel-primary");
-            $("#status_heading").html("合約狀態：合約確認 正式生效");
-            break;
-        case "end":
-            $("#status").addClass("panel panel-success");
-            $("#status_heading").html("合約狀態：合約給付結束");
-            break;
-        case "Revocation":
-            $("#status").addClass("panel panel-danger");
-            $("#status_heading").html("合約狀態：合約已被撤銷");
-            break;
-        default:
-            $("#status").addClass("panel panel-default");
-            $("#status_heading").html("合約狀態：未知狀態???");
-    }
-
-}
-
-$("#set_date").click(function () {
-    console.log($("#ymd").attr('value'));
-    var d = new Date($("#ymd").attr('value'));
-    console.log(d.getFullYear());
-    console.log(d.getMonth());
-    console.log(d.getDate());
-});
-
-$("#update").click(function () {
-    update();
-});
-
-$("#next_day").click(function () {
-    myDate.setDate(myDate.getDate() + 1);
-    time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate());
-    update();
-});
-$("#next_month").click(function () {
-    myDate.setMonth(myDate.getMonth() + 1);
-    time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate());
-    update();
-});
-$("#next_year").click(function () {
-    myDate.setFullYear(myDate.getFullYear() + 1);
-    time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate());
-    update();
-});
-
-$("#confirme").click(function () {
-    var tempDate = new Date(myDate);
-    tempDate.setDate(tempDate.getDate() + 11);
-    confirme(tempDate.getFullYear(), tempDate.getMonth() + 1, tempDate.getDate());
-    update();
-});
-
-$("#revoke").click(function () {
-    revoke();
-    update();
-});

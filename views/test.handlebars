@@ -6,12 +6,10 @@
         <div class="row">
             <h1>智能合約模擬</h1>
             <hr>
-            <ul class="list-inline list-unstyled">
-                <li><input name="smart" type="radio" value="s1">智能合約1</li>
-                <li><input name="smart" type="radio" value="s2">智能合約2</li>
-                <li><input name="smart" type="radio" value="s3">智能合約3</li>
+            <div class="alert alert-info" role="alert">本功能僅供測試</div>
+            <ul class="list-unstyled" id="radio_group">
+                {{{radio}}}
             </ul>
-            <div class="alert alert-info" role="alert">請先選擇合約</div>
             <hr>
         </div>
     </div>
@@ -42,21 +40,21 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">合約狀態</div>
-                    <div class="panel-body" id="contract_status">Panel Content</div>
+                <div class="panel panel-default" id="status">
+                    <div class="panel-heading" id="status_heading">合約狀態</div>
+                    <div class="panel-body" id="status_body">請先選擇合約</div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="panel panel-success">
                     <div class="panel-heading">被保人事件</div>
-                    <div class="panel-body" id="a">Panel Content</div>
+                    <div class="panel-body" id="a"></div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="panel panel-warning">
                     <div class="panel-heading">保險公司事件</div>
-                    <div class="panel-body" id="b">Panel Content</div>
+                    <div class="panel-body" id="b"></div>
                 </div>
             </div>
         </div>

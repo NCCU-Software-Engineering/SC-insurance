@@ -1,5 +1,5 @@
-#contract_status {
-    height: 15rem;
+#statusBar {
+    font-size: 2rem;
 }
 
 #a, #b {
@@ -8,4 +8,10 @@
 
 button {
     width: 15%;
+}
+.panel-heading {
+    font-size: 3rem;
+}
+.panel-body {
+    font-size: 2rem;
 }
