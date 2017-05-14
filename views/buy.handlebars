@@ -4,24 +4,25 @@
 
 <section id="progress">
     <div class="container">
-        <div class="row text-center">
-            <div id="step1" class="col-md-4">
-                輸入基本資料
-            </div>
-            <div id="step2" class="col-md-4">
-                投保資料輸入
-            </div>
-            <div id="step3" class="col-md-4">
-                繳費
-            </div>
-        </div>
+
+        <ui class="nav nav-tabs nav-justified">
+            <li role="presentation" class="active" id="step1">
+                <a>輸入基本資料</a>
+            </li>
+            <li role="presentation" id="step2">
+                <a>投保資料輸入</a>
+            </li>
+            <li role="presentation" id="step3">
+                <a>繳費</a>
+            </li>
+        </ui>
+
     </div>
 </section>
 
 <section id="basic">
     <div class="container">
         <div class="row">
-            <h2 class="text-center">基本資料</h2>
             <div class="col-md-8 col-md-offset-2">
                 <form class="form-horizontal">
 
@@ -85,7 +86,6 @@
 <section id="insured">
     <div class="container">
         <div class="row">
-            <h2 class="text-center">投保資料</h2>
             <div class="col-md-8 col-md-offset-2">
                 <form class="form-horizontal">
 
@@ -126,7 +126,6 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <h2 class="text-center">繳費</h2>
                 <ul class="list-unstyled">
                     <li>銀行轉帳</li>
                     <li>線上刷卡</li>

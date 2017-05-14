@@ -2,14 +2,14 @@ $("#basic_bt").click(function () {
     $("#basic").get(0).style.display = "none";
     $("#insured").get(0).style.display = "block";
 
-    $("#step1").css("background-color", "white");
-    $("#step2").css("background-color", "yellow");
+    $("#step1").removeClass("active");
+    $("#step2").addClass("active");
 });
 
 $("#insured_bt").click(function () {
     $("#insured").get(0).style.display = "none";
     $("#payment").get(0).style.display = "block";
 
-    $("#step2").css("background-color", "white");
-    $("#step3").css("background-color", "yellow");
+    $("#step2").removeClass("active");
+    $("#step3").addClass("active");
 });
