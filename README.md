@@ -1,28 +1,21 @@
 # SC-insurance
 
-安裝modules
+##安裝modules
 ---
 npm install
 
 
-啟動test-rpc
+##啟動test-rpc
 ---
-testrpc -p 8545 --accounts 1
+testrpc -p 8545 --accounts 5
 
 
-啟動伺服器
+##啟動伺服器
 ---
-node app.js
+npm start
 
-
-創建帳號
+##測試合約
 ---
-
-
-部屬合約
----
-
-
-測試合約
----
-
+註冊
+購買合約
+進入測試業面
