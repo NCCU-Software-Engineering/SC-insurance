@@ -1,18 +1,17 @@
 {{#section 'css'}}
-    <link rel="stylesheet" href="css/buy.css">
-{{/section}}
+<link rel="stylesheet" href="css/buy.css"> {{/section}}
 
 <section id="progress">
     <div class="container">
 
-        <ui class="nav nav-tabs nav-justified">
-            <li role="presentation" class="active" id="step1">
+        <ui class="nav nav-pills nav-justified">
+            <li role="presentation" id="step1" onclick="one()">
                 <a>輸入基本資料</a>
             </li>
-            <li role="presentation" id="step2">
+            <li role="presentation" id="step2" onclick="two()">
                 <a>投保資料輸入</a>
             </li>
-            <li role="presentation" id="step3">
+            <li role="presentation" id="step3" onclick="three()">
                 <a>繳費</a>
             </li>
         </ui>
@@ -20,11 +19,13 @@
     </div>
 </section>
 
-<section id="basic">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <form class="form-horizontal">
+<form class="form" action="/checkout" method="post">
+
+    <section id="basic">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="contact-name">姓名</label>
@@ -34,12 +35,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-2 control-label" for="contact-email">年齡</label>
-                        <div class="col-sm-8">
-                            <input class="form-control" type="text" id="contact-email" placeholder="您的生日">
-                        </div>
-                        <div class="col-sm-2">
-                            XX歲
+                        <label class="col-sm-2 control-label" for="contact-email">生日</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="date" id="contact-email" placeholder="您的生日">
                         </div>
                     </div>
 
@@ -53,41 +51,45 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="contact-email">電子郵件</label>
                         <div class="col-sm-10">
-                            <input class="form-control" type="text" id="contact-email" placeholder="你的電子郵件地址">
+                            <input class="form-control" type="email" id="contact-email" placeholder="你的電子郵件地址">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-2 control-label" for="contact-name">行動電話</label>
+                        <label class="col-sm-2 control-label" for="contact-tel">行動電話</label>
                         <div class="col-sm-10">
-                            <input class="form-control" type="text" id="contact-name" placeholder="行動電話">
+                            <input class="form-control" type="tel" id="contact-tel" placeholder="行動電話">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-2 control-label" for="contact-name">身故受益人</label>
+                        <label class="col-sm-2 control-label" for="contact-dname">身故受益人</label>
                         <div class="col-sm-10">
-                            <input class="form-control" type="text" id="contact-name" placeholder="身故受益人">
+                            <input class="form-control" type="text" id="contact-dname" placeholder="身故受益人">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <div id="basic_bt" class="btn btn-success btn-lg">送出</div>
+                        <div class="col-sm-offset-2 col-sm-3">
+                            <div id="basic_bt" class="btn btn-success btn-lg" onclick="two()">下一步</div>
+                        </div>
+                        <div class="col-sm-3">
+                            <button class="btn btn-success btn-lg" type="reset">重設</button>
                         </div>
                     </div>
 
-                </form>
+
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section id="insured">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <form class="form-horizontal">
+
+    <section id="insured">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="contact-name">選擇保險費</label>
@@ -111,35 +113,56 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <div id="insured_bt" class="btn btn-success btn-lg">送出</div>
+                        <div class="col-sm-offset-2 col-sm-3">
+                            <div id="basic_bt" class="btn btn-success btn-lg" onclick="three()">下一步</div>
+                        </div>
+                        <div class="col-sm-3">
+                            <button class="btn btn-success btn-lg" type="reset">重設</button>
+                        </div>
+                        <div class="col-sm-3">
+                            <div id="basic_bt" class="btn btn-success btn-lg" onclick="one()">上一步</div>
                         </div>
                     </div>
-                </form>
 
-            </div>
-        </div>
-    </div>
-</section>
 
-<section id="payment">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <ul class="list-unstyled">
-                    <li>銀行轉帳</li>
-                    <li>線上刷卡</li>
-                    <li>商店付款</li>
-                </ul>
-                <div class="col-sm-offset-2 col-sm-10">
-                    <a href="agreement" class="btn btn-success btn-lg" type="submit">送出</a>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
-</section>
+    </section>
+
+    <section id="payment">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+
+
+                    <div class="col-sm-12">
+                        <input type=radio value="對應值一" name="選項名稱一" checked="true"> 銀行轉帳
+                    </div>
+                    <div class="col-sm-12">
+                        <input type=radio value="對應值二" name="選項名稱二"> 線上刷卡
+                    </div>
+                    <div class="col-sm-12">
+                        <input type=radio value="對應值三" name="選項名稱三"> 商店付款
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-3">
+                            <button class="btn btn-success btn-lg" type="submit">結帳</button>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div id="basic_bt" class="btn btn-success btn-lg" onclick="two()">上一步</div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
 
 {{#section 'script'}}
-    <script src="js/buy.js"></script>
+<script src="js/buy.js"></script>
 {{/section}}

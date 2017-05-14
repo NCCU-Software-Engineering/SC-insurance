@@ -1,7 +1,7 @@
 #progress {
     font-size: 2rem;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
 }
 
 #insured {
@@ -10,5 +10,9 @@
 
 #payment {
     display: none;
+}
+
+.btn {
+    width: 100%;
 }
 

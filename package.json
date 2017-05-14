@@ -7,6 +7,7 @@
     "solc": "concurrently \"solcjs --optimize --bin -o ./build ./contract/Annuity.sol\" \"solcjs --optimize --abi -o ./build ./contract/Annuity.sol\""
   },
   "dependencies": {
+    "angular": "^1.6.4",
     "body-parser": "~1.15.2",
     "concurrently": "^3.4.0",
     "cookie-parser": "~1.4.3",

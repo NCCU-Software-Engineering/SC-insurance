@@ -107,4 +107,12 @@ router.post('/login', function (req, res, next) {
     res.redirect('/');
 });
 
+router.post('/checkout', function (req, res, next) {
+
+    console.log("結帳");
+    console.log(req.body);
+
+    res.redirect('/agreement');
+});
+
 module.exports = router;

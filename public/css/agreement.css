@@ -1,18 +1,16 @@
-#parameter {
-    display: block;
-    font-family: monospace;
-    margin: 1em 0;
-    overflow: auto;
-    height: 80vh;
-    border:5px solid red;
-    padding: 2rem;
+#trmplate {
+    margin-top: 1em;
 }
-#traditional-contract {
-    display: block;
-    font-family: monospace;
-    margin: 1em 0;
-    overflow: auto;
+
+#parameter .panel-body {
     height: 80vh;
-    border:5px solid red;
-    border-radius:10px
+}
+
+#traditional-contract .panel-body {
+    height: 80vh;
+    overflow: auto;
+}
+
+.panel-heading {
+    font-size: 2rem;
 }
