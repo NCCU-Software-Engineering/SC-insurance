@@ -3,8 +3,11 @@
 ## 安裝modules
 npm install
 
+## 安裝test-rpc
+略
+
 ## 啟動test-rpc
-testrpc -p 8545 --accounts 5
+npm run testRPC
 
 ## 啟動伺服器
 npm start
