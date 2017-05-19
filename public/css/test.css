@@ -15,3 +15,7 @@ button {
 .panel-body {
     font-size: 2rem;
 }
+
+#face {
+    display: none;
+}

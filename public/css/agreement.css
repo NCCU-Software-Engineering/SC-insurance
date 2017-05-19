@@ -1,4 +1,8 @@
-#trmplate {
+.container {
+    width: 80%;
+}
+
+#template {
     margin-top: 1em;
 }
 
@@ -14,3 +18,4 @@
 .panel-heading {
     font-size: 2rem;
 }
+

@@ -5,6 +5,23 @@ var router = express.Router();
 var Contract = require('../lib/contract.js');
 var connection = require('../lib/SQL.js');
 
+// 資料庫連線發生錯誤處理
+connection.connect(function (err) {
+    if (err) {
+        console.log('error when connecting to db:', err);
+        // 2秒後重新連線
+        setTimeout(handleDisconnect, 2000);
+    }
+});
+
+/*
+connection.end(function (err) {
+    if (err) {
+        console.log('error when connecting to db:', err);
+    }
+});
+*/
+
 //首頁
 router.get('/', function (req, res, next) {
     res.render('index');
@@ -46,21 +63,19 @@ router.get('/test', function (req, res, next) {
 
     let li = "";
 
-    connection.connect();
-
     connection.query('SELECT address FROM smart.contract where id=\'' + req.cookies.ID + '\';', function (error, rows, fields) {
         if (error) {
             console.log('寫入讀取失敗！');
             throw error;
         }
-        for(var i=0; i<rows.length; i++) {
-            li += "<li><input name=\"smart\" type=\"radio\" value=\"" + rows[i].address + "\">智能合約" + (i+1) + ":" + rows[i].address + "</li>"
+        for (var i = 0; i < rows.length; i++) {
+            li += "<li><input name=\"smart\" type=\"radio\" value=\"" + rows[i].address + "\">智能合約" + (i + 1) + ":" + rows[i].address + "</li>"
         }
-        res.render('test', {radio: li});
+        res.render('test', {
+            radio: li
+        });
     });
 
-    //結束連線
-    connection.end();
 });
 
 //post-------------------------------------------------------
@@ -80,8 +95,6 @@ router.post('/registration', function (req, res, next) {
     //web3.personal.newAccount("1234");
     console.log("create a new account not work in testrpc");
 
-    //開始連接
-    connection.connect();
 
     connection.query('INSERT INTO smart.account SET ?', req.body, function (error) {
         if (error) {
@@ -89,9 +102,6 @@ router.post('/registration', function (req, res, next) {
             throw error;
         }
     });
-
-    //結束連線
-    connection.end();
 
     res.redirect('/');
 });
@@ -102,7 +112,9 @@ router.post('/login', function (req, res, next) {
     console.log(req.body);
 
     res.cookie('ID', req.body.ID);
-    res.cookie('signed_ID', req.body.ID, {signed: true});
+    res.cookie('signed_ID', req.body.ID, {
+        signed: true
+    });
     res.redirect('/');
 });
 

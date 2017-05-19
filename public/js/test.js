@@ -1,13 +1,13 @@
-var fs = require('fs');
+//var fs = require('fs');
 var path = require('path');
 var Web3 = require('web3');
 var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
 var eth = web3.eth;
 
-var source = fs.readFileSync(path.resolve(__dirname,'..','sol','contract.sol'))
-var compiled = eth.compile.solidity(source.toString());
-var bytecode = compiled.code;
-var abi = compiled.info.abiDefinition;
+//var source = fs.readFileSync(path.resolve(__dirname,'..','sol','contract.sol'))
+//var compiled = eth.compile.solidity(source.toString());
+//var bytecode = compiled.code;
+//var abi = compiled.info.abiDefinition;
 
 var abiArray = [{"constant":true,"inputs":[],"name":"getVersion","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getPayTime","outputs":[{"name":"","type":"uint256[3]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getCompanyAddress","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getStatus","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"version","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"destroy","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"year","type":"uint256"},{"name":"month","type":"uint256"},{"name":"day","type":"uint256"}],"name":"confirme","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"endAnnuity","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getNowTime","outputs":[{"name":"","type":"uint256[3]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getDeployTime","outputs":[{"name":"","type":"uint256[3]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getInsurerAddress","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"revoke","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getRevocationPeriod","outputs":[{"name":"","type":"uint256[3]"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"year","type":"uint256"},{"name":"month","type":"uint256"},{"name":"day","type":"uint256"}],"name":"time","outputs":[],"payable":false,"type":"function"},{"inputs":[{"name":"y","type":"uint256"},{"name":"m","type":"uint256"},{"name":"d","type":"uint256"}],"payable":false,"type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"inf","type":"string"},{"indexed":false,"name":"timestamp","type":"uint256"}],"name":"confirmeEvent","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"inf","type":"string"},{"indexed":false,"name":"timestamp","type":"uint256"}],"name":"revokeEvent","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"inf","type":"string"},{"indexed":false,"name":"timestamp","type":"uint256"}],"name":"payEvent","type":"event"}];
 
@@ -59,10 +59,23 @@ function revoke() {
 }
 
 //----------------------------------------------------------------------------------
-var myDate = new Date();;
+var myDate = new Date();
+
+var number;
+var confirmeEvent;
+var revokeEvent;
+var payEvent;
 
 $(document).ready(function () {
+
     $("#radio_group :radio").change(function () {
+
+        //confirmeEvent.stopWatching();
+        //revokeEvent.stopWatching();
+        //payEvent.stopWatching();
+
+        $( "#a" ).html("EMAIL:保單購買成功 請簽收<br>");
+        $( "#b" ).html("");
 
         contract = web3.eth.contract(abiArray).at($(this).val());
 
@@ -72,21 +85,23 @@ $(document).ready(function () {
 
         update();
 
-        var confirmeEvent = contract.confirmeEvent({
+        number = web3.eth.blockNumber;
+
+        confirmeEvent = contract.confirmeEvent({
             from: web3.coinbase
         }, {
             fromBlock: 0,
             toBlock: 'latest'
         });
 
-        var revokeEvent = contract.revokeEvent({
+        revokeEvent = contract.revokeEvent({
             from: web3.coinbase
         }, {
             fromBlock: 0,
             toBlock: 'latest'
         });
 
-        var payEvent = contract.payEvent({
+        payEvent = contract.payEvent({
             from: web3.coinbase
         }, {
             fromBlock: 0,
@@ -96,6 +111,9 @@ $(document).ready(function () {
         confirmeEvent.watch(function (error, result) {
             if (!error) {
                 console.log(result);
+                console.log(result.args.inf);
+                $("#b").append(result.args.inf  + "<br>");
+                $("#a").append("簡訊:『根據本契約，於簽收保單後十日內得撤銷本契約，本公司將無息返還保險費。如於"+ getRevocationPeriod() +"前，要執行本權利，請點擊以下http//google.com』" + "<br>");
                 update();
             }
         });
@@ -103,6 +121,9 @@ $(document).ready(function () {
         revokeEvent.watch(function (error, result) {
             if (!error) {
                 console.log(result);
+                console.log(result.args.inf);
+                $("#b").append(result.args.inf + "<br>");
+                $("#a").append("簡訊:『您與本公司簽訂之編號0000號保險契約已經撤銷成功，保費已退回您指定帳戶。日後若發生保險事故，本公司將不負保險責任』" + "<br>");
                 update();
             }
         });
@@ -110,6 +131,9 @@ $(document).ready(function () {
         payEvent.watch(function (error, result) {
             if (!error) {
                 console.log(result);
+                console.log(result.args.inf);
+                $("#b").append(result.args.inf + "<br>");
+                $("#face").show();
                 update();
             }
         });
@@ -196,4 +220,14 @@ $("#confirme").click(function () {
 $("#revoke").click(function () {
     revoke();
     update();
+});
+
+$("#success").click(function () {
+    $("#a").append("簡訊:『人臉辨識成功，本期年金已匯入您的戶頭』" + "<br>");
+    $("#face").hide();
+});
+
+$("#failure").click(function () {
+    $("#a").append("簡訊:『人臉辨識失敗，請您至保險公司櫃台辦理』" + "<br>");
+    $("#face").hide();
 });

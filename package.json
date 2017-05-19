@@ -17,6 +17,8 @@
     "express": "~4.14.0",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.2",
+    "fb": "^2.0.0",
+    "fs": "0.0.1-security",
     "morgan": "~1.7.0",
     "mysql": "^2.13.0",
     "nodemailer": "^4.0.1",
