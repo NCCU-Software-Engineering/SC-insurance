@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
@@ -42,5 +42,11 @@
     "url": "https://github.com/NCCU-Software-Engineering/SC-insurance/issues"
   },
   "homepage": "https://github.com/NCCU-Software-Engineering/SC-insurance#readme",
-  "description": "安裝modules\r ---\r npm install"
+  "description": "安裝modules\r ---\r npm install",
+  "keywords": [
+    "smart_contract",
+    "ethereum",
+    "blockchain",
+    "annuity"
+  ]
 }
