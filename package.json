@@ -1,53 +1,19 @@
 {
-  "name": "app",
-  "version": "1.0.0",
+  "name": "searchweb",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "solc": "concurrently \"solcjs --optimize --bin -o ./build ./contract/Annuity.sol\" \"solcjs --optimize --abi -o ./build ./contract/Annuity.sol\"",
-    "browserify": "browserify public/js/test.js -o public/js/test_b.js",
-    "testRPC": "testrpc --port 8545 --accounts 5"
+    "start": "node ./bin/www"
   },
   "dependencies": {
-    "angular": "^1.6.4",
     "body-parser": "~1.15.2",
-    "concurrently": "^3.4.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "express": "~4.14.0",
-    "express-handlebars": "^3.0.0",
-    "express-session": "^1.15.2",
-    "fb": "^2.0.0",
-    "fs": "0.0.1-security",
+    "jade": "~1.11.0",
     "morgan": "~1.7.0",
-    "mysql": "^2.13.0",
-    "nodemailer": "^4.0.1",
-    "scrypt": "^6.0.3",
     "serve-favicon": "~2.3.0",
-    "socket.io": "^2.0.2",
-    "solc": "^0.4.10",
-    "web3": "~0.18.4"
-  },
-  "main": "app.js",
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^3.3.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NCCU-Software-Engineering/SC-insurance.git"
-  },
-  "author": "autumn",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/NCCU-Software-Engineering/SC-insurance/issues"
-  },
-  "homepage": "https://github.com/NCCU-Software-Engineering/SC-insurance#readme",
-  "description": "安裝modules\r ---\r npm install",
-  "keywords": [
-    "smart_contract",
-    "ethereum",
-    "blockchain",
-    "annuity"
-  ]
+    "solc": "^0.4.11",
+    "web3": "^0.19.0"
+  }
 }

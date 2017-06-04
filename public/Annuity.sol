@@ -2,38 +2,38 @@ pragma solidity ^0.4.7;
 
 contract Annuity {
 
-    //«OÀI°Óadress
+    //ä¿éšªå•†adress
     address private companyAddress;
-    //³Q«O¤Hadress
+    //è¢«ä¿äººadress
     address private insuredAddress;
-    //®É¶¡¦øªA¾¹address
+    //æ™‚é–“ä¼ºæœå™¨address
     address private timerAddress;
 
-    //«O¶O(«İ¶ñ¤J*)
+    //ä¿è²»(å¾…å¡«å…¥*)
     uint money;
-    //³¡¸p®É¶¡
+    //éƒ¨ç½²æ™‚é–“
     uint[3] deployTime;
-    //¬ö¿ı®É¶¡
+    //ç´€éŒ„æ™‚é–“
     uint[3] nowTime;
-    //ºM¾P´Á­­
+    //æ’¤éŠ·æœŸé™
     uint[3] revocationPeriod;
-    //µ¹¥I¦~ª÷¤é
+    //çµ¦ä»˜å¹´é‡‘æ—¥
     uint[3] payTime;
 
     string ver = "1.0.4";
 
-    //¦X¬ùª¬ºA 0.¥¼³Q½T»{ 1.«´ºM´Á 2.½T»{¨Ãµ¥«İµ¹¥I 3.µ²§ôµ¹¥I 4.³QºM¾P
+    //åˆç´„ç‹€æ…‹ 0.æœªè¢«ç¢ºèª 1.å¥‘æ’¤æœŸ 2.ç¢ºèªä¸¦ç­‰å¾…çµ¦ä»˜ 3.çµæŸçµ¦ä»˜ 4.è¢«æ’¤éŠ·
     uint status;
     string[5] statusStrings;
-    //µ¹¥I¶¡¹j («İ¶ñ¤J*)
+    //çµ¦ä»˜é–“éš” (å¾…å¡«å…¥*)
     uint timeInterval;
 
-    //¨Æ¥ó
+    //äº‹ä»¶
     event confirmeEvent(address from, string inf, uint timestamp);
     event revokeEvent(address from, string inf, uint timestamp);
     event payEvent(address from, string inf, uint timestamp);
 
-    //«Øºc¤l
+    //å»ºæ§‹å­
     function Annuity(uint y, uint m, uint d) {
 
         companyAddress = msg.sender;
@@ -42,10 +42,10 @@ contract Annuity {
         timeInterval = 1;
         status = 0;
 
-        //³¡¸p¤é´Á
+        //éƒ¨ç½²æ—¥æœŸ
         deployTime = [y,m,d];
         nowTime = [y,m,d];
-        //µ¹¥I¦~ª÷¤é («İ¶ñ¤J*)
+        //çµ¦ä»˜å¹´é‡‘æ—¥ (å¾…å¡«å…¥*)
         payTime = [y+20,m,d];
 
         statusStrings[0] = "unconfirmed";
@@ -81,25 +81,25 @@ contract Annuity {
         return ver;
     }
 
-    //½T»{¦X¬ù
-    function confirme(uint year, uint month, uint day) {
+    //ç¢ºèªåˆç´„
+    function confirm(uint year, uint month, uint day) {
 
-        //¥Ñ³Q«O¤H±b¸¹½T»{
+        //ç”±è¢«ä¿äººå¸³è™Ÿç¢ºèª
         //if(msg.sender != insuredAddress) {
         //    throw;
         //}
 
-        //«O³æ©|¥¼³Q½T»{
+        //ä¿å–®å°šæœªè¢«ç¢ºèª
         if(status != 0) {
             confirmeEvent(msg.sender , "not yet been confirmed", now);
         }
         else {
-            //¶i¤J«´¬ùºM¾P´Á
+            //é€²å…¥å¥‘ç´„æ’¤éŠ·æœŸ
             status = 1;
 
-            //³]©w«´¬ùºM¾P´Á­­
+            //è¨­å®šå¥‘ç´„æ’¤éŠ·æœŸé™
             revocationPeriod = [year, month, day];
-            //³qª¾«OÀI¤½¥q¶Ç°e«´¬ùºM¾P½T»{email
+            //é€šçŸ¥ä¿éšªå…¬å¸å‚³é€å¥‘ç´„æ’¤éŠ·ç¢ºèªemail
 
           confirmeEvent(msg.sender , "confirm success", now);
         }
@@ -107,27 +107,27 @@ contract Annuity {
 
     function revoke() {
 
-        //¥Ñ³Q«O¤H±b¸¹½T»{
+        //ç”±è¢«ä¿äººå¸³è™Ÿç¢ºèª
         //if(msg.sender != insuredAddress) {
         //    throw;
         //}
 
-        //«O³æ¤£¯àºM¾P
+        //ä¿å–®ä¸èƒ½æ’¤éŠ·
         if(status != 1) {
-            //³qª¾«OÀI¤½¥q¦X¬ù¤£¯àºM¾P
+            //é€šçŸ¥ä¿éšªå…¬å¸åˆç´„ä¸èƒ½æ’¤éŠ·
             revokeEvent(msg.sender , "Can not be revoked", now);
         }
         else {
-            //ºM¾P«´¬ù
+            //æ’¤éŠ·å¥‘ç´„
             status = 4;
-            //³qª¾«OÀI¤½¥q¶i¦æ«´¬ùºM¾P¬yµ{
+            //é€šçŸ¥ä¿éšªå…¬å¸é€²è¡Œå¥‘ç´„æ’¤éŠ·æµç¨‹
             revokeEvent(msg.sender , "revoke the contract", now);
         }
     }
 
-    //³Q«O¤H¦º¤`
+    //è¢«ä¿äººæ­»äº¡
     function endAnnuity() {
-        //¥Ñ«OÀI¤½¥q¨ú®ø        
+        //ç”±ä¿éšªå…¬å¸å–æ¶ˆ        
         //if(msg.sender != companyAddress) {
         //    throw;
         //}
@@ -136,14 +136,14 @@ contract Annuity {
 
     function time(uint year, uint month, uint day) {
 
-        //¬ö¿ı®É¶¡
+        //ç´€éŒ„æ™‚é–“
         nowTime = [year, month, day];
-        //¥Ñ²Ä¤T¤è®É¶¡¦øªA¾¹³]©w®É¶¡
+        //ç”±ç¬¬ä¸‰æ–¹æ™‚é–“ä¼ºæœå™¨è¨­å®šæ™‚é–“
         //if(msg.sender != timerAddress) {
         //    throw;
         //}
 
-        //ºM¾P´Áµ²§ô
+        //æ’¤éŠ·æœŸçµæŸ
         if(status == 1) {
             if((year>revocationPeriod[0]) ||
                 (year==revocationPeriod[0] && month>revocationPeriod[1]) ||
@@ -151,7 +151,7 @@ contract Annuity {
                 status = 2;
             }
         }
-        //¶}©lµ¹¥I¦~ª÷
+        //é–‹å§‹çµ¦ä»˜å¹´é‡‘
         else if(status == 2) {
             if((year>payTime[0]) ||
                 (year==payTime[0] && month>payTime[1]) ||
@@ -159,7 +159,7 @@ contract Annuity {
 
                 payTime[0] += timeInterval;
 
-                //³qª¾«OÀI¤½¥qµ¹¥I¦~ª÷
+                //é€šçŸ¥ä¿éšªå…¬å¸çµ¦ä»˜å¹´é‡‘
                 payEvent(msg.sender , "pay annuity", now);
             }
         }
@@ -169,7 +169,7 @@ contract Annuity {
         return ver;
     }
 
-    //ºR·´¦X¬ù
+    //æ‘§æ¯€åˆç´„
     function destroy() {
          if (msg.sender == companyAddress) {
              suicide(companyAddress);

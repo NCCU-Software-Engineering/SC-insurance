@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Web</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h2>Test</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-success" id="compile">compile</button>
+                <button type="button" class="btn btn-success" id="deploy">deploy</button>
+                <button type="button" class="btn btn-success" id="trans">send transaction</button>
+                <br><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <label for="transhash">Transaction Hash:</p>
+                <input type="text" class="form-control" id="transhash"><br>
+                <button type="button" class="btn btn-success" id="btn1">Submit</button>
+                <br><br>
+            </div>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Transaction Info</div>
+            <div class="panel-body"></div>
+        </div>
+    </div>
+    <script src="contract.js"></script>
+</body>
+
+</html>
