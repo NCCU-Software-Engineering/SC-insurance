@@ -1,9 +1,16 @@
 var path = require('path');
 var express = require('express');
-var web3 = require('../lib/web3.js');
 var router = express.Router();
-var Contract = require('../lib/contract.js');
+var request = require('request');
+var credentials = require("../lib/credentials.js")
+
+var web3 = require('../lib/web3.js');
 var connection = require('../lib/SQL.js');
+var mailTransport = require('../lib/nodemailer.js');
+
+var Contract = require('../lib/contract.js');
+var TestContract = require('../lib/testContract.js');
+
 
 // 資料庫連線發生錯誤處理
 connection.connect(function (err) {
@@ -124,6 +131,155 @@ router.post('/checkout', function (req, res, next) {
     console.log(req.body);
 
     res.redirect('/agreement');
+});
+
+function watch(testContract, type) {
+
+    var cont;
+
+    switch (type) {
+        case "confirme":
+            testContract.confirmeEvent.watch(function (error, result) {
+                if (!error) {
+                    //confirmeEvent.stopWatching();
+                    console.log(result.args.inf);
+                    cont = "簡訊:『根據本契約，於簽收保單後十日內得撤銷本契約，本公司將無息返還保險費。如於" + testContract.getRevocationPeriod() + "前，要執行本權利，請點擊以下http//google.com』"
+                    console.log(cont);
+
+                    mailTransport.sendMail({
+                        from: 'gramr@gmail.com',
+                        to: 'nidhogg55555@gmail.com',
+                        subject: 'confirme',
+                        text: cont
+                    }, function (error, info) {
+                        if (error) {
+                            console.log(error);
+                        } else {
+                            console.log('訊息發送: ' + info.response);
+                        }
+                    });
+
+                    var phone = "0912254446";
+                    var option = "https://api.kotsms.com.tw/kotsmsapi-1.php?username=" + credentials.sms.user + "&password=" + credentials.sms.password + "&dstaddr=" + phone + "&smbody=" + encodeURI(cont);
+                    console.log(option);
+                    /*
+                    request({
+                        uri: option,
+                        method: 'GET',
+                    }, function (error, res, body) {
+                        console.log(body);
+                    });
+                    */
+                }
+            });
+            break;
+
+        case "revoke":
+            testContract.revokeEvent.watch(function (error, result) {
+                if (!error) {
+                    //revokeEvent.stopWatching();
+                    console.log(result.args.inf);
+                    cont = "簡訊:『您與本公司簽訂之編號0000號保險契約已經撤銷成功，保費已退回您指定帳戶。日後若發生保險事故，本公司將不負保險責任』";
+                    console.log(cont);
+
+                    mailTransport.sendMail({
+                        from: 'gramr@gmail.com',
+                        to: 'nidhogg55555@gmail.com',
+                        subject: 'revoke',
+                        text: cont
+                    }, function (error, info) {
+                        if (error) {
+                            console.log(error);
+                        } else {
+                            console.log('訊息發送: ' + info.response);
+                        }
+                    });
+
+                    var phone = "0912254446";
+                    var option = "https://api.kotsms.com.tw/kotsmsapi-1.php?username=" + credentials.sms.user + "&password=" + credentials.sms.password + "&dstaddr=" + phone + "&smbody=" + cont;
+                    console.log(option);
+                    request({
+                        uri: option,
+                        method: 'GET',
+                    }, function (error, res, body) {
+                        console.log(body);
+                    });
+                }
+            });
+            break;
+    }
+}
+
+router.post('/button', function (req, res, next) {
+
+    console.log("button");
+    console.log(req.body);
+
+    var testContract = new TestContract(req.body.address);
+
+    var myDate = new Date();
+    myDate.setFullYear(testContract.getNowTime()[0]);
+    myDate.setMonth(testContract.getNowTime()[1] - 1);
+    myDate.setDate(testContract.getNowTime()[2]);
+
+    switch (req.body.type) {
+
+        case "next_day":
+            //console.log("next_day");
+            testContract.time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate() + 1);
+            break;
+        case "next_month":
+            //console.log("next_month");
+            testContract.time(myDate.getFullYear(), myDate.getMonth() + 2, myDate.getDate());
+            break;
+        case "next_year":
+            //console.log("next_year");
+            testContract.time(myDate.getFullYear() + 1, myDate.getMonth() + 1, myDate.getDate());
+            break;
+
+        case "confirme":
+            //console.log("confirme");
+            testContract.confirme(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate() + 11);
+            watch(testContract, "confirme");
+            break;
+
+        case "revoke":
+            //console.log("revoke");
+            testContract.revoke();
+            watch(testContract, "revoke");
+            break;
+
+        case "success":
+            //console.log("success");
+            break;
+        case "failure":
+            //console.log("failure");
+            break;
+
+        case "update":
+            //console.log("update");
+            break;
+
+        default:
+            console.error("error");
+    }
+
+    var companyAddress = testContract.getCompanyAddress();
+    var insurerAddress = testContract.getInsurerAddress();
+    var status = testContract.getStatus();
+    var nowTime = testContract.getNowTime();
+    var revocationPeriod = testContract.getRevocationPeriod();
+    var payTime = testContract.getPayTime();
+
+    res.json({
+        companyAddress: companyAddress,
+        insurerAddress: insurerAddress,
+        status: status,
+        nowTime: nowTime,
+        revocationPeriod: revocationPeriod,
+        payTime: payTime,
+    })
+
 });
 
 module.exports = router;

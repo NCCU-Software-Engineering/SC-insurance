@@ -19,3 +19,7 @@ button {
 #face {
     display: none;
 }
+
+#event_button {
+    display: none;
+}
