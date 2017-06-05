@@ -19,8 +19,8 @@ router.post('/compile', function (req, res, next) {
   res.send('compile');
 });
 router.post('/deploy', function (req, res, next) {
-  var abi = fs.readFileSync('annuity.abi');
-  var bytecode = fs.readFileSync('annuity.bin');
+  var abi = JSON.parse(fs.readFileSync('annuity.abi'));
+  var bytecode = '0x' + fs.readFileSync('annuity.bin').toString();
   var Annuity = web3.eth.contract(abi);
 
   var d = new Date();
@@ -37,28 +37,28 @@ router.post('/deploy', function (req, res, next) {
 					address: Contract.address
 				}
 			}));
-      fs.writeFileSync('address.txt',Contract.address);
       res.send('deploy');
     }
   })
 });
 router.post('/trans', function (req, res, next) {
-  var abi = fs.readFileSync('annuity.abi');
+  var abi = JSON.parse(fs.readFileSync('annuity.abi'));
   var config = JSON.parse(fs.readFileSync('config.json'));
-  //console.log(config.Account.address)
-  var cont = web3.eth.contract(abi).at(config.Account.address);
-  cont.getVersion();
+  var contract = web3.eth.contract(abi).at(config.Account.address);
+  
   var d = new Date();
-  /*contract.confirm(d.getFullYear(),d.getMonth(),d.getDate(),{
+  contract.confirm(d.getFullYear(),d.getMonth(),d.getDate(),{
     from: web3.eth.coinbase,
     gas: '4700000'
   },(err, result) => {
     if (result !== undefined && result !== null) {
       res.send(result);
     }
-  });*/
-  //res.send(address)
-  res.send('');
+  });
+});
+router.post('/gettrans', function (req, res, next) {
+  var receipt = web3.eth.getTransactionReceipt(req.body.hash);
+  res.send(receipt);
 });
 
 module.exports = router;
