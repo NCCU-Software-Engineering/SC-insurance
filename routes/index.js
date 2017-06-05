@@ -11,6 +11,9 @@ var mailTransport = require('../lib/nodemailer.js');
 var Contract = require('../lib/contract.js');
 var TestContract = require('../lib/testContract.js');
 
+var Iconv = require('iconv').Iconv;
+var iconv = new Iconv('utf-8', 'big5');
+//iconv.convert('測試'); <<-- 將utf-8轉為big5
 
 // 資料庫連線發生錯誤處理
 connection.connect(function (err) {
