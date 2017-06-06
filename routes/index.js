@@ -1,7 +1,6 @@
 var path = require('path');
 var express = require('express');
 var router = express.Router();
-var credentials = require("../lib/credentials.js")
 
 var web3 = require('../lib/web3.js');
 var connection = require('../lib/SQL.js');
@@ -134,13 +133,8 @@ router.post('/checkout', function (req, res, next) {
 
 function watch(testContract, type) {
 
-<<<<<<< HEAD
+
     var cont, email = true, newsletter = true;
-=======
-    var cont;
-    var email = false;
-    var letter = false;
->>>>>>> origin/master
 
     switch (type) {
         case "confirm":
@@ -148,44 +142,14 @@ function watch(testContract, type) {
                 if (!error) {
                     //confirmeEvent.stopWatching();
                     console.log(result.args.inf);
-<<<<<<< HEAD
+
                     cont = "『根據本契約，於簽收保單後十日內得撤銷本契約，本公司將無息返還保險費。如於" + testContract.getRevocationPeriod() + "前，要執行本權利，請點擊以下http//google.com』"
 
                     if(email){
-                        send.email(cont, "nidhogg55555@gmail.com");
+                        send.email(cont, "契約確認成功" ,"nidhogg55555@gmail.com");
                     }
                     if(newsletter){
                         send.newsletter(cont, "0912254446");
-=======
-                    cont = "簡訊:d
-                    console.log(cont);
-
-                    if (email) {
-                        mailTransport.sendMail({
-                            from: 'gramr@gmail.com',
-                            to: 'nidhogg55555@gmail.com',
-                            subject: 'confirme',
-                            text: cont
-                        }, function (error, info) {
-                            if (error) {
-                                console.log(error);
-                            } else {
-                                console.log('訊息發送: ' + info.response);
-                            }
-                        });
-                    }
-                    if (letter) {
-                        var phone = "0912254446";
-                        var option = "https://api.kotsms.com.tw/kotsmsapi-1.php?username=" + credentials.sms.user + "&password=" + credentials.sms.password + "&dstaddr=" + phone + "&smbody=" + encodeURI(cont);
-                        console.log(option);
-                        
-                        request({
-                            uri: option,
-                            method: 'GET',
-                        }, function (error, res, body) {
-                            console.log(body);
-                        });
->>>>>>> origin/master
                     }
                 }
             });
@@ -199,7 +163,7 @@ function watch(testContract, type) {
                     cont = "簡訊:『您與本公司簽訂之編號0000號保險契約已經撤銷成功，保費已退回您指定帳戶。日後若發生保險事故，本公司將不負保險責任』";
 
                     if(email){
-                        send.email(cont, "nidhogg55555@gmail.com");
+                        send.email(cont, "契約撤銷成功", "nidhogg55555@gmail.com");
                     }
                     if(newsletter){
                         send.newsletter(cont, "0912254446");

@@ -28,10 +28,6 @@
     "web3": "~0.18.4"
   },
   "main": "app.js",
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^3.3.0"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NCCU-Software-Engineering/SC-insurance.git"
