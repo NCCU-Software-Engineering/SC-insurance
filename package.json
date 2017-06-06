@@ -6,7 +6,7 @@
     "start": "node ./bin/www",
     "solc": "concurrently \"solcjs --optimize --bin -o ./build ./contract/Annuity.sol\" \"solcjs --optimize --abi -o ./build ./contract/Annuity.sol\"",
     "browserify": "browserify public/js/test.js -o public/js/test_b.js",
-    "testRPC": "testrpc --port 8545 --accounts 5"
+    "testRPC": "testrpc --port 8545 --accounts 5 --blocktime 5"
   },
   "dependencies": {
     "angular": "^1.6.4",

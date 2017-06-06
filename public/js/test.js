@@ -114,16 +114,9 @@ $("#revoke").click(function () {
     }, update);
 });
 
-$("#success").click(function () {
+$("#update").click(function () {
     $.post("/button", {
-        type: "success",
-        address: adrress
-    }, update);
-});
-
-$("#failure").click(function () {
-    $.post("/button", {
-        type: "failure",
+        type: "update",
         address: adrress
     }, update);
 });

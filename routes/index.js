@@ -133,39 +133,58 @@ router.post('/checkout', function (req, res, next) {
 
 function watch(testContract, type) {
 
-    var cont, email = true, newsletter = false;
+    var cont;
+    var email = false;
+    var newsletter = false;
 
     switch (type) {
         case "confirm":
             testContract.confirmEvent.watch(function (error, result) {
                 if (!error) {
-                    //confirmeEvent.stopWatching();
+                    testContract.confirmEvent.stopWatching();
+
                     console.log(result.args.inf);
 
-                    cont = "『根據本契約，於簽收保單後十日內得撤銷本契約，本公司將無息返還保險費。如於" + testContract.getRevocationPeriod() + "前，要執行本權利，請點擊以下http//google.com』"
+                    if (result.args.inf == "confirm success") {
 
-                    if(email){
-                        send.email("nidhogg55555@gmail.com", "契約確認成功" ,cont);
-                    }
-                    if(newsletter){
-                        send.newsletter("0912254446", cont);
+                        cont = "『根據本契約，於簽收保單後十日內得撤銷本契約，本公司將無息返還保險費。如於" + testContract.getRevocationPeriod() + "前，要執行本權利』"
+
+                        if (email) {
+                            send.email("nidhogg55555@gmail.com", "契約確認成功", cont);
+                        }
+                        if (newsletter) {
+                            send.newsletter("0912254446", cont);
+                        }
+                    } else if (result.args.inf == "not yet been confirmed") {
+                        console.log("111");
+                    } else {
+                        console.error("未知事件");
                     }
                 }
             });
+
             break;
 
         case "revoke":
             testContract.revokeEvent.watch(function (error, result) {
                 if (!error) {
-                    //revokeEvent.stopWatching();
-                    console.log(result.args.inf);
-                    cont = "簡訊:『您與本公司簽訂之編號0000號保險契約已經撤銷成功，保費已退回您指定帳戶。日後若發生保險事故，本公司將不負保險責任』";
+                    testContract.revokeEvent.stopWatching();
 
-                    if(email){
-                        send.email(cont, "契約撤銷成功", "nidhogg55555@gmail.com");
-                    }
-                    if(newsletter){
-                        send.newsletter(cont, "0912254446");
+                    console.log(result.args.inf);
+
+                    if (result.args.inf == "revoke the contract") {
+                        cont = "『您與本公司簽訂之編號0000號保險契約已經撤銷成功，保費已退回您指定帳戶。日後若發生保險事故，本公司將不負保險責任』";
+
+                        if (email) {
+                            send.email("nidhogg55555@gmail.com", "契約撤銷成功", cont);
+                        }
+                        if (newsletter) {
+                            send.newsletter("0912254446", cont);
+                        }
+                    } else if (result.args.inf == "Can not be revoked") {
+                        console.log("222");
+                    } else {
+                        console.error("未知事件");
                     }
                 }
             });
@@ -175,7 +194,6 @@ function watch(testContract, type) {
 
 router.post('/button', function (req, res, next) {
 
-    console.log("button");
     console.log(req.body);
 
     var testContract = new TestContract(req.body.address);
@@ -212,15 +230,8 @@ router.post('/button', function (req, res, next) {
             watch(testContract, "revoke");
             break;
 
-        case "success":
-            //console.log("success");
-            break;
-        case "failure":
-            //console.log("failure");
-            break;
-
         case "update":
-            //console.log("update");
+            console.log("update");
             break;
 
         default:
