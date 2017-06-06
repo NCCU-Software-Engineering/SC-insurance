@@ -8,6 +8,7 @@ var web3 = require('../web3.js');
 router.get('/', function (req, res, next) {
   res.render('./public/index.html');
 });
+
 router.post('/compile', function (req, res, next) {
   var source = fs.readFileSync('./public/Annuity.Sol', 'utf-8');
   var compiledContract = solc.compile(source, 1);
@@ -18,14 +19,15 @@ router.post('/compile', function (req, res, next) {
   fs.writeFileSync('annuity.bin', bytecode);
   res.send('compile');
 });
+
 router.post('/deploy', function (req, res, next) {
   var abi = JSON.parse(fs.readFileSync('annuity.abi'));
   var bytecode = '0x' + fs.readFileSync('annuity.bin').toString();
   var Annuity = web3.eth.contract(abi);
 
   var d = new Date();
-  Annuity.new(d.getFullYear(),d.getMonth(),d.getDate(), {
-    from: web3.eth.coinbase,
+  Annuity.new(d.getFullYear(), d.getMonth(), d.getDate(), {
+    from: req.body.account,
     gas: '4700000',
     data: bytecode
   }, (err, Contract) => {
@@ -33,32 +35,73 @@ router.post('/deploy', function (req, res, next) {
       console.log(err)
     if (Contract.address !== undefined && Contract.address !== null) {
       fs.writeFileSync('config.json', JSON.stringify({
-				Account: {
-					address: Contract.address
-				}
-			}));
+        Account: {
+          address: Contract.address
+        }
+      }));
       res.send('deploy');
     }
   })
 });
+
 router.post('/trans', function (req, res, next) {
   var abi = JSON.parse(fs.readFileSync('annuity.abi'));
   var config = JSON.parse(fs.readFileSync('config.json'));
   var contract = web3.eth.contract(abi).at(config.Account.address);
-  
-  var d = new Date();
-  contract.confirm(d.getFullYear(),d.getMonth(),d.getDate(),{
-    from: web3.eth.coinbase,
-    gas: '4700000'
-  },(err, result) => {
-    if (result !== undefined && result !== null) {
-      res.send(result);
-    }
-  });
+  if (req.body.time == 1) {
+    var d = new Date();
+    contract.confirm(d.getFullYear(), d.getMonth(), d.getDate(), {
+      from: req.body.account,
+      gas: '4700000'
+    }, (err, result) => {
+      if (result !== undefined && result !== null) {
+        res.send(result);
+      }
+    });
+  }
+  else if (req.body.time == 2) {
+    var d = new Date();
+    contract.revoke({
+      from: req.body.account,
+      gas: '4700000'
+    }, (err, result) => {
+      if (result !== undefined && result !== null) {
+        res.send(result);
+      }
+    });
+  }
 });
+
 router.post('/gettrans', function (req, res, next) {
+  var result = [];
+  for (var i = 0; i <= web3.eth.blockNumber; i++) {
+    var trans = web3.eth.getBlock(i).transactions;
+    len = trans.length;
+    if (len == 0) {
+      continue;
+    }
+    else {
+      for(x in trans){
+        var receipt = web3.eth.getTransaction(trans[x]);
+        if (receipt.from == req.body.account) {
+          result.push(trans[x]);
+        }
+      }
+    }
+  }
+  res.send(result);
+});
+
+router.post('/getresult', function (req, res, next) {
   var receipt = web3.eth.getTransactionReceipt(req.body.hash);
   res.send(receipt);
 });
+
+router.post('/getaccount', function (req, res, next) {
+  var accounts = web3.eth.accounts;
+  res.send(accounts);
+});
+
+
 
 module.exports = router;

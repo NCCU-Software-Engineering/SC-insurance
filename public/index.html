@@ -8,12 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./stylesheets/wait.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body>
     <br>
+    <div class="loader"></div>
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
@@ -22,16 +24,34 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
+                <label for="accounts1">Select Yout Account:</label>
+                <select class="form-control select-account" id="accounts1">
+                    <option></option>
+                </select>
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
                 <button type="button" class="btn btn-success" id="compile">compile</button>
                 <button type="button" class="btn btn-success" id="deploy">deploy</button>
-                <button type="button" class="btn btn-success" id="trans">send transaction</button>
+                <button type="button" class="btn btn-success trans" id="trans1">send transaction 1</button>
+                <button type="button" class="btn btn-success trans" id="trans2">send transaction 2</button>
                 <br><br>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <label for="transhash">Transaction Hash:</p>
-                <input type="text" class="form-control" id="transhash"><br>
+                <h3>Search</h3>
+                <label for="accounts2">Select Account:</label>
+                <select class="form-control select-account" id="accounts2">
+                    <option></option>
+                </select>
+                <br>
+                <label for="transhash">Select Transaction Hash:</label>
+                <select class="form-control" id="transhash">
+                </select>
+                <br>
                 <button type="button" class="btn btn-success" id="btn1">Submit</button>
                 <br><br>
             </div>
@@ -41,7 +61,6 @@
             <div class="panel-body" id="result"></div>
         </div>
     </div>
-    <script src="contract.js"></script>
     <script src="index.js"></script>
 </body>
 
