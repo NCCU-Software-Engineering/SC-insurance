@@ -82,7 +82,7 @@ $("#set_date").click(function () {
 $("#next_day").click(function () {
     $.post("/button", {
         "type": "next_day",
-        address: adrress
+        address: adrress,
     }, update);
 });
 

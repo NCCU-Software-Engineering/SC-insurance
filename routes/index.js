@@ -11,11 +11,8 @@ var mailTransport = require('../lib/nodemailer.js');
 var Contract = require('../lib/contract.js');
 var TestContract = require('../lib/testContract.js');
 
-var Iconv = require('iconv').Iconv;
-var iconv = new Iconv('utf-8', 'big5');
-//iconv.convert('測試'); <<-- 將utf-8轉為big5
-
 // 資料庫連線發生錯誤處理
+
 connection.connect(function (err) {
     if (err) {
         console.log('error when connecting to db:', err);
@@ -139,6 +136,8 @@ router.post('/checkout', function (req, res, next) {
 function watch(testContract, type) {
 
     var cont;
+    var email = false;
+    var letter = false;
 
     switch (type) {
         case "confirme":
@@ -146,33 +145,35 @@ function watch(testContract, type) {
                 if (!error) {
                     //confirmeEvent.stopWatching();
                     console.log(result.args.inf);
-                    cont = "簡訊:『根據本契約，於簽收保單後十日內得撤銷本契約，本公司將無息返還保險費。如於" + testContract.getRevocationPeriod() + "前，要執行本權利，請點擊以下http//google.com』"
+                    cont = "簡訊:d
                     console.log(cont);
 
-                    mailTransport.sendMail({
-                        from: 'gramr@gmail.com',
-                        to: 'nidhogg55555@gmail.com',
-                        subject: 'confirme',
-                        text: cont
-                    }, function (error, info) {
-                        if (error) {
-                            console.log(error);
-                        } else {
-                            console.log('訊息發送: ' + info.response);
-                        }
-                    });
-
-                    var phone = "0912254446";
-                    var option = "https://api.kotsms.com.tw/kotsmsapi-1.php?username=" + credentials.sms.user + "&password=" + credentials.sms.password + "&dstaddr=" + phone + "&smbody=" + encodeURI(cont);
-                    console.log(option);
-                    /*
-                    request({
-                        uri: option,
-                        method: 'GET',
-                    }, function (error, res, body) {
-                        console.log(body);
-                    });
-                    */
+                    if (email) {
+                        mailTransport.sendMail({
+                            from: 'gramr@gmail.com',
+                            to: 'nidhogg55555@gmail.com',
+                            subject: 'confirme',
+                            text: cont
+                        }, function (error, info) {
+                            if (error) {
+                                console.log(error);
+                            } else {
+                                console.log('訊息發送: ' + info.response);
+                            }
+                        });
+                    }
+                    if (letter) {
+                        var phone = "0912254446";
+                        var option = "https://api.kotsms.com.tw/kotsmsapi-1.php?username=" + credentials.sms.user + "&password=" + credentials.sms.password + "&dstaddr=" + phone + "&smbody=" + encodeURI(cont);
+                        console.log(option);
+                        
+                        request({
+                            uri: option,
+                            method: 'GET',
+                        }, function (error, res, body) {
+                            console.log(body);
+                        });
+                    }
                 }
             });
             break;
