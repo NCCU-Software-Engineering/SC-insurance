@@ -4,7 +4,14 @@
 npm install
 
 ## 安裝test-rpc
-略
+
+### windows
+npm install -g –production windows-build-tools
+npm install -g ethereumjs-testrpc
+
+### mac
+sudo npm install -g node-gyp
+sudo npm install -g ethereumjs-testrpc
 
 ## 啟動test-rpc
 npm run testRPC
