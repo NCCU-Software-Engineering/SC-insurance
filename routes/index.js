@@ -133,12 +133,11 @@ router.post('/checkout', function (req, res, next) {
 
 function watch(testContract, type) {
 
-
-    var cont, email = true, newsletter = true;
+    var cont, email = true, newsletter = false;
 
     switch (type) {
         case "confirm":
-            testContract.confirmeEvent.watch(function (error, result) {
+            testContract.confirmEvent.watch(function (error, result) {
                 if (!error) {
                     //confirmeEvent.stopWatching();
                     console.log(result.args.inf);
@@ -146,10 +145,10 @@ function watch(testContract, type) {
                     cont = "『根據本契約，於簽收保單後十日內得撤銷本契約，本公司將無息返還保險費。如於" + testContract.getRevocationPeriod() + "前，要執行本權利，請點擊以下http//google.com』"
 
                     if(email){
-                        send.email(cont, "契約確認成功" ,"nidhogg55555@gmail.com");
+                        send.email("nidhogg55555@gmail.com", "契約確認成功" ,cont);
                     }
                     if(newsletter){
-                        send.newsletter(cont, "0912254446");
+                        send.newsletter("0912254446", cont);
                     }
                 }
             });

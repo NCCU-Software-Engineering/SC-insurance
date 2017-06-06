@@ -9,6 +9,8 @@ contract Annuity {
     //時間伺服器address
     address private timerAddress;
 
+    //合約狀態
+    uint status;
     //保費(待填入*)
     uint money;
     //部署時間

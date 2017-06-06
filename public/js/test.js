@@ -100,9 +100,9 @@ $("#next_year").click(function () {
     }, update);
 });
 
-$("#confirme").click(function () {
+$("#confirm").click(function () {
     $.post("/button", {
-        type: "confirme",
+        type: "confirm",
         address: adrress
     }, update);
 });
