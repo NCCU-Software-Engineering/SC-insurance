@@ -72,29 +72,18 @@ router.post('/trans', function (req, res, next) {
   }
 });
 
-router.post('/gettrans', function (req, res, next) {
-  var result = [];
-  for (var i = 0; i <= web3.eth.blockNumber; i++) {
-    var trans = web3.eth.getBlock(i).transactions;
-    len = trans.length;
-    if (len == 0) {
-      continue;
-    }
-    else {
-      for(x in trans){
-        var receipt = web3.eth.getTransaction(trans[x]);
-        if (receipt.from == req.body.account) {
-          result.push(trans[x]);
-        }
-      }
-    }
-  }
-  res.send(result);
-});
-
 router.post('/getresult', function (req, res, next) {
-  var receipt = web3.eth.getTransactionReceipt(req.body.hash);
-  res.send(receipt);
+  var abi = JSON.parse(fs.readFileSync('annuity.abi'));
+  var config = JSON.parse(fs.readFileSync('config.json'));
+  var contract = web3.eth.contract(abi).at(config.Account.address);
+  var events = contract.allEvents({fromBlock: 0, toBlock: 'latest'});
+  events.get(function(error, logs){
+    res.send(logs);
+    /*logs.forEach((element)=>{
+      console.log(element.args.inf);
+    })*/
+  });
+  //res.send('success');
 });
 
 router.post('/getaccount', function (req, res, next) {
