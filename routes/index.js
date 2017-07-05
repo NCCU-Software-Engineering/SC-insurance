@@ -1,62 +1,31 @@
-var path = require('path');
 var express = require('express');
 var router = express.Router();
+var path = require('path');
 
-var web3 = require('../lib/web3.js');
-var connection = require('../lib/SQL.js');
-var send = require('../lib/send.js');
+var web3 = require('../library/web3.js');
+var send = require('../library/notice.js');
+var Contract = require('../library/contract.js');
+var TestContract = require('../library/testContract.js');
 
-var Contract = require('../lib/contract.js');
-var TestContract = require('../lib/testContract.js');
-
-// 資料庫連線發生錯誤處理
-
-connection.connect(function (err) {
-    if (err) {
-        console.log('error when connecting to db:', err);
-        // 2秒後重新連線
-        setTimeout(handleDisconnect, 2000);
-    }
-});
-
-/*
-connection.end(function (err) {
-    if (err) {
-        console.log('error when connecting to db:', err);
-    }
-});
-*/
-
-//首頁
+//render
 router.get('/', function (req, res, next) {
-    res.render('index');
+    console.log(req.session.user_name);
+    res.render('index', {user_name: req.session.user_name});
 });
 
-//會員管理
-router.get('/sign_in', function (req, res, next) {
-    res.render('sign_in');
-});
-router.get('/sign_up', function (req, res, next) {
-    res.render('sign_up');
-});
-router.get('/sign_out', function (req, res, next) {
-    res.clearCookie("ID");
-    res.redirect('/');
-});
-
-//網頁導向
 router.get('/buy', function (req, res, next) {
-    res.render('buy');
+    res.render('buy', {user_name: req.session.user_name});
 });
 
 router.get('/agreement', function (req, res, next) {
-    res.render('agreement');
+    res.render('agreement', {user_name: req.session.user_name});
 });
 
 router.get('/template', function (req, res, next) {
-    res.render('template');
+    res.render('template', {user_name: req.session.user_name});
 });
 
+//function
 router.get('/deploy', function (req, res, next) {
     var contract = new Contract();
     contract.deploy(req.cookies.ID);
@@ -68,18 +37,7 @@ router.get('/test', function (req, res, next) {
 
     let li = "";
 
-    connection.query('SELECT address FROM smart.contract where id=\'' + req.cookies.ID + '\';', function (error, rows, fields) {
-        if (error) {
-            console.log('寫入讀取失敗！');
-            throw error;
-        }
-        for (var i = 0; i < rows.length; i++) {
-            li += "<li><input name=\"smart\" type=\"radio\" value=\"" + rows[i].address + "\">智能合約" + (i + 1) + ":" + rows[i].address + "</li>"
-        }
-        res.render('test', {
-            radio: li
-        });
-    });
+
 
 });
 
@@ -90,37 +48,6 @@ router.post('/test', function (req, res, next) {
         res.send(req.body.todo);
     else
         res.send("nothing")
-});
-
-router.post('/registration', function (req, res, next) {
-
-    console.log("註冊");
-    console.log(req.body);
-
-    //web3.personal.newAccount("1234");
-    console.log("create a new account not work in testrpc");
-
-
-    connection.query('INSERT INTO smart.account SET ?', req.body, function (error) {
-        if (error) {
-            console.log('寫入資料失敗！');
-            throw error;
-        }
-    });
-
-    res.redirect('/');
-});
-
-router.post('/login', function (req, res, next) {
-
-    console.log("登錄");
-    console.log(req.body);
-
-    res.cookie('ID', req.body.ID);
-    res.cookie('signed_ID', req.body.ID, {
-        signed: true
-    });
-    res.redirect('/');
 });
 
 router.post('/checkout', function (req, res, next) {

@@ -4,7 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var credentials = require('./lib/credentials.js')
+var session = require('express-session');
+var credentials = require('./library/credentials.js')
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -17,15 +18,13 @@ var handlebars = require('express-handlebars').create({
     helpers: {
         section: function (name, options) {
             if (!this._sections) this._sections = {};
-            this._sections[name] = options.fn(this);
+             this._sections[name] = options.fn(this);
             return null;
         }
     }
 });
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-
-app.set('port', process.env.PORT || 50000);
 
 //uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'imgs', 'favicon.ico')));
@@ -35,9 +34,15 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(cookieParser(credentials.cookieSecret));
+app.use(session({
+  secret: 'recommand 128 bytes random string',
+  cookie: { maxAge: 60 * 1000 }
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/', index);
+app.use('/users', users);
 
 //catch 404 and forward to error handler
 app.use(function (req, res, next) {

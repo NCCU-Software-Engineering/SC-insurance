@@ -1,3 +1,6 @@
+/*
+ *header
+*/
 header {
   background-color: #F8F8F8;
 }
@@ -12,6 +15,9 @@ header li {
   font-weight: bold;
 }
 
+/*
+ *footer
+*/
 footer {
   background-color: #444444;
   color: #ADADAD;

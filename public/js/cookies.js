@@ -15,13 +15,5 @@ function getCookie(cname) {
 }
 
 $(function () {
-    var user = getCookie("ID");
-    if (user == "") {
-        console.log("not log in");
-        $(".sign").css("display", "none");
-    } else {
-        console.log(user);
-        $("#ID").text(user);
-        $(".unsign").css("display", "none");
-    }
+
 })

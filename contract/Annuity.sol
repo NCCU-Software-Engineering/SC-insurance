@@ -92,7 +92,7 @@ contract Annuity {
 
         //保單尚未被確認
         if(status != 0) {
-            confirmeEvent(msg.sender , "not yet been confirmed", now);
+            confirmEvent(msg.sender , "not yet been confirmed", now);
         }
         else {
             //進入契約撤銷期
@@ -102,7 +102,7 @@ contract Annuity {
             revocationPeriod = [year, month, day];
 
             //通知保險公司傳送契約撤銷確認email
-            confirmeEvent(msg.sender , "confirm success", now);
+            confirmEvent(msg.sender , "confirm success", now);
         }
     }
 

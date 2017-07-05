@@ -2,16 +2,16 @@ var mailTransport = require("./nodemailer.js")
 var credentials = require("./credentials.js")
 var request = require('request');
 
-function email(target, subject, cont) {
+function email(target, subject, text) {
 
-    console.log("寄電子郵件");
+    console.log("發送電子郵件");
 
     mailTransport.sendMail({
         from: 'gramr@gmail.com',
         to: target,
         subject: subject,
-        text: cont
-    }, function (error, info) {
+        text: text
+    }, (error, info) => {
         if (error) {
             console.log(error);
         } else {
@@ -22,7 +22,7 @@ function email(target, subject, cont) {
 
 function newsletter(phone, mbody) {
 
-    console.log("寄簡訊");
+    console.log("發送簡訊");
 
     var option = "http://www.smsgo.com.tw/sms_gw/sendsms.aspx";
     option += "?username=" + credentials.sms.user;
@@ -36,7 +36,7 @@ function newsletter(phone, mbody) {
     request({
         uri: option,
         method: 'GET',
-    }, function (error, res, body) {
+    }, (error, res, body) => {
         if (error) {
             console.log(error);
         } else {
