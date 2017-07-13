@@ -41,6 +41,13 @@ router.get('/test', function (req, res, next) {
 
 });
 
+router.get('/camera', function (req, res, next) {
+    res.render('camera')
+});
+router.get('/takepic', function (req, res, next) {
+    res.send('picture');
+});
+
 //post-------------------------------------------------------
 router.post('/test', function (req, res, next) {
     var todo = req.body.todo;
