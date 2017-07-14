@@ -24,6 +24,10 @@ router.get('/template', function (req, res, next) {
     res.render('template', {user_name: req.session.user_name});
 });
 
+router.get('/test', function (req, res, next) {
+    res.render('test', {user_name: req.session.user_name});
+});
+
 //function
 router.get('/deploy', function (req, res, next) {
     var contract = new Contract();
