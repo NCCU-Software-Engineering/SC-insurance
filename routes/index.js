@@ -4,7 +4,7 @@ var path = require('path');
 
 var web3 = require('../library/web3.js');
 var send = require('../library/notice.js');
-var Contract = require('../library/contract.js');
+var contract = require('../library/contract.js');
 var TestContract = require('../library/testContract.js');
 var mysql = require('../library/mysql.js');
 
@@ -43,14 +43,21 @@ router.get('/agreement', function (req, res, next) {
 router.get('/template', function (req, res, next) {
     res.render('template', {
         user_name: req.session.user_name,
-        time: req.cookies.time, 
-        money: req.cookies.money,
+        paymentDate: req.cookies.paymentDate,
+        payment: req.cookies.payment,
         beneficiarie: req.cookies.beneficiarie
     });
 });
 
 router.get('/test', function (req, res, next) {
-    res.render('test', { user_name: req.session.user_name });
+    mysql.getContract(req.session.user_ID, (result) => {
+        console.log(result, result.length);
+        let li = '';
+        for (var i = 0; i < result.length; i++) {
+            li += "<li><input name=\"smart\" type=\"radio\" value=\"" + result[i].address + "\">智能合約" + (i + 1) + ":" + result[i].address + "</li>"
+        }
+        res.render('test', { user_name: req.session.user_name, radio: li});
+    });
 });
 
 router.get('/camera', function (req, res, next) {
@@ -60,9 +67,8 @@ router.get('/camera', function (req, res, next) {
 //function
 router.get('/deploy', function (req, res, next) {
     console.log("deploy");
-    var contract = new Contract();
-    contract.deploy(req.session.user_name, req.cookies.time, req.cookies.money, req.cookies.beneficiarie, (address) => {
-        mysql.addContract(req.session.user_ID ,address);
+    contract(req.cookies.payment, req.cookies.paymentDate, req.cookies.beneficiarie, (address) => {
+        mysql.addContract(req.session.user_ID, address);
     });
     res.redirect('/');
 });
@@ -75,18 +81,10 @@ router.get('/takepic', function (req, res, next) {
 router.post('/agreement', function (req, res, next) {
     console.log("agreement-post");
     console.log(req.body);
-    res.cookie('time', req.body.time, { maxAge: 60 * 1000 });
-    res.cookie('money', req.body.money, { maxAge: 60 * 1000 });
+    res.cookie('paymentDate', req.body.paymentDate, { maxAge: 60 * 1000 });
+    res.cookie('payment:', req.body.payment, { maxAge: 60 * 1000 });
     res.cookie('beneficiarie', req.body.beneficiarie, { maxAge: 60 * 1000 });
     res.redirect('template');
-});
-
-router.post('/test', function (req, res, next) {
-    var todo = req.body.todo;
-    if (todo == "addyear")
-        res.send(req.body.todo);
-    else
-        res.send("nothing")
 });
 
 router.post('/checkout', function (req, res, next) {
