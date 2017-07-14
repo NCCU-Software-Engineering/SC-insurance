@@ -23,10 +23,10 @@ function sing_in(name, password, callback) {
     });
 }
 
-function sing_up(name, email, password, callback) {
+function sing_up(name, password, email, callback) {
     getUser(name, (result) => {
         if (result == "") {
-            addUser(name, email, password, (isSuccess, result) => {
+            addUser(name, password, email, (isSuccess, result) => {
                 callback(isSuccess, isSuccess ? '註冊成功' : '註冊失敗');
             })
         } else {
@@ -34,7 +34,7 @@ function sing_up(name, email, password, callback) {
         }
     });
 
-    function addUser(name, email, password, callback) {
+    function addUser(name, password, email, callback) {
         let cmd = "INSERT INTO user (name, email, password) VALUES ?";
         let value = [
             [name, email, password]
@@ -58,21 +58,6 @@ function getUser(name, callback) {
         } else {
             console.log(err);
         }
-    });
-}
-
-function aaa() {
-    connection.query('SELECT address FROM smart.contract where id=\'' + req.cookies.ID + '\';', function (error, rows, fields) {
-        if (error) {
-            console.log('寫入讀取失敗！');
-            throw error;
-        }
-        for (var i = 0; i < rows.length; i++) {
-            li += "<li><input name=\"smart\" type=\"radio\" value=\"" + rows[i].address + "\">智能合約" + (i + 1) + ":" + rows[i].address + "</li>"
-        }
-        res.render('test', {
-            radio: li
-        });
     });
 }
 

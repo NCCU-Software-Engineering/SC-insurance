@@ -9,7 +9,6 @@ var TestContract = require('../library/testContract.js');
 
 //render
 router.get('/', function (req, res, next) {
-    console.log(req.session.user_name);
     res.render('index', {user_name: req.session.user_name});
 });
 

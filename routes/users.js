@@ -24,11 +24,9 @@ mysql.connection..end(function (err) {
 
 //render
 router.get('/sign_in', function (req, res, next) {
-    console.log(req.session);
     res.render('sign_in', { user_name: req.session.user_name });
 });
 router.get('/sign_up', function (req, res, next) {
-    console.log(req.session);
     res.render('sign_up', { user_name: req.session.user_name });
 });
 
@@ -52,14 +50,15 @@ router.post('/sign_in', function (req, res, next) {
 });
 
 router.post('/sign_up', function (req, res, next) {
-
     console.log("sign_up-post");
     console.log(req.body);
+    mysql.sing_up(req.body.ID, req.body.password, req.body.email, (isSuccess, result) => {
+        console.log(isSuccess, result);
+        res.redirect('/');
+    });
 
     //web3.personal.newAccount("1234");
     console.log("create a new account not work in testrpc");
-
-    res.redirect('/');
 });
 
 module.exports = router;
