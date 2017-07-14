@@ -47,8 +47,8 @@ router.post('/sign_in', function (req, res, next) {
             req.session.user_name = req.body.name;
             console.log(req.session.user_name);
         }
+        res.redirect('/');
     });
-    res.redirect('/');
 });
 
 router.post('/sign_up', function (req, res, next) {
