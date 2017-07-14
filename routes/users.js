@@ -3,25 +3,6 @@ var router = express.Router();
 
 var mysql = require('../library/mysql.js');
 
-mysql.connection.connect((err) => {
-    if (err) {
-        console.log('error when connecting to db:', err);
-        // 2秒後重新連線
-        //setTimeout(handleDisconnect, 2000);
-    }
-    else {
-        console.log('connecting to db');
-    }
-});
-
-/*
-mysql.connection..end(function (err) {
-    if (err) {
-        console.log('error when connecting to db:', err);
-    }
-});
-*/
-
 //render
 router.get('/sign_in', function (req, res, next) {
     res.render('sign_in', { user_name: req.session.user_name });

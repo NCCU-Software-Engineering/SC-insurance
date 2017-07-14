@@ -6,6 +6,26 @@ var web3 = require('../library/web3.js');
 var send = require('../library/notice.js');
 var Contract = require('../library/contract.js');
 var TestContract = require('../library/testContract.js');
+var mysql = require('../library/mysql.js');
+
+mysql.connection.connect((err) => {
+    if (err) {
+        console.log('error when connecting to db:', err);
+        // 2秒後重新連線
+        //setTimeout(handleDisconnect, 2000);
+    }
+    else {
+        console.log('connecting to db');
+    }
+});
+
+/*
+mysql.connection..end(function (err) {
+    if (err) {
+        console.log('error when connecting to db:', err);
+    }
+});
+*/
 
 //render
 router.get('/', function (req, res, next) {
@@ -39,9 +59,11 @@ router.get('/camera', function (req, res, next) {
 
 //function
 router.get('/deploy', function (req, res, next) {
+    console.log("deploy");
     var contract = new Contract();
-    contract.deploy(req.cookies.ID);
-    console.log("deploy the contract");
+    contract.deploy(req.session.user_name, req.cookies.time, req.cookies.money, req.cookies.beneficiarie, (address) => {
+        mysql.addContract(req.session.user_ID ,address);
+    });
     res.redirect('/');
 });
 

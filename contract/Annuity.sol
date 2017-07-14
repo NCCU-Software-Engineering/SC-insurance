@@ -11,8 +11,13 @@ contract Annuity {
 
     //合約狀態
     uint status;
-    //保費(待填入*)
-    uint money;
+    //保費
+    uint _money;
+    //保證期間
+    uint _guaranteePeriod;
+    //給付間隔
+    uint _timeInterval;
+
     //部署時間
     uint[3] deployTime;
     //紀錄時間
@@ -22,12 +27,8 @@ contract Annuity {
     //給付年金日
     uint[3] payTime;
 
-    string ver = "1.0.4";
-
     //合約狀態 0.未被確認 1.契撤期 2.確認並等待給付 3.結束給付 4.被撤銷    uint status;
     string[5] statusStrings;
-    //給付間隔 (待填入*)
-    uint timeInterval;
 
     //事件
     event confirmEvent(address from, string inf, uint timestamp);
@@ -35,12 +36,13 @@ contract Annuity {
     event payEvent(address from, string inf, uint timestamp);
 
     //建構子
-    function Annuity(uint y, uint m, uint d) {
+    function Annuity(uint y, uint m, uint d, uint money, uint guaranteePeriod, uint timeInterval) {
 
         companyAddress = msg.sender;
         insuredAddress = 0xE2320c12C71fb4a91d756d21507B33ee05F2f4C7;
-        money = 1000;
-        timeInterval = 1;
+        _money = money;
+        _guaranteePeriod = guaranteePeriod;
+        _timeInterval = timeInterval;
         status = 0;
 
         //部署日期
@@ -77,9 +79,6 @@ contract Annuity {
     }
     function getPayTime() constant returns (uint[3]){
         return payTime;
-    }
-    function getVersion() constant returns (string){
-        return ver;
     }
 
     //確認合約
@@ -158,16 +157,12 @@ contract Annuity {
                 (year==payTime[0] && month>payTime[1]) ||
                 (year==payTime[0] && month==payTime[1] && day>=payTime[2])){
 
-                payTime[0] += timeInterval;
+                payTime[0] += _timeInterval;
 
                 //通知保險公司給付年金
                 payEvent(msg.sender , "pay annuity", now);
             }
         }
-    }
-
-    function version() constant returns(string) {
-        return ver;
     }
 
     //摧毀合約

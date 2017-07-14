@@ -51,7 +51,7 @@ function sing_up(ID, password, name, email, callback) {
 }
 
 function getUser(ID, callback) {
-    var cmd = "SELECT * FROM user WHERE ID = ?";
+    let cmd = "SELECT * FROM user WHERE ID = ?";
     connection.query(cmd, [ID], (err, result) => {
         if (!err) {
             callback(result);
@@ -61,8 +61,21 @@ function getUser(ID, callback) {
     });
 }
 
+function addContract(ID, address, callback) {
+        let cmd = "INSERT INTO contract (ID, address) VALUES ?";
+        let value = [
+            [ID, address]
+        ];
+        connection.query(cmd, [value], (err, result) => {
+            if (err) {
+                console.error(err);
+            }
+        });
+}
+
 module.exports = {
     connection: connection,
     sing_in: sing_in,
     sing_up: sing_up,
+    addContract: addContract
 }
