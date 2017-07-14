@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser(credentials.cookieSecret));
 app.use(session({
-  secret: 'recommand 128 bytes random string',
+  secret: 'B54C9B842DD16',
   cookie: { maxAge: 60 * 1000 }
 }));
 app.use(express.static(path.join(__dirname, 'public')));
