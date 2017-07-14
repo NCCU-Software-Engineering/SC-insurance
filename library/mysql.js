@@ -73,9 +73,21 @@ function addContract(ID, address, callback) {
         });
 }
 
+function getContract(ID, callback) {
+    let cmd = "SELECT * FROM contract WHERE ID = ?";
+    connection.query(cmd, [ID], (err, result) => {
+        if (!err) {
+            callback(result);
+        } else {
+            console.log(err);
+        }
+    });
+}
+
 module.exports = {
     connection: connection,
     sing_in: sing_in,
     sing_up: sing_up,
-    addContract: addContract
+    addContract: addContract,
+    getContract: getContract
 }

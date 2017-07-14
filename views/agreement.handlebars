@@ -30,6 +30,14 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">年齡</label>
+                                <div class="col-sm-8">
+                                    <!--<input class="form-control" type="text" name="name" ng-model="name" placeholder="全名" oninput={go('1')}>-->
+                                    <input class="form-control" type="number" name='age' min='20' max='100' oninput={go('8')}>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label" for="contact-name">保險公司</label>
                                 <div class="col-sm-8">
                                     <div class="form-control" type="text" ng-model="comp">正大人壽</div>
@@ -37,17 +45,16 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" for="contact-name">保證期間</label>
+                                <label class="col-sm-3 control-label" for="contact-name">年金給付開始日</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="number" name="time" placeholder="一到三十年" ng-model="time" value="1" min="1" max="30" oninput={go(
-                                        '8')}>
+                                    <input class="form-control" type="number" name="paymentDate" placeholder="民國" value="109" ng-model="time" value="106" min="106" max="206" oninput={go('8')}>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="contact-name">保費</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="number" name='money' placeholder="一到十萬" ng-model="money" value="1" min="1" max="10" oninput={go(
+                                    <input class="form-control" type="number" name='payment' placeholder='我想要繳多少保險費' value="10" ng-model="money" value="1" min="1" max="10" oninput={go(
                                         '8')}>
                                 </div>
                             </div>
@@ -55,7 +62,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="contact-name">受益人</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="beneficiarie" ng-model="dname" placeholder="受益人" oninput={go( '11')}>
+                                    <input class="form-control" type="text" name="beneficiarie" ng-model="dname" value="張大同" placeholder="受益人" oninput={go( '11')}>
                                 </div>
                             </div>
 
