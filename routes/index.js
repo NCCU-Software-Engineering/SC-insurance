@@ -9,23 +9,32 @@ var TestContract = require('../library/testContract.js');
 
 //render
 router.get('/', function (req, res, next) {
-    res.render('index', {user_name: req.session.user_name});
+    res.render('index', { user_name: req.session.user_name });
 });
 
 router.get('/buy', function (req, res, next) {
-    res.render('buy', {user_name: req.session.user_name});
+    res.render('buy', { user_name: req.session.user_name });
 });
 
 router.get('/agreement', function (req, res, next) {
-    res.render('agreement', {user_name: req.session.user_name});
+    res.render('agreement', { user_name: req.session.user_name });
 });
 
 router.get('/template', function (req, res, next) {
-    res.render('template', {user_name: req.session.user_name});
+    res.render('template', {
+        user_name: req.session.user_name,
+        time: req.cookies.time, 
+        money: req.cookies.money,
+        beneficiarie: req.cookies.beneficiarie
+    });
 });
 
 router.get('/test', function (req, res, next) {
-    res.render('test', {user_name: req.session.user_name});
+    res.render('test', { user_name: req.session.user_name });
+});
+
+router.get('/camera', function (req, res, next) {
+    res.render('camera')
 });
 
 //function
@@ -36,22 +45,20 @@ router.get('/deploy', function (req, res, next) {
     res.redirect('/');
 });
 
-router.get('/test', function (req, res, next) {
-
-    let li = "";
-
-
-
-});
-
-router.get('/camera', function (req, res, next) {
-    res.render('camera')
-});
 router.get('/takepic', function (req, res, next) {
     res.send('picture');
 });
 
-//post-------------------------------------------------------
+//post
+router.post('/agreement', function (req, res, next) {
+    console.log("agreement-post");
+    console.log(req.body);
+    res.cookie('time', req.body.time, { maxAge: 60 * 1000 });
+    res.cookie('money', req.body.money, { maxAge: 60 * 1000 });
+    res.cookie('beneficiarie', req.body.beneficiarie, { maxAge: 60 * 1000 });
+    res.redirect('template');
+});
+
 router.post('/test', function (req, res, next) {
     var todo = req.body.todo;
     if (todo == "addyear")

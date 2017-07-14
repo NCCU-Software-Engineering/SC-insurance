@@ -39,11 +39,11 @@ router.all('/sign_out', function (req, res, next) {
 router.post('/sign_in', function (req, res, next) {
     console.log("sign_in-post");
     console.log(req.body);
-    mysql.sing_in(req.body.name, req.body.password, (isSuccess, result) => {
-        console.log(isSuccess, result);
+    mysql.sing_in(req.body.ID, req.body.password, (isSuccess, result, name) => {
+        console.log(isSuccess, result, name);
         if (isSuccess) {
-            req.session.user_name = req.body.name;
-            console.log(req.session.user_name);
+            req.session.user_ID = req.body.ID;
+            req.session.user_name = name;
         }
         res.redirect('/');
     });
@@ -52,7 +52,7 @@ router.post('/sign_in', function (req, res, next) {
 router.post('/sign_up', function (req, res, next) {
     console.log("sign_up-post");
     console.log(req.body);
-    mysql.sing_up(req.body.ID, req.body.password, req.body.email, (isSuccess, result) => {
+    mysql.sing_up(req.body.ID, req.body.password, req.body.name, req.body.email, (isSuccess, result) => {
         console.log(isSuccess, result);
         res.redirect('/');
     });

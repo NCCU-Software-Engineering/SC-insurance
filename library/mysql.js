@@ -8,14 +8,14 @@ var connection = mysql.createConnection({
     database: 'smart'
 });
 
-function sing_in(name, password, callback) {
-    getUser(name, (result) => {
+function sing_in(ID, password, callback) {
+    getUser(ID, (result) => {
         //找不到使用者
         if (result == "") {
             callback(false, "查無此帳號");
         } else {
             if (result[0].password == password) {
-                callback(true, "登錄成功");
+                callback(true, "登錄成功", result[0].name);
             } else {
                 callback(false, "密碼無效");
             }
@@ -23,10 +23,10 @@ function sing_in(name, password, callback) {
     });
 }
 
-function sing_up(name, password, email, callback) {
-    getUser(name, (result) => {
+function sing_up(ID, password, name, email, callback) {
+    getUser(ID, (result) => {
         if (result == "") {
-            addUser(name, password, email, (isSuccess, result) => {
+            addUser(ID, password, name, email, (isSuccess, result) => {
                 callback(isSuccess, isSuccess ? '註冊成功' : '註冊失敗');
             })
         } else {
@@ -34,10 +34,10 @@ function sing_up(name, password, email, callback) {
         }
     });
 
-    function addUser(name, password, email, callback) {
-        let cmd = "INSERT INTO user (name, email, password) VALUES ?";
+    function addUser(ID, password, name, email, callback) {
+        let cmd = "INSERT INTO user (ID, password, name, email) VALUES ?";
         let value = [
-            [name, email, password]
+            [ID, password, name, email]
         ];
         connection.query(cmd, [value], (err, result) => {
             if (!err) {
@@ -50,9 +50,9 @@ function sing_up(name, password, email, callback) {
     }
 }
 
-function getUser(name, callback) {
-    var cmd = "SELECT * FROM user WHERE name = ?";
-    connection.query(cmd, [name], (err, result) => {
+function getUser(ID, callback) {
+    var cmd = "SELECT * FROM user WHERE ID = ?";
+    connection.query(cmd, [ID], (err, result) => {
         if (!err) {
             callback(result);
         } else {

@@ -1,6 +1,5 @@
 {{#section 'css'}}
-<link rel="stylesheet" href="css/template.css"> 
-{{/section}}
+<link rel="stylesheet" href="css/template.css"> {{/section}}
 
 <section id>
     <div class="container">
@@ -30,19 +29,23 @@
                                 【保險契約的構成】<br>第一條
                             </h2>
                             <p>
-                                本保險單條款、附著之要保書、批註及其他約定書，均為本保險契約（以下簡稱本契約）的構成部分。 本契約的解釋，應探求當事人真意不得拘泥於所用文字；如有疑義時以作利被 本契約的解釋，應探求當事人真意不得拘泥於所用文字；如有疑義時以作利於被保險人的解釋為原則。
+                                本保險單條款、附著之要保書、批註及其他約定書，均為本保險契約（以下簡稱本契約）的構成部分。 本契約的解釋，應探求契約當事人
+                                <font color="red">[ {{user_name}} ]</font>的真意不得拘泥於所用文字；如有疑義時以作利被 本契約的解釋，應探求當事人
+                                <font color="red">[ {{user_name}} ]</font>真意不得拘泥於所用文字；如有疑義時以作利於被保險人的解釋為原則。
                             </p>
                         </div>
 
                         <h2>
                             【名詞定義】<br>第二條
                         </h2>
-                        本契約所稱名詞定義如下： 
+                        本契約所稱名詞定義如下：
                         <div id="t2" onmouseover="mouseOver(2)" onmouseout="mouseOut(2)">
-                            <br>一、本契約所稱「保證期間」係指依本契約約定，不論被保險人生存與否，本公司保證給付年金之期間。要保人於投保時在要保書上選擇十年、二十年或三十年為保證期間。 
+                            <bt> 一、本契約所稱「保證期間」係指依本契約約定，不論被保險人生存與否，本公司保證給付年金之期間。要保人於投保時在要保書上選擇十年、二十年或三十年
+                                <font color="red">[ {{time}}年 ]</font>為保證期間。
                         </div>
-                        <br>二、本契約所稱「年金金額」係指依本契約約定之條件及期間，本公司分期給付之金額。
-                        <br>三、本契約所稱「未支領之年金餘額」係指被保險人於本契約年金保證期間內尚未領取之年金金額。
+                        <br> 二、本契約所稱「年金金額」係指依本契約約定之條件及期間，本公司分期給付之金額
+                        <font color="red">[ {{money}}萬元 ]</font>。
+                        <br> 三、本契約所稱「未支領之年金餘額」係指被保險人於本契約年金保證期間內尚未領取之年金金額。
                         <br> 四、本契約所稱「保險年齡」係指按投保時被保險人之足歲計算，但未滿一歲的零數超過六個月者加算一歲，以後每經過一個保險單年度加算一歲，且同一保險單年度內保險年齡不變。 五、本契約所稱「預定利率」係指本公司於年金給付開始日用以計算年金金額之利率，本契約之預定利率為年利率百分之二點三。
                         <p>
                         </p>
@@ -53,14 +56,14 @@
                         <p>
                             本公司應自同意承保且收取躉繳保險費後負保險責任，並應發給保險單作為承保的憑證。 本公司如於同意承保前，預收相當於躉繳保險費之金額時，其應負之保險責任，以同意承保時溯自預收相當於躉繳保險費金額時開始。但本公司同意承保前而被保險人身故時，本公司無息退還要保人躉繳保險費。<br>                            本公司自預收相當於躉繳保險費之金額後十五日內不為同意承保與否之意思表示者，視為同意承保。
                         </p>
-<div id="t3" onmouseover="mouseOver(3)" onmouseout="mouseOut(3)">
-                        <h2>
-                            【契約撤銷權】<br>第四條
-                        </h2>
-                        <p>
-                            要保人於保險單送達的翌日起算十日內，得以書面或其他約定方式檢同保險單向本公司撤銷本契約。 要保人依前項規定行使本契約撤銷權者，撤銷的效力應自要保人書面或其他約定方式之意思表示到達翌日零時起生效，本契約自始無效，本公司應無息退還要保人躉繳保險費。
-                        </p>
-</div>
+                        <div id="t3" onmouseover="mouseOver(3)" onmouseout="mouseOut(3)">
+                            <h2>
+                                【契約撤銷權】<br>第四條
+                            </h2>
+                            <p>
+                                要保人於保險單送達的翌日起算十日內，得以書面或其他約定方式檢同保險單向本公司撤銷本契約。 要保人依前項規定行使本契約撤銷權者，撤銷的效力應自要保人書面或其他約定方式之意思表示到達翌日零時起生效，本契約自始無效，本公司應無息退還要保人躉繳保險費。
+                            </p>
+                        </div>
                         <h2>
                             【契約的終止及保險單借款之限制】<br>第五條
                         </h2>
@@ -164,68 +167,65 @@
                         智能合約
                     </div>
                     <!--body-->
-                    <div class="panel-body" id="smart-contract">pragma solidity ^0.4.8;
+                    <div class="panel-body" id="smart-contract">pragma solidity ^0.4.8; contract AnnuityContract {
+pragma solidity ^0.4.7;
 
-contract AnnuityContract {
-    
-<div id="s1">    //保險商adress
+contract Annuity {
+
+    //保險商adress
     address private companyAddress;
     //被保人adress
     address private insuredAddress;
     //時間伺服器address
-    address private timerAddress;</div>
+    address private timerAddress;
 
-    //保費
-    uint Money = 0;
-    //紀錄時間
-    uint[3] NowTime = [9999,99,99];
-    //撤銷期限
-    uint[3] RevocationPeriod = [9999,99,99];
-    //給付年金日
-    uint[3] PayTime = [9999,99,99];
-	
-    //合約狀態 0.未被確認 1.契撤期 2.確認並等待給付 3.結束給付 4.被撤銷
+    //合約狀態
     uint status;
+    //保費(待填入*)
+    uint money;
+    //部署時間
+    uint[3] deployTime;
+    //紀錄時間
+    uint[3] nowTime;
+    //撤銷期限
+    uint[3] revocationPeriod;
+    //給付年金日
+    uint[3] payTime;
+
+    string ver = "1.0.4";
+
+    //合約狀態 0.未被確認 1.契撤期 2.確認並等待給付 3.結束給付 4.被撤銷    uint status;
     string[5] statusStrings;
-<div id="s2">    //給付間隔
-    uint TimeInterval = 0;</div>
-    
+    //給付間隔 (待填入*)
+    uint timeInterval;
+
     //事件
-    event PayEvent();
-    event RevocationEvent();
-    event RevocationEvent();
-    event NotRevocationEvent();
+    event confirmEvent(address from, string inf, uint timestamp);
+    event revokeEvent(address from, string inf, uint timestamp);
+    event payEvent(address from, string inf, uint timestamp);
 
     //建構子
-    function AnnuityContract(uint year, uint month, uint day) {
-        
-        //部署日期
-        NowTime[0] = year;
-        NowTime[1] = month;
-        NowTime[2] = day;
-        
-        companyAddress = msg.sender;
-        
-        //被保人(待填入*)
-        insuredAddress = "";
-        //保費(待填入*)
-        Money = 0;
-        //給付年金日 (待填入*)
-        PayTime[0] = 9999;
-        PayTime[1] = 99;
-        PayTime[2] = 99;
-        //給付間隔 (待填入*)
-        TimeInterval = 0;
+    function Annuity(uint y, uint m, uint d) {
 
+        companyAddress = msg.sender;
+        insuredAddress = 0xE2320c12C71fb4a91d756d21507B33ee05F2f4C7;
+        money = 1000;
+        timeInterval = 1;
         status = 0;
-        
+
+        //部署日期
+        deployTime = [y,m,d];
+        nowTime = [y,m,d];
+        //給付年金日 (待填入*)
+        payTime = [y+20,m,d];
+
         statusStrings[0] = "unconfirmed";
         statusStrings[1] = "canBeRevoked";
-        statusStrings[2] = "confirmed";
+        statusStrings[2] = "confirmd";
         statusStrings[3] = "end";
         statusStrings[4] = "Revocation";
     }
-    
+
     function getCompanyAddress() constant returns (address) {
         return companyAddress;
     }
@@ -235,97 +235,118 @@ contract AnnuityContract {
     function getStatus() constant returns (string){
         return statusStrings[status];
     }
-    
+
+    function getDeployTime() constant returns (uint[3]){
+        return deployTime;
+    }
+    function getNowTime() constant returns (uint[3]){
+        return nowTime;
+    }
+    function getRevocationPeriod() constant returns (uint[3]){
+        return revocationPeriod;
+    }
+    function getPayTime() constant returns (uint[3]){
+        return payTime;
+    }
+    function getVersion() constant returns (string){
+        return ver;
+    }
+
     //確認合約
-    function confirme() {
-        
+    function confirm(uint year, uint month, uint day) {
+
         //由被保人帳號確認
-        if(msg.sender != insuredAddress) {
-            throw;
-        }
+        //if(msg.sender != insuredAddress) {
+        //    throw;
+        //}
+
         //保單尚未被確認
         if(status != 0) {
-            throw;
+            confirmEvent(msg.sender , "not yet been confirmed", now);
         }
-        //進入契約撤銷期
-        status = 1;
-        
-        //設定契約撤銷期限
-        RevocationPeriod[0] = NowTime[0]
-        RevocationPeriod[1] = NowTime[1]
-        RevocationPeriod[2] = NowTime[2] + 11;
-        //通知保險公司傳送契約撤銷確認email
-        RevocationMailEvent();
+        else {
+            //進入契約撤銷期
+            status = 1;
+
+            //設定契約撤銷期限
+            revocationPeriod = [year, month, day];
+
+            //通知保險公司傳送契約撤銷確認email
+            confirmEvent(msg.sender , "confirm success", now);
+        }
     }
-    <div id="s3">
+
     function revoke() {
-        
+
         //由被保人帳號確認
-        if(msg.sender != insuredAddress) {
-            throw;
-        }
+        //if(msg.sender != insuredAddress) {
+        //    throw;
+        //}
+
         //保單不能撤銷
         if(status != 1) {
             //通知保險公司合約不能撤銷
-            NotRevocationEvent;
-            throw;
+            revokeEvent(msg.sender , "Can not be revoked", now);
         }
-        //撤銷契約
-        status = 4;
-        //通知保險公司進行契約撤銷流程
-        RevocationEvent();
+        else {
+            //撤銷契約
+            status = 4;
+            //通知保險公司進行契約撤銷流程
+            revokeEvent(msg.sender , "revoke the contract", now);
+        }
     }
-    </div>
+
     //被保人死亡
     function endAnnuity() {
         //由保險公司取消
-        if(msg.sender != companyAddress) {
-            throw;
-        }
+        //if(msg.sender != companyAddress) {
+        //    throw;
+        //}
         status = 3;
     }
-    
+
     function time(uint year, uint month, uint day) {
+
         //紀錄時間
-        NowTime[0] = year;
-        NowTime[1] = month;
-        NowTime[2] = day;
+        nowTime = [year, month, day];
         //由第三方時間伺服器設定時間
-        if(msg.sender != timerAddress) {
-            throw;  
-        }
+        //if(msg.sender != timerAddress) {
+        //    throw;
+        //}
+
         //撤銷期結束
         if(status == 1) {
-            if((year>RevocationPeriod[0]) || 
-                (year==RevocationPeriod[0] && month>RevocationPeriod[1]) ||
-                (year==RevocationPeriod[0] && month==RevocationPeriod[1] && day>=RevocationPeriod[2])){
+            if((year>revocationPeriod[0]) ||
+                (year==revocationPeriod[0] && month>revocationPeriod[1]) ||
+                (year==revocationPeriod[0] && month==revocationPeriod[1] && day>=revocationPeriod[2])){
                 status = 2;
             }
         }
         //開始給付年金
         else if(status == 2) {
-            if((year>PayTime[0]) || 
-                (year==PayTime[0] && month>PayTime[1]) ||
-                (year==PayTime[0] && month==PayTime[1] && day>=PayTime[2])){
-                status = 2;
+            if((year>payTime[0]) ||
+                (year==payTime[0] && month>payTime[1]) ||
+                (year==payTime[0] && month==payTime[1] && day>=payTime[2])){
+
+                payTime[0] += timeInterval;
+
                 //通知保險公司給付年金
-                PayEvent();
+                payEvent(msg.sender , "pay annuity", now);
             }
         }
     }
-    //已經給付年金
-    function FinishPayment(){
-        //確認下次給付時間
-        PayTime[0] += TimeInterval;
+
+    function version() constant returns(string) {
+        return ver;
     }
-    
+
     //摧毀合約
     function destroy() {
-         if (msg.sender == companyAddress) { 
+         if (msg.sender == companyAddress) {
              suicide(companyAddress);
         }
-    } 
-    
+    }
+
 }
                     </div>
                 </div>
@@ -334,7 +355,7 @@ contract AnnuityContract {
             <div class="col-sm-offset-2 col-sm-10">
                 <a href="deploy" class="btn btn-success btn-lg" type="submit">部署</a>
             </div>
-                
+
         </div>
     </div>
 </section>
