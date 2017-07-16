@@ -21,12 +21,11 @@ router.post('/sign_in', function (req, res, next) {
     console.log("sign_in-post");
     console.log(req.body);
     mysql.sing_in(req.body.ID, req.body.password, (isSuccess, result, name) => {
-        console.log(isSuccess, result, name);
         if (isSuccess) {
             req.session.user_ID = req.body.ID;
             req.session.user_name = name;
         }
-        res.redirect('/');
+        res.json({ isSuccess: isSuccess, result: result });
     });
 });
 

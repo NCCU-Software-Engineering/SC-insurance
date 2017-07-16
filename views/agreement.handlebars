@@ -24,16 +24,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">姓名</label>
                                 <div class="col-sm-8">
-                                    <!--<input class="form-control" type="text" name="name" ng-model="name" placeholder="全名" oninput={go('1')}>-->
                                     <div class="form-control" type="text">{{user_name}}</div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">年齡</label>
-                                <div class="col-sm-8">
-                                    <!--<input class="form-control" type="text" name="name" ng-model="name" placeholder="全名" oninput={go('1')}>-->
-                                    <input class="form-control" type="number" name='age' min='20' max='100' oninput={go('8')}>
                                 </div>
                             </div>
 
@@ -45,32 +36,45 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" for="contact-name">年金給付開始日</label>
+                                <label class="col-sm-3 control-label" for="contact-name">保費</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="number" name="paymentDate" placeholder="民國" value="109" ng-model="time" value="106" min="106" max="206" oninput={go('8')}>
+                                    <input class="form-control" type="number" name='payment' placeholder='一到十萬' value="10" ng-model="money" value="1" min="1"
+                                        max="10" oninput={go( '8')}>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" for="contact-name">保費</label>
+                                <label class="col-sm-3 control-label" for="contact-name">年金給付開始日</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="number" name='payment' placeholder='我想要繳多少保險費' value="10" ng-model="money" value="1" min="1" max="10" oninput={go(
-                                        '8')}>
+                                    <input class="form-control" type="number" name="paymentDate" placeholder="民國" value="109" ng-model="time" value="106" min="106"
+                                        max="206" oninput={go( '8')}>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">保證期間</label>
+                                <div class="col-sm-8">
+                                    <div class="form-control" type="text" ng-model="comp">三十年</div>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="contact-name">受益人</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="beneficiarie" ng-model="dname" value="張大同" placeholder="受益人" oninput={go( '11')}>
+                                    <div class="form-control" type="text" ng-model="comp">{{user_name}}</div>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-3">
-                                    <button class="btn btn-success btn-lg" type="submit">送出</a>
+                                <label class="col-sm-3 control-label" for="contact-name">身故受益人</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="beneficiarie" value="被保險人之法定繼承人" placeholder="身故受益人">
                                 </div>
-                                <div class="col-sm-3">
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <button class="btn btn-success btn-lg" type="submit" style="margin-right:3rem">送出</a>
                                     <button class="btn btn-success btn-lg" type="reset">重設</a>
                                 </div>
                             </div>
@@ -98,8 +102,8 @@
                         </h2>
                         <p>
                             本契約所稱名詞定義如下：
-                            <bt> 一、本契約所稱「保證期間」係指依本契約約定，不論被保險人生存與否，本公司保證給付年金之期間。要保人於投保時在要保書上選擇十年、二十年或三十年<font color="red">[ [[time]]年 ]</font>為保證期間。
-                            <br> 二、本契約所稱「年金金額」係指依本契約約定之條件及期間，本公司分期給付之金額<font color="red">[ [[money]]萬元 ]</font>。
+                            <bt> 一、本契約所稱「保證期間」係指依本契約約定，不論被保險人生存與否，本公司保證給付年金之期間。要保人於投保時在要保書上選擇十年、二十年或三十年<font color="red">[ 三十年 ]</font>為保證期間。
+                            <br> 二、本契約所稱「年金金額」係指依本契約約定之條件及期間，本公司分期給付之金額。
                             <br> 三、本契約所稱「未支領之年金餘額」係指被保險人於本契約年金保證期間內尚未領取之年金金額。
                             <br> 四、本契約所稱「保險年齡」係指按投保時被保險人之足歲計算，但未滿一歲的零數超過六個月者加算一歲，以後每經過一個保險單年度加算一歲，且同一保險單年度內保險年齡不變。 五、本契約所稱「預定利率」係指本公司於年金給付開始日用以計算年金金額之利率，本契約之預定利率為年利率百分之二點三。
                         </p>
@@ -216,6 +220,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
 </section>
