@@ -3,10 +3,43 @@ var router = express.Router();
 var fs = require('fs');
 var solc = require('solc');
 var web3 = require('../web3.js');
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: 'localhost',
+  user: "root",
+  password: "841015",
+  database: "smart"
+});
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('./public/index.html');
+});
+//找合約
+router.post('/contracts', function (req, res, next) {
+  console.log(req.body.id)
+
+  con.query("SELECT address FROM contract WHERE ID = ?", [req.body.id], function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result)
+  });
+
+})
+//找交易紀錄
+router.post('/getresult', function (req, res, next) {
+  var abi = JSON.parse(fs.readFileSync('annuity.abi'));
+  var address = req.body.contracts;
+  var contract = web3.eth.contract(abi).at(address);
+  var events = contract.allEvents({ fromBlock: 0, toBlock: 'latest' });
+  events.get(function (error, logs) {
+    res.send(logs);
+    /*logs.forEach((element)=>{
+      console.log(element.args.inf);
+    })*/
+  });
+  //res.send('success');
 });
 
 router.post('/compile', function (req, res, next) {
@@ -72,25 +105,10 @@ router.post('/trans', function (req, res, next) {
   }
 });
 
-router.post('/getresult', function (req, res, next) {
-  var abi = JSON.parse(fs.readFileSync('annuity.abi'));
-  var config = JSON.parse(fs.readFileSync('config.json'));
-  var contract = web3.eth.contract(abi).at(config.Account.address);
-  var events = contract.allEvents({fromBlock: 0, toBlock: 'latest'});
-  events.get(function(error, logs){
-    res.send(logs);
-    /*logs.forEach((element)=>{
-      console.log(element.args.inf);
-    })*/
-  });
-  //res.send('success');
-});
-
 router.post('/getaccount', function (req, res, next) {
   var accounts = web3.eth.accounts;
   res.send(accounts);
 });
-
 
 
 module.exports = router;
