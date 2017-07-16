@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "testrpc": "testrpc --port 8545 --accounts 5 --blocktime 1"
+    "testrpc": "testrpc --port 8545 --accounts 5 --blocktime 5"
   },
   "dependencies": {
     "angular": "^1.6.4",

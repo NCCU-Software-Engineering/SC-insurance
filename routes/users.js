@@ -32,14 +32,15 @@ router.post('/sign_in', function (req, res, next) {
 
 router.post('/sign_up', function (req, res, next) {
     console.log("sign_up-post");
-    console.log(req.body);
-    mysql.sing_up(req.body.ID, req.body.password, req.body.name, req.body.email, (isSuccess, result) => {
-        console.log(isSuccess, result);
-        res.redirect('/');
-    });
 
     //web3.personal.newAccount("1234");
-    console.log("create a new account not work in testrpc");
+    //console.log("create a new account not work in testrpc");
+
+    let user = req.body;
+    console.log(user);
+    mysql.sing_up(user.ID, user.password, user.name, user.identity, user.email, user.phone, user.birthday, user.address, (isSuccess, result) => {
+        res.json({ isSuccess: isSuccess, result: result });
+    });
 });
 
 module.exports = router;

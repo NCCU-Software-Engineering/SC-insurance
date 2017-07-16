@@ -4,19 +4,12 @@
             <h2 class="text-center">註冊帳號</h2>
             <div class="col-md-8 col-md-offset-2">
 
-                <form class="form-horizontal" action="sign_up" method="post">
+                <form class="form-horizontal" id="sign_up-form" action="sign_up" method="post">
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="contact-id">帳號</label>
                         <div class="col-sm-10">
                             <input class="form-control" type="text" id="contact-id" name="ID" placeholder="帳號">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="contact-identity">身分證字號</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="text" id="contact-identity" name="identity" placeholder="身分證字號">
                         </div>
                     </div>
 
@@ -42,11 +35,10 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-2 control-label" for="contact-birthday">生日</label>
+                        <label class="col-sm-2 control-label" for="contact-identity">身分證字號</label>
                         <div class="col-sm-10">
-                            <input class="form-control" type="date" id="contact-birthday" name="birthday" placeholder="您的生日">
+                            <input class="form-control" type="text" id="contact-identity" name="identity" placeholder="身分證字號">
                         </div>
-
                     </div>
 
                     <div class="form-group">
@@ -64,25 +56,32 @@
                     </div>
 
                     <div class="form-group">
+                        <label class="col-sm-2 control-label" for="contact-birthday">生日</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="date" id="contact-birthday" name="birthday" placeholder="您的生日">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label class="col-sm-2 control-label" for="contact-address">住址</label>
                         <div class="col-sm-10">
                             <input class="form-control" type="text" id="contact-address" name="address" placeholder="住址">
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="col-sm-4">
-                            <button type="submit" class="btn btn-success btn-lg">註冊</button>
-                        </div>
-                        <div class="col-sm-4">
-                            <a id="default" role="button" class="btn btn-success btn-lg">測試預設值</a>
-                        </div>
-                        <div class="col-sm-4">
-                            <button class="btn btn-success btn-lg" type="reset">重設</button>
-                        </div>
-                    </div>
-
                 </form>
+
+                <div>
+                    <div class="col-sm-4">
+                        <button class="btn btn-success btn-lg" id="test">test</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <a id="default" role="button" class="btn btn-success btn-lg">測試預設值</a>
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="btn btn-success btn-lg" type="reset">重設</button>
+                    </div>
+                </div>
 
             </div>
         </div>

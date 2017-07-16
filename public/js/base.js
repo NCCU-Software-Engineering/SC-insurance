@@ -6,15 +6,11 @@ customInterpolationApp.config(function ($interpolateProvider) {
 });
 
 $(function () {
-
     if ($('#user_name').text()) {
-        console.log('sign:' + $('#user_name').text());
         $('.sign').show();
         $('.unsign').hide();
     } else {
-        console.log('unsign:');
         $('.unsign').show();
         $('.sign').hide();
     }
-
 })

@@ -9,7 +9,7 @@ var connection = mysql.createConnection({
 });
 
 function sing_in(ID, password, callback) {
-    getUser(ID, (result) => {
+    getUserByID(ID, (result) => {
         //找不到使用者
         if (result == "") {
             callback(false, "查無此帳號");
@@ -23,10 +23,10 @@ function sing_in(ID, password, callback) {
     });
 }
 
-function sing_up(ID, password, name, email, callback) {
-    getUser(ID, (result) => {
+function sing_up(ID, password, name, identity, email, phone, birthday, address, callback) {
+    getUserByID(ID, (result) => {
         if (result == "") {
-            addUser(ID, password, name, email, (isSuccess, result) => {
+            addUser(ID, password, name, identity, email, phone, birthday, address, (isSuccess, result) => {
                 callback(isSuccess, isSuccess ? '註冊成功' : '註冊失敗');
             })
         } else {
@@ -34,10 +34,10 @@ function sing_up(ID, password, name, email, callback) {
         }
     });
 
-    function addUser(ID, password, name, email, callback) {
-        let cmd = "INSERT INTO user (ID, password, name, email) VALUES ?";
+    function addUser(ID, password, name, identity, email, phone, birthday, address, callback) {
+        let cmd = "INSERT INTO user (ID, password, name, identity, email, phone, birthday, address) VALUES ?";
         let value = [
-            [ID, password, name, email]
+            [ID, password, name, identity, email, phone, birthday, address]
         ];
         connection.query(cmd, [value], (err, result) => {
             if (!err) {
@@ -50,7 +50,7 @@ function sing_up(ID, password, name, email, callback) {
     }
 }
 
-function getUser(ID, callback) {
+function getUserByID(ID, callback) {
     let cmd = "SELECT * FROM user WHERE ID = ?";
     connection.query(cmd, [ID], (err, result) => {
         if (!err) {
