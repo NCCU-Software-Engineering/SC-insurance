@@ -70,7 +70,7 @@ router.get('/deploy', function (req, res, next) {
     contract(req.cookies.payment, req.cookies.paymentDate, req.cookies.beneficiarie, (address) => {
         mysql.addContract(req.session.user_ID, address);
     });
-    res.redirect('/');
+    res.redirect('buy');
 });
 
 router.get('/takepic', function (req, res, next) {

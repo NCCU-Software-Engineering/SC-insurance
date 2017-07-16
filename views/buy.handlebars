@@ -1,166 +1,53 @@
 {{#section 'css'}}
 <link rel="stylesheet" href="css/buy.css"> {{/section}}
 
-<section id="progress">
+<section>
     <div class="container">
-
-        <ui class="nav nav-pills nav-justified">
-            <li role="presentation" id="step1" onclick="one()">
-                <a>輸入基本資料</a>
-            </li>
-            <li role="presentation" id="step2" onclick="two()">
-                <a>投保資料輸入</a>
-            </li>
-            <li role="presentation" id="step3" onclick="three()">
-                <a>繳費</a>
-            </li>
-        </ui>
-
+        <div class="row">
+            <h1 class="text-center">付款方式</h1>
+        </div>
     </div>
 </section>
 
-<form class="form" action="/checkout" method="post">
+<section id="payment">
+    <div class="container">
+        <div class="row">
 
-    <section id="basic">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="contact-name">姓名</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="text" id="contact-name" placeholder="全名">
-                        </div>
+            <div class="col-md-4">
+                <div class="thumbnail">
+                    <img src="imgs/credit card.png" alt="...">
+                    <div class="caption">
+                        <h3>線上刷卡</h3>
+                        <p></p>
+                        <p><a href="#" class="btn btn-primary" role="button">付款</a>
                     </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="contact-email">生日</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="date" id="contact-email" placeholder="您的生日">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="contact-name">身分證字號</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="text" id="contact-name" placeholder="身分證字號">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="contact-email">電子郵件</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="email" id="contact-email" placeholder="你的電子郵件地址">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="contact-tel">行動電話</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="tel" id="contact-tel" placeholder="行動電話">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="contact-dname">身故受益人</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="text" id="contact-dname" placeholder="身故受益人">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-3">
-                            <div id="basic_bt" class="btn btn-success btn-lg" onclick="two()">下一步</div>
-                        </div>
-                        <div class="col-sm-3">
-                            <button class="btn btn-success btn-lg" type="reset">重設</button>
-                        </div>
-                    </div>
-
-
                 </div>
             </div>
-        </div>
-    </section>
-
-
-    <section id="insured">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="contact-name">選擇保險費</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="text" id="contact-name" placeholder="1到10萬">
-                        </div>
+            <div class="col-md-4">
+                <div class="thumbnail">
+                    <img src="imgs/atm.jpg" alt="...">
+                    <div class="caption">
+                        <h3>銀行轉帳</h3>
+                        <p></p>
+                        <p><a href="#" class="btn btn-primary" role="button">付款</a>
                     </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="contact-name">年金給付開始日</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="text" id="contact-name" placeholder="">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="contact-name">年金給付方式</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="text" id="contact-name" placeholder="月給付 年給付">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-3">
-                            <div id="basic_bt" class="btn btn-success btn-lg" onclick="three()">下一步</div>
-                        </div>
-                        <div class="col-sm-3">
-                            <button class="btn btn-success btn-lg" type="reset">重設</button>
-                        </div>
-                        <div class="col-sm-3">
-                            <div id="basic_bt" class="btn btn-success btn-lg" onclick="one()">上一步</div>
-                        </div>
-                    </div>
-
-
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section id="payment">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-
-
-                    <div class="col-sm-12">
-                        <input type=radio value="對應值一" name="選項名稱一" checked="true"> 銀行轉帳
+            <div class="col-md-4">
+                <div class="thumbnail">
+                    <img src="imgs/ethereum.png" alt="...">
+                    <div class="caption">
+                        <h3>以太幣</h3>
+                        <p></p>
+                        <p><a href="#" class="btn btn-primary" role="button">付款</a>
                     </div>
-                    <div class="col-sm-12">
-                        <input type=radio value="對應值二" name="選項名稱二"> 線上刷卡
-                    </div>
-                    <div class="col-sm-12">
-                        <input type=radio value="對應值三" name="選項名稱三"> 商店付款
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-3">
-                            <button class="btn btn-success btn-lg" type="submit">結帳</button>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <div id="basic_bt" class="btn btn-success btn-lg" onclick="two()">上一步</div>
-                        </div>
-                    </div>
-
-
                 </div>
             </div>
+
         </div>
-    </section>
+    </div>
+    </div>
+</section>
 </form>
 
 {{#section 'script'}}
