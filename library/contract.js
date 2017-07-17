@@ -13,7 +13,7 @@ var annuityContract = web3.eth.contract(data.interface);
 function deploy(payment, paymentDate, beneficiary, deathBeneficiary, callback) {
 
     let date = [2017, 7, 17];
-    let fullPaymentDate = [paymentDate, 7, 17];
+    let fullPaymentDate = [parseInt(paymentDate) + 1911, 7, 17];
 
     annuityContract.new(
         date,

@@ -1,11 +1,10 @@
 var adrress;
-var email;
-var letter
+var email = false;
+var letter = false;
 
 $(document).ready(function () {
 
     $("#radio_group :radio").change(function () {
-
         reset();
         adrress = $(this).val();
 
@@ -15,15 +14,10 @@ $(document).ready(function () {
         }, update);
     });
 
-    $("#radio_group :radio").change(function () {
-
-        reset();
-        adrress = $(this).val();
-
-        $.post("/button", {
-            "type": "update",
-            address: adrress
-        }, update);
+    $("#email, #letter").change(function () {
+        email = document.getElementById("email").checked;
+        letter = document.getElementById("letter").checked;
+        console.log(email, letter);
     });
 
 });
@@ -31,7 +25,7 @@ $(document).ready(function () {
 function update(data, status) {
     console.log(data);
 
-    $("#status_body").html(
+    $("#state_body").html(
         "companyAddress : " + data.companyAddress + "<br>" +
         "insurerAddress : " + data.insurerAddress + "<br>" +
         "state : " + data.state + "<br>" +
@@ -40,40 +34,48 @@ function update(data, status) {
         "給付間格 : " + data.timeInterval + "年<br>" +
         "受益人 : " + data.beneficiarie + "<br>" +
         "死亡受益人 : " + data.deathBeneficiary + "<br>" +
-        "部屬時間 : " + data.deployTime + "<br>" +
-        "合約時間 : " + data.nowTime + "<br>" +
-        "契撤期限 : " + data.revocationPeriod + "<br>" +
-        "年金給付 : " + data.paymentDate
+        "部屬時間 : " + data.deployTime.toString().replace(/,/g, '-') + "<br>" +
+        "合約時間 : " + data.nowTime.toString().replace(/,/g, '-') + "<br>" +
+        "契撤期限 : " + data.revocationPeriod.toString().replace(/,/g, '-') + "<br>" +
+        "年金給付 : " + data.paymentDate.toString().replace(/,/g, '-')
     );
 
     $("#a").append(data.a);
     $("#b").append(data.b);
 
-    $("#status").removeClass();
-    switch (data.status) {
-        case "unconfirmed":
-            $("#status").addClass("panel panel-warning");
-            $("#status_heading").html("合約狀態：合約未被確認");
+    $("#state").removeClass();
+    switch (data.state) {
+        case '0':
+            $("#state").addClass("panel panel-warning");
+            $("#state_heading").html("合約狀態：等待付款");
             break;
-        case "canBeRevoked":
-            $("#status").addClass("panel panel-info");
-            $("#status_heading").html("合約狀態：合約撤銷期內");
+        case '1':
+            $("#state").addClass("panel panel-warning");
+            $("#state_heading").html("合約狀態：合約未被確認");
             break;
-        case "confirmed":
-            $("#status").addClass("panel panel-primary");
-            $("#status_heading").html("合約狀態：合約確認 正式生效");
+        case '2':
+            $("#state").addClass("panel panel-info");
+            $("#state_heading").html("合約狀態：合約撤銷期內");
             break;
-        case "end":
-            $("#status").addClass("panel panel-success");
-            $("#status_heading").html("合約狀態：合約給付結束");
+        case '3':
+            $("#state").addClass("panel panel-primary");
+            $("#state_heading").html("合約狀態：合約確認 正式生效");
             break;
-        case "Revocation":
-            $("#status").addClass("panel panel-danger");
-            $("#status_heading").html("合約狀態：合約已被撤銷");
+        case '4':
+            $("#state").addClass("panel panel-success");
+            $("#state_heading").html("合約狀態：合約給付結束");
+            break;
+        case '5':
+            $("#state").addClass("panel panel-danger");
+            $("#state_heading").html("合約狀態：合約已被撤銷");
+            break;
+        case '6':
+            $("#state").addClass("panel panel-danger");
+            $("#state_heading").html("合約狀態：合約已被撤銷");
             break;
         default:
-            $("#status").addClass("panel panel-default");
-            $("#status_heading").html("合約狀態：未知狀態???");
+            $("#state").addClass("panel panel-default");
+            $("#state_heading").html("合約狀態：未知狀態???");
 
     }
 }

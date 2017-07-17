@@ -41,7 +41,7 @@ router.post('/agreement', function (req, res, next) {
     console.log("agreement-post");
     console.log(req.body);
     res.cookie('payment', req.body.payment, { maxAge: 60 * 1000 });
-    res.cookie('paymentDate:', req.body.paymentDate, { maxAge: 60 * 1000 });
+    res.cookie('paymentDate', req.body.paymentDate, { maxAge: 60 * 1000 });
     res.cookie('beneficiary', req.session.user_name, { maxAge: 60 * 1000 });
     res.cookie('deathBeneficiary', req.body.deathBeneficiary, { maxAge: 60 * 1000 });
     res.redirect('template');
@@ -81,8 +81,6 @@ router.get('/deploy', function (req, res, next) {
 router.get('/takepic', function (req, res, next) {
     res.send('picture');
 });
-
-
 
 router.post('/button', function (req, res, next) {
 
