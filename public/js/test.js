@@ -1,16 +1,49 @@
 var adrress;
+var email;
+var letter
+
+$(document).ready(function () {
+
+    $("#radio_group :radio").change(function () {
+
+        reset();
+        adrress = $(this).val();
+
+        $.post("/button", {
+            "type": "update",
+            address: adrress
+        }, update);
+    });
+
+    $("#radio_group :radio").change(function () {
+
+        reset();
+        adrress = $(this).val();
+
+        $.post("/button", {
+            "type": "update",
+            address: adrress
+        }, update);
+    });
+
+});
 
 function update(data, status) {
     console.log(data);
-    console.log(status);
 
     $("#status_body").html(
-        "CompanyAddress : " + data.companyAddress + "<br>" +
-        "InsurerAddress : " + data.insurerAddress + "<br>" +
-        "Status : " + data.status + "<br>" +
+        "companyAddress : " + data.companyAddress + "<br>" +
+        "insurerAddress : " + data.insurerAddress + "<br>" +
+        "state : " + data.state + "<br>" +
+        "保費 : " + data.payment + "萬元<br>" +
+        "保證期間 : " + data.guaranteePeriod + "年<br>" +
+        "給付間格 : " + data.timeInterval + "年<br>" +
+        "受益人 : " + data.beneficiarie + "<br>" +
+        "死亡受益人 : " + data.deathBeneficiary + "<br>" +
+        "部屬時間 : " + data.deployTime + "<br>" +
         "合約時間 : " + data.nowTime + "<br>" +
         "契撤期限 : " + data.revocationPeriod + "<br>" +
-        "年金給付 : " + data.payTime
+        "年金給付 : " + data.paymentDate
     );
 
     $("#a").append(data.a);
@@ -55,21 +88,6 @@ function reset() {
     $("#a").html("");
     $("#b").html("");
 }
-
-$(document).ready(function () {
-
-    $("#radio_group :radio").change(function () {
-
-        reset();
-        adrress = $(this).val();
-
-        $.post("/button", {
-            "type": "update",
-            address: adrress
-        }, update);
-    });
-
-});
 
 $("#set_date").click(function () {
     console.log($("#ymd").attr('value'));

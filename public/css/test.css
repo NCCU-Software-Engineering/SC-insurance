@@ -23,3 +23,7 @@ button {
 #event_button {
     display: none;
 }
+
+#email, letter{
+    margin-bottom: 1rem;
+}

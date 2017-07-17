@@ -24,14 +24,14 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">姓名</label>
                                 <div class="col-sm-8">
-                                    <div class="form-control" type="text">{{user_name}}</div>
+                                    <input class="form-control" type="text" name="name" value="{{user_name}}" readonly="readonly">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="contact-name">保險公司</label>
                                 <div class="col-sm-8">
-                                    <div class="form-control" type="text" ng-model="comp">正大人壽</div>
+                                    <input class="form-control" type="text" name="company" value="正大人壽" readonly="readonly">
                                 </div>
                             </div>
 
@@ -54,21 +54,21 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">保證期間</label>
                                 <div class="col-sm-8">
-                                    <div class="form-control" type="text" ng-model="comp">三十年</div>
+                                    <input class="form-control" type="text" name="guaranteePeriod" value="十年" readonly="readonly">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="contact-name">受益人</label>
                                 <div class="col-sm-8">
-                                    <div class="form-control" type="text" ng-model="comp">{{user_name}}</div>
+                                    <input class="form-control" type="text" name="beneficiary" value="{{user_name}}" readonly="readonly">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="contact-name">身故受益人</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="beneficiarie" value="被保險人之法定繼承人" placeholder="身故受益人">
+                                    <input class="form-control" type="text" name="deathBeneficiary" value="被保險人之法定繼承人" placeholder="身故受益人">
                                 </div>
                             </div>
 

@@ -45,13 +45,14 @@ contract Annuity {
     event payEvent(address from, string inf, uint timestamp);
 
     //建構子
-    function Annuity(uint[3] Date, uint payment, uint[3] paymentDate, string beneficiary, string deathBeneficiary) {
+    function Annuity(uint[3] Date, uint payment, uint[3] paymentDate, uint guaranteePeriod, string beneficiary, string deathBeneficiary) {
 
         _companyAddress = msg.sender;
         _insuredAddress = 0xE2320c12C71fb4a91d756d21507B33ee05F2f4C7;
 
         _payment = payment;
         _timeInterval = 1;
+        _guaranteePeriod = guaranteePeriod;
         _beneficiary = beneficiary;
         _deathBeneficiary = deathBeneficiary;
 
