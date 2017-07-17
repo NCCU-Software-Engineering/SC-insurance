@@ -4,8 +4,6 @@ var request = require('request');
 
 function email(target, subject, text) {
 
-    console.log("發送電子郵件");
-
     mailTransport.sendMail({
         from: 'gramr@gmail.com',
         to: target,
@@ -21,8 +19,6 @@ function email(target, subject, text) {
 }
 
 function newsletter(phone, mbody) {
-
-    console.log("發送簡訊");
 
     var option = "http://www.smsgo.com.tw/sms_gw/sendsms.aspx";
     option += "?username=" + credentials.sms.user;
