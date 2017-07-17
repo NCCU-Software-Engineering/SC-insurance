@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 var credentials = require('./credentials.js');
-
+var web3 = require('./web3.js')
 var connection = mysql.createConnection({
     host: credentials.mysql.host,
     user: credentials.mysql.user,
@@ -35,9 +35,10 @@ function sing_up(ID, password, name, identity, email, phone, birthday, address, 
     });
 
     function addUser(ID, password, name, identity, email, phone, birthday, address, callback) {
-        let cmd = "INSERT INTO user (ID, password, name, identity, email, phone, birthday, address) VALUES ?";
+        let cmd = "INSERT INTO user (ID, password, name, identity, email, phone, birthday, address, account) VALUES ?";
+        let account = web3.eth.accounts[getAccountCount() + 1]
         let value = [
-            [ID, password, name, identity, email, phone, birthday, address]
+            [ID, password, name, identity, email, phone, birthday, address, account]
         ];
         connection.query(cmd, [value], (err, result) => {
             if (!err) {
@@ -60,7 +61,17 @@ function getUserByID(ID, callback) {
         }
     });
 }
-
+function getAccountCount(){
+    let cmd = "SELECT count(account) FROM user";
+    connection.query(cmd,(err,result)=>{
+        if(!err){
+            return result;
+        }
+        else{
+            console.log(err);
+        }
+    })
+}
 function addContract(ID, address, callback) {
         let cmd = "INSERT INTO contract (ID, address) VALUES ?";
         let value = [
