@@ -57,6 +57,10 @@ router.get('/template', function (req, res, next) {
 });
 
 router.get('/test', function (req, res, next) {
+
+    req.session.user_ID = 'nidhogg5';
+    req.session.user_name = '賴晨禾';
+
     mysql.getContract(req.session.user_ID, (result) => {
         let li = '';
         for (var i = 0; i < result.length; i++) {
@@ -99,27 +103,50 @@ router.post('/button', function (req, res, next) {
 
         case "next_day":
             //console.log("next_day");
-            testContract.time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate() + 1);
+            testContract.time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate() + 1, {
+                from: web3.eth.coinbase,
+                gas: 4444444
+            });
             break;
         case "next_month":
             //console.log("next_month");
-            testContract.time(myDate.getFullYear(), myDate.getMonth() + 2, myDate.getDate());
+            testContract.time(myDate.getFullYear(), myDate.getMonth() + 2, myDate.getDate(), {
+                from: web3.eth.coinbase,
+                gas: 4444444
+            });
             break;
         case "next_year":
             //console.log("next_year");
-            testContract.time(myDate.getFullYear() + 1, myDate.getMonth() + 1, myDate.getDate());
+            testContract.time(myDate.getFullYear() + 1, myDate.getMonth() + 1, myDate.getDate(), {
+                from: web3.eth.coinbase,
+                gas: 4444444
+            });
+            break;
+
+        case "pay":
+            //console.log("next_year");
+            testContract.payment({
+                from: web3.eth.coinbase,
+                gas: 4444444
+            });
             break;
 
         case "confirm":
             //console.log("confirm");
-            testContract.confirm(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate() + 11);
-            contract.watch(testContract, "confirm");
+            testContract.confirm(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate() + 11, {
+                from: web3.eth.coinbase,
+                gas: 4444444
+            });
+            watch(testContract, "confirm", req.body.email, req.body.letter);
             break;
 
         case "revoke":
             //console.log("revoke");
-            testContract.revoke();
-            contract.watch(testContract, "revoke");
+            testContract.revoke({
+                from: web3.eth.coinbase,
+                gas: 4444444
+            });
+            watch(testContract, "revoke", req.body.email, req.body.letter);
             break;
 
         case "update":
@@ -127,7 +154,7 @@ router.post('/button', function (req, res, next) {
             break;
 
         default:
-            console.error("error");
+            console.error("not fond");
     }
 
     let companyAddress = testContract.getCompanyAddress();
@@ -143,7 +170,7 @@ router.post('/button', function (req, res, next) {
     let nowTime = testContract.getNowTime();
     let revocationPeriod = testContract.getRevocationPeriod();
     let paymentDate = testContract.getPaymentDate();
-    
+
     res.json({
         companyAddress: companyAddress,
         insurerAddress: insurerAddress,
@@ -160,5 +187,64 @@ router.post('/button', function (req, res, next) {
     })
 
 });
+
+function watch(testContract, type, email, newsletter) {
+
+    let cont;
+
+    switch (type) {
+        case "confirm":
+            testContract.confirmEvent.watch(function (error, result) {
+                if (!error) {
+                    testContract.confirmEvent.stopWatching();
+
+                    console.log(result.args.inf);
+
+                    if (result.args.inf == "confirm success") {
+
+                        cont = "『根據本契約，於簽收保單後十日內得撤銷本契約，本公司將無息返還保險費。如於" + testContract.getRevocationPeriod() + "前，要執行本權利』"
+
+                        if (email) {
+                            send.email("nidhogg55555@gmail.com", "契約確認成功", cont);
+                        }
+                        if (newsletter) {
+                            send.newsletter("0912254446", cont);
+                        }
+                    } else if (result.args.inf == "not yet been confirmed") {
+                        console.log("111");
+                    } else {
+                        console.error("未知事件");
+                    }
+                }
+            });
+
+            break;
+
+        case "revoke":
+            testContract.revokeEvent.watch(function (error, result) {
+                if (!error) {
+                    testContract.revokeEvent.stopWatching();
+
+                    console.log(result.args.inf);
+
+                    if (result.args.inf == "revoke the contract") {
+                        cont = "『您與本公司簽訂之編號0000號保險契約已經撤銷成功，保費已退回您指定帳戶。日後若發生保險事故，本公司將不負保險責任』";
+
+                        if (email) {
+                            send.email("nidhogg55555@gmail.com", "契約撤銷成功", cont);
+                        }
+                        if (newsletter) {
+                            send.newsletter("0912254446", cont);
+                        }
+                    } else if (result.args.inf == "Can not be revoked") {
+                        console.log("222");
+                    } else {
+                        console.error("未知事件");
+                    }
+                }
+            });
+            break;
+    }
+}
 
 module.exports = router;

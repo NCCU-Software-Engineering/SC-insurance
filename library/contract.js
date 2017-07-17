@@ -39,11 +39,9 @@ function getContract(adress) {
     return web3.eth.contract(data.interface).at(adress)
 }
 
-function watch(testContract, type) {
+function watch(testContract, type, email, newsletter) {
 
-    var cont;
-    var email = false;
-    var newsletter = false;
+    let cont;
 
     switch (type) {
         case "confirm":

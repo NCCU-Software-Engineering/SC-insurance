@@ -91,52 +91,12 @@ function reset() {
     $("#b").html("");
 }
 
-$("#set_date").click(function () {
-    console.log($("#ymd").attr('value'));
-    var d = new Date($("#ymd").attr('value'));
-    console.log(d.getFullYear());
-    console.log(d.getMonth());
-    console.log(d.getDate());
-});
-
-$("#next_day").click(function () {
+$("button").click(function () {
+    console.log();
     $.post("/button", {
-        "type": "next_day",
+        type: $(this).attr('id'),
+        email: email,
+        letter: letter,
         address: adrress,
-    }, update);
-});
-
-$("#next_month").click(function () {
-    $.post("/button", {
-        type: "next_month",
-        address: adrress
-    }, update);
-});
-
-$("#next_year").click(function () {
-    $.post("/button", {
-        type: "next_year",
-        address: adrress
-    }, update);
-});
-
-$("#confirm").click(function () {
-    $.post("/button", {
-        type: "confirm",
-        address: adrress
-    }, update);
-});
-
-$("#revoke").click(function () {
-    $.post("/button", {
-        type: "revoke",
-        address: adrress
-    }, update);
-});
-
-$("#update").click(function () {
-    $.post("/button", {
-        type: "update",
-        address: adrress
     }, update);
 });
