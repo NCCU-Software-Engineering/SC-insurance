@@ -3,3 +3,4 @@ node_modules
 desktop.ini
 lib/credentials.js
 package-lock.json
+.node-xmlhttprequest-sync-*
