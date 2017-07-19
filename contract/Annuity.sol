@@ -28,6 +28,8 @@ contract Annuity {
     uint[3] _revocationPeriod;
     //給付年金日
     uint[3] _paymentDate;
+    //年金
+    uint _annuity;
 
     //合約狀態
     //等待付款未被確認 契撤期 確認並等待給付 結束給付 被撤銷
@@ -42,7 +44,7 @@ contract Annuity {
     //事件
     event confirmEvent(address from, string inf, uint timestamp);
     event revokeEvent(address from, string inf, uint timestamp);
-    event payEvent(address from, string inf, uint timestamp);
+    event payEvent(address from, string inf, uint annuity, uint timestamp);
 
     //建構子
     function Annuity(uint[3] Date, uint payment, uint[3] paymentDate, uint guaranteePeriod, string beneficiary, string deathBeneficiary, address addr) {
@@ -103,7 +105,12 @@ contract Annuity {
     function getPaymentDate() constant returns (uint[3]) {
         return _paymentDate;
     }
-
+    
+    //計算年金
+    function countAnnuity() {
+        _annuity = _payment/10;
+    }
+    
     function payment() payable {
         if (_state != State.waitingForPayment) {
             throw;
@@ -190,9 +197,10 @@ contract Annuity {
                 (year==_paymentDate[0] && month==_paymentDate[1] && day>=_paymentDate[2])){
 
                 _paymentDate[0] += _timeInterval;
-
+                //計算年金
+                countAnnuity();
                 //通知保險公司給付年金
-                payEvent(msg.sender , "pay annuity", now);
+                payEvent(msg.sender , "pay annuity", _annuity , now);
             }
         }
     }
