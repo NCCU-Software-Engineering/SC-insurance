@@ -1,0 +1,33 @@
+<section>
+    <script src="js/webcam.js"></script>
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div id="my_camera" style="width:380px; height:320px;" class="col-sm-4"></div>
+        <div class="col-sm-1"></div>
+        <div id="my_result" class="col-sm-4"></div>
+    </div>
+    
+    <script language="JavaScript">
+        Webcam.attach('#my_camera');
+        // Attach camera here
+        function take_snapshot() {
+            Webcam.snap(async function (data_uri) {
+                var x = ()=>{ document.getElementById('my_result').innerHTML = '<img src="' + data_uri + '"/>';}
+                await x();
+                //$.get('/takepic', (data) => {
+                //if (confirm('確認這張照片？')) {
+                 //       Webcam.reset();
+                  //      $.get('/');
+                 //   } else {
+                 //       $.get('/camera');
+                //    }
+               // });
+            });
+        }
+    </script>
+    <div class="row">
+        <div class="col-sm-6"></div>
+        <divclass="col-sm-4"><a href="javascript:void(take_snapshot())">拍照</a></div>
+    </div>
+    </body>
+</section>

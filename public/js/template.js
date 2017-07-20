@@ -1,6 +1,14 @@
 var colerLightOn = "#CCFF33"
 var colerLightOff = "#FFFFFF"
 
+$.fn.scrollView = function () {
+  return this.each(function () {
+    $('#smart-contract').animate({
+      scrollTop: $(this).offset().top
+    }, 500);
+  });
+}
+
 var customInterpolationApp = angular.module('customInterpolationApp', []);
 
 customInterpolationApp.config(function ($interpolateProvider) {
@@ -9,10 +17,11 @@ customInterpolationApp.config(function ($interpolateProvider) {
 });
 
 function mouseOver(n){
-    $('#t1').get(0).style.backgroundColor = colerLightOn;
-    $('#s1').get(0).style.backgroundColor = colerLightOn;
+    $('#t'+n).get(0).style.backgroundColor = colerLightOn;
+    $('#s'+n).get(0).style.backgroundColor = colerLightOn;
+    $('#s'+n).scrollView()
 }
 function mouseOut(n){
-    $('#t1').get(0).style.backgroundColor = colerLightOff;
-    $('#s1').get(0).style.backgroundColor = colerLightOff;
+    $('#t'+n).get(0).style.backgroundColor = colerLightOff;
+    $('#s'+n).get(0).style.backgroundColor = colerLightOff;
 }

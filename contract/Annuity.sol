@@ -3,83 +3,119 @@ pragma solidity ^0.4.7;
 contract Annuity {
 
     //保險商adress
-    address private companyAddress;
+    address private _companyAddress;
     //被保人adress
-    address private insuredAddress;
+    address private _insuredAddress;
     //時間伺服器address
-    address private timerAddress;
+    address private _timerAddress;
+
+    //保險金額
+    uint _payment;
+    //保證期間
+    uint _guaranteePeriod;
+    //給付間隔
+    uint _timeInterval;
+    //受益人
+    string _beneficiary;
+    //身故受益人
+    string _deathBeneficiary;
+
+    //部署時間
+    uint[3] _deployTime;
+    //紀錄時間
+    uint[3] _nowTime;
+    //撤銷期限
+    uint[3] _revocationPeriod;
+    //給付年金日
+    uint[3] _paymentDate;
+    //年金
+    uint _annuity;
 
     //合約狀態
-    uint status;
-    //保費(待填入*)
-    uint money;
-    //部署時間
-    uint[3] deployTime;
-    //紀錄時間
-    uint[3] nowTime;
-    //撤銷期限
-    uint[3] revocationPeriod;
-    //給付年金日
-    uint[3] payTime;
+    //等待付款未被確認 契撤期 確認並等待給付 結束給付 被撤銷
+    enum State{waitingForPayment, unconfirmed, canBeRevoked, confirmd, ending, revocation}
+    State public _state;
 
-    string ver = "1.0.4";
-
-    //合約狀態 0.未被確認 1.契撤期 2.確認並等待給付 3.結束給付 4.被撤銷    uint status;
-    string[5] statusStrings;
-    //給付間隔 (待填入*)
-    uint timeInterval;
+    modifier inState(State state) {
+        if (_state != state) throw;
+        _;
+    }
 
     //事件
     event confirmEvent(address from, string inf, uint timestamp);
     event revokeEvent(address from, string inf, uint timestamp);
-    event payEvent(address from, string inf, uint timestamp);
+    event payEvent(address from, string inf, uint annuity, uint timestamp);
 
     //建構子
-    function Annuity(uint y, uint m, uint d) {
+    function Annuity(uint[3] Date, uint payment, uint[3] paymentDate, uint guaranteePeriod, string beneficiary, string deathBeneficiary, address addr) {
 
-        companyAddress = msg.sender;
-        insuredAddress = 0xE2320c12C71fb4a91d756d21507B33ee05F2f4C7;
-        money = 1000;
-        timeInterval = 1;
-        status = 0;
+        _companyAddress = msg.sender;
+        _insuredAddress = addr;
+
+        _payment = payment;
+        _timeInterval = 1;
+        _guaranteePeriod = guaranteePeriod;
+        _beneficiary = beneficiary;
+        _deathBeneficiary = deathBeneficiary;
 
         //部署日期
-        deployTime = [y,m,d];
-        nowTime = [y,m,d];
-        //給付年金日 (待填入*)
-        payTime = [y+20,m,d];
+        _deployTime = [Date[0], Date[1], Date[2]];
+        //合約日期
+        _nowTime = [Date[0], Date[1], Date[2]];
+        //給付年金日
+        _paymentDate = [paymentDate[0], paymentDate[1], paymentDate[2]];
+    }
 
-        statusStrings[0] = "unconfirmed";
-        statusStrings[1] = "canBeRevoked";
-        statusStrings[2] = "confirmd";
-        statusStrings[3] = "end";
-        statusStrings[4] = "Revocation";
+    function getState() constant returns (uint){
+        return uint(_state);
     }
 
     function getCompanyAddress() constant returns (address) {
-        return companyAddress;
+        return _companyAddress;
     }
     function getInsurerAddress() constant returns (address) {
-        return insuredAddress;
-    }
-    function getStatus() constant returns (string){
-        return statusStrings[status];
+        return _insuredAddress;
     }
 
-    function getDeployTime() constant returns (uint[3]){
-        return deployTime;
+    function getPayment() constant returns (uint) {
+        return _payment;
     }
-    function getNowTime() constant returns (uint[3]){
-        return nowTime;
+    function getGuaranteePeriod() constant returns (uint) {
+        return _guaranteePeriod;
     }
-    function getRevocationPeriod() constant returns (uint[3]){
-        return revocationPeriod;
+    function getTimeInterval() constant returns (uint) {
+        return _timeInterval;
     }
-    function getPayTime() constant returns (uint[3]){
-        return payTime;
+    function getBeneficiarie() constant returns (string) {
+        return _beneficiary;
     }
-    function getVersion() constant returns (string){
-        return ver;
+    function getDeathBeneficiary() constant returns (string) {
+        return _deathBeneficiary;
+    }
+
+    function getDeployTime() constant returns (uint[3]) {
+        return _deployTime;
+    }
+    function getNowTime() constant returns (uint[3]) {
+        return _nowTime;
+    }
+    function getRevocationPeriod() constant returns (uint[3]) {
+        return _revocationPeriod;
+    }
+    function getPaymentDate() constant returns (uint[3]) {
+        return _paymentDate;
+    }
+    
+    //計算年金
+    function countAnnuity() {
+        _annuity = _payment/10;
+    }
+    
+    function payment() payable {
+        if (_state != State.waitingForPayment) {
+            throw;
+        }
+        _state = State.unconfirmed;
     }
 
     //確認合約
@@ -91,21 +127,22 @@ contract Annuity {
         //}
 
         //保單尚未被確認
-        if(status != 0) {
-            confirmeEvent(msg.sender , "not yet been confirmed", now);
+        if(_state != State.unconfirmed) {
+            confirmEvent(msg.sender , "error state", now);
         }
         else {
             //進入契約撤銷期
-            status = 1;
+            _state = State.canBeRevoked;
 
             //設定契約撤銷期限
-            revocationPeriod = [year, month, day];
+            _revocationPeriod = [year, month, day];
 
             //通知保險公司傳送契約撤銷確認email
-            confirmeEvent(msg.sender , "confirm success", now);
+            confirmEvent(msg.sender , "confirm success", now);
         }
     }
 
+    //撤銷合約
     function revoke() {
 
         //由被保人帳號確認
@@ -114,13 +151,13 @@ contract Annuity {
         //}
 
         //保單不能撤銷
-        if(status != 1) {
+        if(_state != State.canBeRevoked) {
             //通知保險公司合約不能撤銷
-            revokeEvent(msg.sender , "Can not be revoked", now);
+            revokeEvent(msg.sender , "error state", now);
         }
         else {
             //撤銷契約
-            status = 4;
+            _state = State.revocation;
             //通知保險公司進行契約撤銷流程
             revokeEvent(msg.sender , "revoke the contract", now);
         }
@@ -132,48 +169,46 @@ contract Annuity {
         //if(msg.sender != companyAddress) {
         //    throw;
         //}
-        status = 3;
+        _state = State.ending;
     }
 
     function time(uint year, uint month, uint day) {
 
-        //紀錄時間
-        nowTime = [year, month, day];
         //由第三方時間伺服器設定時間
         //if(msg.sender != timerAddress) {
         //    throw;
         //}
 
+        //紀錄時間
+        _nowTime = [year, month, day];
+
         //撤銷期結束
-        if(status == 1) {
-            if((year>revocationPeriod[0]) ||
-                (year==revocationPeriod[0] && month>revocationPeriod[1]) ||
-                (year==revocationPeriod[0] && month==revocationPeriod[1] && day>=revocationPeriod[2])){
-                status = 2;
+        if(_state == State.canBeRevoked) {
+            if((year>_revocationPeriod[0]) ||
+                (year==_revocationPeriod[0] && month>_revocationPeriod[1]) ||
+                (year==_revocationPeriod[0] && month==_revocationPeriod[1] && day>=_revocationPeriod[2])){
+                _state = State.confirmd;
             }
         }
         //開始給付年金
-        else if(status == 2) {
-            if((year>payTime[0]) ||
-                (year==payTime[0] && month>payTime[1]) ||
-                (year==payTime[0] && month==payTime[1] && day>=payTime[2])){
+        else if(_state == State.confirmd) {
+            if((year>_paymentDate[0]) ||
+                (year==_paymentDate[0] && month>_paymentDate[1]) ||
+                (year==_paymentDate[0] && month==_paymentDate[1] && day>=_paymentDate[2])){
 
-                payTime[0] += timeInterval;
-
+                _paymentDate[0] += _timeInterval;
+                //計算年金
+                countAnnuity();
                 //通知保險公司給付年金
-                payEvent(msg.sender , "pay annuity", now);
+                payEvent(msg.sender , "pay annuity", _annuity , now);
             }
         }
-    }
-
-    function version() constant returns(string) {
-        return ver;
     }
 
     //摧毀合約
     function destroy() {
-         if (msg.sender == companyAddress) {
-             suicide(companyAddress);
+         if (msg.sender == _companyAddress) {
+             suicide(_companyAddress);
         }
     }
 

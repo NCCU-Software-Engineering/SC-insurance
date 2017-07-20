@@ -4,19 +4,16 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "solc": "concurrently \"solcjs --optimize --bin -o ./build ./contract/Annuity.sol\" \"solcjs --optimize --abi -o ./build ./contract/Annuity.sol\"",
-    "browserify": "browserify public/js/test.js -o public/js/test_b.js",
-    "testRPC": "testrpc --port 8545 --accounts 5 --blocktime 1"
+    "testrpc": "testrpc --port 8545 --accounts 5 --blocktime 5"
   },
   "dependencies": {
     "angular": "^1.6.4",
     "body-parser": "~1.15.2",
-    "concurrently": "^3.4.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "express": "~4.14.0",
     "express-handlebars": "^3.0.0",
-    "express-session": "^1.15.2",
+    "express-session": "^1.15.3",
     "fb": "^2.0.0",
     "fs": "0.0.1-security",
     "morgan": "~1.7.0",
