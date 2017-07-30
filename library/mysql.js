@@ -34,9 +34,10 @@ function sing_up(ID, password, name, identity, email, phone, birthday, address, 
         }
     });
 
-    function addUser(ID, password, name, identity, email, phone, birthday, address, callback) {
+    async function addUser(ID, password, name, identity, email, phone, birthday, address, callback) {
         let cmd = "INSERT INTO user (ID, password, name, identity, email, phone, birthday, address, account) VALUES ?";
-        let account = web3.eth.accounts[getAccountCount() + 1]
+        let account = await web3.personal.newAccount();
+        console.log(account);
         let value = [
             [ID, password, name, identity, email, phone, birthday, address, account]
         ];
