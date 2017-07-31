@@ -33,13 +33,12 @@ router.post('/sign_in', function (req, res, next) {
 router.post('/sign_up', function (req, res, next) {
     console.log("sign_up-post");
 
-    let account = web3.personal.newAccount("1234");
-    console.log("create a new account : " + account);
+
 
     let user = req.body;
     console.log(user);
     mysql.sing_up(user.ID, user.password, user.name, user.identity, user.email, user.phone, user.birthday, user.address, account, (isSuccess, result) => {
-        res.json({ isSuccess: isSuccess, result: result, account: account });
+        res.json({ isSuccess: isSuccess, result: result});
     });
 });
 

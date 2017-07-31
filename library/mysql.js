@@ -1,5 +1,7 @@
 var mysql = require('mysql');
+var web3 = require('../library/web3.js');
 var credentials = require('./credentials.js');
+
 var connection = mysql.createConnection({
     host: credentials.mysql.host,
     user: credentials.mysql.user,
@@ -22,10 +24,10 @@ function sing_in(ID, password, callback) {
     });
 }
 
-function sing_up(ID, password, name, identity, email, phone, birthday, address, account, callback) {
+function sing_up(ID, password, name, identity, email, phone, birthday, address, callback) {
     getUserByID(ID, (result) => {
         if (result == "") {
-            addUser(ID, password, name, identity, email, phone, birthday, address, account, (isSuccess, result) => {
+            addUser(ID, password, name, identity, email, phone, birthday, address, (isSuccess, result) => {
                 callback(isSuccess, isSuccess ? '註冊成功' : '註冊失敗');
             })
         } else {
@@ -33,7 +35,11 @@ function sing_up(ID, password, name, identity, email, phone, birthday, address, 
         }
     });
 
-    async function addUser(ID, password, name, identity, email, phone, birthday, address, account, callback) {
+    async function addUser(ID, password, name, identity, email, phone, birthday, address, callback) {
+
+        let account = web3.personal.newAccount("1234");
+        console.log("create a new account : " + account);
+
         let cmd = "INSERT INTO user (ID, password, name, identity, email, phone, birthday, address, account) VALUES ?";
         let value = [
             [ID, password, name, identity, email, phone, birthday, address, account]
@@ -59,27 +65,27 @@ function getUserByID(ID, callback) {
         }
     });
 }
-function getAccountCount(){
+function getAccountCount() {
     let cmd = "SELECT count(account) FROM user";
-    connection.query(cmd,(err,result)=>{
-        if(!err){
+    connection.query(cmd, (err, result) => {
+        if (!err) {
             return result;
         }
-        else{
+        else {
             console.log(err);
         }
     })
 }
 function addContract(ID, address, callback) {
-        let cmd = "INSERT INTO contract (ID, address) VALUES ?";
-        let value = [
-            [ID, address]
-        ];
-        connection.query(cmd, [value], (err, result) => {
-            if (err) {
-                console.error(err);
-            }
-        });
+    let cmd = "INSERT INTO contract (ID, address) VALUES ?";
+    let value = [
+        [ID, address]
+    ];
+    connection.query(cmd, [value], (err, result) => {
+        if (err) {
+            console.error(err);
+        }
+    });
 }
 
 function getContract(ID, callback) {

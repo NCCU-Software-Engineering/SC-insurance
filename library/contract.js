@@ -2,12 +2,6 @@ var web3 = require('./web3.js');
 var data = require('./data.js');
 var send = require('./notice.js');
 
-//var date = /* var of type uint256[3] here */ ;
-//var payment = /* var of type uint256 here */ ;
-//var paymentDate = /* var of type uint256[3] here */ ;
-//var beneficiary = /* var of type string here */ ;
-//var deathBeneficiary = /* var of type string here */ ;
-
 var annuityContract = web3.eth.contract(data.interface);
 
 function deploy(payment, paymentDate, beneficiary, deathBeneficiary, callback) {
