@@ -4,11 +4,11 @@ var fs = require('fs');
 var solc = require('solc');
 var web3 = require('../web3.js');
 var mysql = require('mysql');
-
+var ip = require('../ip.js');
 var con = mysql.createConnection({
-  host: 'localhost',
-  user: "root",
-  password: "841015",
+  host: ip.mysql.host,
+  user: ip.mysql.user,
+  password: ip.mysql.password,
   database: "smart"
 });
 
@@ -110,5 +110,21 @@ router.post('/getaccount', function (req, res, next) {
   res.send(accounts);
 });
 
+router.post('/transfer',async function (req, res, next) {
+  //console.log(req.body.from)
+  //console.log(req.body.to)
+  console.log(web3.eth.getBalance(req.body.from).toString())
+  console.log(web3.eth.getBalance(req.body.to).toString())
+
+  web3.personal.unlockAccount(req.body.from, "", 300)
+  var t = await web3.eth.sendTransaction({
+    "from":req.body.from,
+    "to":req.body.to,
+    "value":web3.toWei("1","ether")
+  });
+  var r = web3.eth.getTransactionReceipt(t);
+  console.log(r)
+  res.send(t);
+});
 
 module.exports = router;

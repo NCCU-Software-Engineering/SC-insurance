@@ -13,6 +13,12 @@ $(document).ready(function() {
     $("#accounts").change(() => {
         $('.trans').prop('disabled', true);
     });
+    $("#transfer").click(function(){
+        $.post('/transfer',{
+            from: $("#accounts option:selected").text(),
+            to: $("#target option:selected").text()
+        })
+    })
     $("#compile").click(function() {
         $(".loader").show();
         $('button').prop('disabled', true);
