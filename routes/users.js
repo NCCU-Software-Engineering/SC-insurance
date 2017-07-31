@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+var web3 = require('../library/web3.js');
 var mysql = require('../library/mysql.js');
 
 //render
@@ -32,13 +33,13 @@ router.post('/sign_in', function (req, res, next) {
 router.post('/sign_up', function (req, res, next) {
     console.log("sign_up-post");
 
-    //web3.personal.newAccount("1234");
-    //console.log("create a new account not work in testrpc");
+    let account = web3.personal.newAccount("1234");
+    console.log("create a new account : " + account);
 
     let user = req.body;
     console.log(user);
-    mysql.sing_up(user.ID, user.password, user.name, user.identity, user.email, user.phone, user.birthday, user.address, (isSuccess, result) => {
-        res.json({ isSuccess: isSuccess, result: result });
+    mysql.sing_up(user.ID, user.password, user.name, user.identity, user.email, user.phone, user.birthday, user.address, account, (isSuccess, result) => {
+        res.json({ isSuccess: isSuccess, result: result, account: account });
     });
 });
 

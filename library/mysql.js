@@ -1,6 +1,5 @@
 var mysql = require('mysql');
 var credentials = require('./credentials.js');
-var web3 = require('./web3.js')
 var connection = mysql.createConnection({
     host: credentials.mysql.host,
     user: credentials.mysql.user,
@@ -23,10 +22,10 @@ function sing_in(ID, password, callback) {
     });
 }
 
-function sing_up(ID, password, name, identity, email, phone, birthday, address, callback) {
+function sing_up(ID, password, name, identity, email, phone, birthday, address, account, callback) {
     getUserByID(ID, (result) => {
         if (result == "") {
-            addUser(ID, password, name, identity, email, phone, birthday, address, (isSuccess, result) => {
+            addUser(ID, password, name, identity, email, phone, birthday, address, account, (isSuccess, result) => {
                 callback(isSuccess, isSuccess ? '註冊成功' : '註冊失敗');
             })
         } else {
@@ -34,10 +33,8 @@ function sing_up(ID, password, name, identity, email, phone, birthday, address, 
         }
     });
 
-    async function addUser(ID, password, name, identity, email, phone, birthday, address, callback) {
+    async function addUser(ID, password, name, identity, email, phone, birthday, address, account, callback) {
         let cmd = "INSERT INTO user (ID, password, name, identity, email, phone, birthday, address, account) VALUES ?";
-        let account = await web3.personal.newAccount();
-        console.log(account);
         let value = [
             [ID, password, name, identity, email, phone, birthday, address, account]
         ];

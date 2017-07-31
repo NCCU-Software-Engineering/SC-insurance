@@ -30,11 +30,21 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/buy', function (req, res, next) {
-    res.render('buy', { user_name: req.session.user_name });
+    if (req.session.user_ID && req.session.user_name) {
+        res.render('buy', { user_name: req.session.user_name });
+    }
+    else {
+        res.redirect('users/sign_in');
+    }
 });
 
 router.get('/agreement', function (req, res, next) {
-    res.render('agreement', { user_name: req.session.user_name });
+    if (req.session.user_ID && req.session.user_name) {
+        res.render('agreement', { user_name: req.session.user_name });
+    }
+    else {
+        res.redirect('users/sign_in');
+    }
 });
 
 router.post('/agreement', function (req, res, next) {
