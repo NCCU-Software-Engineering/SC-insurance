@@ -46,7 +46,7 @@ function update(data, status) {
     $("#state").removeClass();
     switch (data.state) {
         case '0':
-            $("#state").addClass("panel panel-warning");
+            $("#state").addClass("panel panel-default ");
             $("#state_heading").html("合約狀態：等待付款");
             break;
         case '1':

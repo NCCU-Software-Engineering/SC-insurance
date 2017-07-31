@@ -67,10 +67,6 @@ router.get('/template', function (req, res, next) {
 });
 
 router.get('/test', function (req, res, next) {
-
-    req.session.user_ID = 'nidhogg5';
-    req.session.user_name = '賴晨禾';
-
     mysql.getContract(req.session.user_ID, (result) => {
         let li = '';
         for (var i = 0; i < result.length; i++) {
