@@ -136,7 +136,7 @@ router.post('/button', function (req, res, next) {
                 from: web3.eth.coinbase,
                 gas: 4444444
             });
-            contract.watch(testContract, "pay", req.body.email, req.body.letter);
+            //contract.watch(testContract, "pay", req.body.email, req.body.letter);
             break;
         case "next_year":
             //console.log("next_year");
@@ -144,15 +144,7 @@ router.post('/button', function (req, res, next) {
                 from: web3.eth.coinbase,
                 gas: 4444444
             });
-            contract.watch(testContract, "pay", req.body.email, req.body.letter);
-            break;
-
-        case "pay":
-            //console.log("next_year");
-            testContract.payment({
-                from: web3.eth.coinbase,
-                gas: 4444444
-            });
+            //contract.watch(testContract, "pay", req.body.email, req.body.letter);
             break;
 
         case "confirm":
@@ -161,7 +153,7 @@ router.post('/button', function (req, res, next) {
                 from: web3.eth.coinbase,
                 gas: 4444444
             });
-            contract.watch(testContract, "confirm", req.body.email, req.body.letter);
+            //contract.watch(testContract, "confirm", req.body.email, req.body.letter);
             break;
 
         case "revoke":
@@ -170,7 +162,7 @@ router.post('/button', function (req, res, next) {
                 from: web3.eth.coinbase,
                 gas: 4444444
             });
-            contract.watch(testContract, "revoke", req.body.email, req.body.letter);
+            //contract.watch(testContract, "revoke", req.body.email, req.body.letter);
             break;
 
         case "update":
@@ -196,22 +188,26 @@ router.post('/button', function (req, res, next) {
     let revocationPeriod = testContract.getRevocationPeriod();
     let paymentDate = testContract.getPaymentDate();
 
-    res.json({
-        companyAddress: companyAddress,
-        insurerAddress: insurerAddress,
-        state: state,
-        payment_TWD: payment_TWD,
-        payment_wei: payment_wei,
-        guaranteePeriod: guaranteePeriod,
-        timeInterval: timeInterval,
-        beneficiarie: beneficiarie,
-        deathBeneficiary: deathBeneficiary,
-        deployTime: deployTime,
-        nowTime: nowTime,
-        revocationPeriod: revocationPeriod,
-        paymentDate: paymentDate
-    })
+    let events = testContract.allEvents({ fromBlock: 0, toBlock: 'latest' });
+    events.get(function (error, logs) {
 
+        res.json({
+            companyAddress: companyAddress,
+            insurerAddress: insurerAddress,
+            state: state,
+            payment_TWD: payment_TWD,
+            payment_wei: payment_wei,
+            guaranteePeriod: guaranteePeriod,
+            timeInterval: timeInterval,
+            beneficiarie: beneficiarie,
+            deathBeneficiary: deathBeneficiary,
+            deployTime: deployTime,
+            nowTime: nowTime,
+            revocationPeriod: revocationPeriod,
+            paymentDate: paymentDate,
+            events: logs
+        })
+    });
 });
 
 module.exports = router;

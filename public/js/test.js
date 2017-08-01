@@ -25,6 +25,8 @@ $(document).ready(function () {
 function update(data, status) {
     console.log(data);
 
+    setState(data.state);
+
     $("#state_body").html(
         "companyAddress : " + data.companyAddress + "<br>" +
         "insurerAddress : " + data.insurerAddress + "<br>" +
@@ -41,11 +43,27 @@ function update(data, status) {
         "年金給付 : " + data.paymentDate.toString().replace(/,/g, '-')
     );
 
-    $("#a").append(data.a);
-    $("#b").append(data.b);
+    $("#event_body").html('');
+    data.events.forEach((element) => {
+        $("#event_body").append('from : ' + element.args.from + '<br>');
+        $("#event_body").append('inf : ' + element.args.inf + '<br>');
+        $("#event_body").append('timestamp : ' + element.args.timestamp + '<br><hr>');
+    })
+}
 
+$("button").click(function () {
+    console.log();
+    $.post("/button", {
+        type: $(this).attr('id'),
+        email: email,
+        letter: letter,
+        address: adrress,
+    }, update);
+});
+
+function setState(state) {
     $("#state").removeClass();
-    switch (data.state) {
+    switch (state) {
         case '0':
             $("#state").addClass("panel panel-default ");
             $("#state_heading").html("合約狀態：等待付款");
@@ -82,7 +100,6 @@ function update(data, status) {
 }
 
 function reset() {
-
     $("#event_button").show();
     $("#status").removeClass();
     $("#status").addClass("panel panel-default");
@@ -92,17 +109,7 @@ function reset() {
     $("#b").html("");
 }
 
-$("button").click(function () {
-    console.log();
-    $.post("/button", {
-        type: $(this).attr('id'),
-        email: email,
-        letter: letter,
-        address: adrress,
-    }, update);
-});
-
-function tenThousandComma (number) {
+function tenThousandComma(number) {
     var num = number.toString();
     var pattern = /(-?\d+)(\d{4})/;
 
