@@ -97,12 +97,11 @@ router.get('/quickDeploy', function (req, res, next) {
 
     let payment_TWD = req.cookies.payment * 10000;
     let payment_wei = payment_TWD * 100000000000000;
-    mysql.getUserByID(req.session.user_ID, (result) => {
-        contract.deploy(result[0].account, payment_TWD, payment_wei, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, (address) => {
-            mysql.addContract(req.session.user_ID, address);
-        });
+
+    contract.deploy('0x0xA4716ae2279E6e18cF830Da2A72E60FB9d9B51C6', payment_TWD, payment_wei, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, (address) => {
+        mysql.addContract(req.session.user_ID, address);
+        res.redirect('buy');
     });
-    res.redirect('buy');
 });
 
 router.get('/takepic', function (req, res, next) {
