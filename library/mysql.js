@@ -103,6 +103,7 @@ module.exports = {
     connection: connection,
     sing_in: sing_in,
     sing_up: sing_up,
+    getUserByID: getUserByID,
     addContract: addContract,
     getContract: getContract
 }

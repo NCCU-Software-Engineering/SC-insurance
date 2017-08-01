@@ -29,7 +29,8 @@ function update(data, status) {
         "companyAddress : " + data.companyAddress + "<br>" +
         "insurerAddress : " + data.insurerAddress + "<br>" +
         "state : " + data.state + "<br>" +
-        "保費 : " + data.payment + "萬元<br>" +
+        "保費(新台幣) : " + tenThousandComma(data.payment_TWD) + "元<br>" +
+        "保費(以太幣) : " + data.payment_wei + "wei<br>" +
         "保證期間 : " + data.guaranteePeriod + "年<br>" +
         "給付間格 : " + data.timeInterval + "年<br>" +
         "受益人 : " + data.beneficiarie + "<br>" +
@@ -100,3 +101,14 @@ $("button").click(function () {
         address: adrress,
     }, update);
 });
+
+function tenThousandComma (number) {
+    var num = number.toString();
+    var pattern = /(-?\d+)(\d{4})/;
+
+    while (pattern.test(num)) {
+        num = num.replace(pattern, "$1,$2");
+
+    }
+    return num;
+}

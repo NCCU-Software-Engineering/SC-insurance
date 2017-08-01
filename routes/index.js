@@ -82,8 +82,25 @@ router.get('/camera', function (req, res, next) {
 
 router.get('/deploy', function (req, res, next) {
     console.log("deploy");
-    contract.deploy(req.cookies.payment, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, (address) => {
+
+    let payment_TWD = req.cookies.payment * 10000;
+    let payment_wei = payment_TWD * 100000000000000;
+
+    contract.deploy('0x0xA4716ae2279E6e18cF830Da2A72E60FB9d9B51C6', payment_TWD, payment_wei, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, (address) => {
         mysql.addContract(req.session.user_ID, address);
+        res.redirect('buy');
+    });
+});
+
+router.get('/quickDeploy', function (req, res, next) {
+    console.log("quickDeploy");
+
+    let payment_TWD = req.cookies.payment * 10000;
+    let payment_wei = payment_TWD * 100000000000000;
+    mysql.getUserByID(req.session.user_ID, (result) => {
+        contract.deploy(result[0].account, payment_TWD, payment_wei, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, (address) => {
+            mysql.addContract(req.session.user_ID, address);
+        });
     });
     res.redirect('buy');
 });
@@ -168,7 +185,8 @@ router.post('/button', function (req, res, next) {
     let companyAddress = testContract.getCompanyAddress();
     let insurerAddress = testContract.getInsurerAddress();
     let state = testContract.getState();
-    let payment = testContract.getPayment();
+    let payment_TWD = testContract.getPayment_TWD();
+    let payment_wei = testContract.getPayment_wei();
     let guaranteePeriod = testContract.getGuaranteePeriod();
     let timeInterval = testContract.getTimeInterval();
     let beneficiarie = testContract.getBeneficiarie();
@@ -183,7 +201,8 @@ router.post('/button', function (req, res, next) {
         companyAddress: companyAddress,
         insurerAddress: insurerAddress,
         state: state,
-        payment: payment,
+        payment_TWD: payment_TWD,
+        payment_wei: payment_wei,
         guaranteePeriod: guaranteePeriod,
         timeInterval: timeInterval,
         beneficiarie: beneficiarie,
