@@ -44,16 +44,16 @@ contract Annuity {
     }
 
     //事件
-    event buyEvent(address from, string inf, uint timestamp);
-    event confirmEvent(address from, string inf, uint timestamp);
-    event revokeEvent(address from, string inf, uint timestamp);
-    event payEvent(address from, string inf, uint annuity, uint timestamp);
+    event buyEvent(address from, string inf, uint[3] timestamp);
+    event confirmEvent(address from, string inf, uint[3] timestamp);
+    event revokeEvent(address from, string inf, uint[3] timestamp);
+    event payEvent(address from, string inf, uint value, uint payTime, uint[3] timestamp);
 
     //建構子
-    function Annuity(uint[3] Date, uint payment_TWD, uint payment_wei, uint[3] paymentDate, uint guaranteePeriod, string beneficiary, string deathBeneficiary, address addr) {
+    function Annuity(address insuredAddress, uint[3] date, uint payment_TWD, uint payment_wei, uint paymentDate, uint guaranteePeriod, string beneficiary, string deathBeneficiary) {
 
         _companyAddress = msg.sender;
-        _insuredAddress = addr;
+        _insuredAddress = insuredAddress;
 
         _payment_TWD = payment_TWD;
         _payment_wei = payment_wei;
@@ -64,15 +64,15 @@ contract Annuity {
         _payTime = 0;
 
         //部署日期
-        _deployTime = [Date[0], Date[1], Date[2]];
+        _deployTime = [date[0], date[1], date[2]];
         //合約日期
-        _nowTime = [Date[0], Date[1], Date[2]];
+        _nowTime = [date[0], date[1], date[2]];
         //給付年金日
-        _paymentDate = [paymentDate[0], paymentDate[1], paymentDate[2]];
+        _paymentDate = [date[0]+paymentDate, date[1], date[2]];
     }
 
-    function getState() constant returns (uint){
-        return uint(_state);
+    function getState() constant returns (State){
+        return _state;
     }
 
     function getCompanyAddress() constant returns (address) {
@@ -114,16 +114,16 @@ contract Annuity {
         return _paymentDate;
     }
     
-    function payment() payable {
+    function buy() payable {
         if (_state != State.waitingForPayment) {
             throw;
         }
         
         if(msg.value >= _payment_wei) {
-            buyEvent(msg.sender , "success buy", now);
+            buyEvent(msg.sender , "success buy", _nowTime);
         }
         else {
-            buyEvent(msg.sender , "not enough", now);
+            buyEvent(msg.sender , "not enough", _nowTime);
             throw;
         }
         
@@ -140,7 +140,7 @@ contract Annuity {
 
         //保單尚未被確認
         if(_state != State.unconfirmed) {
-            confirmEvent(msg.sender , "error state", now);
+            confirmEvent(msg.sender , "error state", _nowTime);
         }
         else {
             //進入契約撤銷期
@@ -150,7 +150,7 @@ contract Annuity {
             _revocationPeriod = [year, month, day];
 
             //通知保險公司傳送契約撤銷確認email
-            confirmEvent(msg.sender , "success confirm", now);
+            confirmEvent(msg.sender , "success confirm", _nowTime);
         }
     }
 
@@ -165,13 +165,13 @@ contract Annuity {
         //保單不能撤銷
         if(_state != State.canBeRevoked) {
             //通知保險公司合約不能撤銷
-            revokeEvent(msg.sender , "error state", now);
+            revokeEvent(msg.sender , "error state", _nowTime);
         }
         else {
             //撤銷契約
             _state = State.revocation;
             //通知保險公司進行契約撤銷流程
-            revokeEvent(msg.sender , "revoke the contract", now);
+            revokeEvent(msg.sender , "revoke the contract", _nowTime);
         }
     }
 
@@ -212,7 +212,7 @@ contract Annuity {
                 _payTime += 1;
                 
                 //通知保險公司給付年金
-                payEvent(msg.sender , "pay annuity", _payTime , now);
+                payEvent(msg.sender , "pay annuity", _payment_wei/10, _payTime , _nowTime);
             }
         }
     }
