@@ -112,7 +112,7 @@ router.get('/payeth', function (req, res, next) {
     let testContract = new contract.getContract(req.query.address);
     
     testContract.buy({
-        from: personal,
+        from: nidhogg5,
         value: 5000000000000000000,
         gas: 4444444
     });
@@ -210,9 +210,9 @@ router.post('/button', function (req, res, next) {
     let revocationPeriod = testContract.getRevocationPeriod();
     let paymentDate = testContract.getPaymentDate();
 
-    let events = testContract.allEvents({ fromBlock: 0, toBlock: 'latest' });
+    let events = testContract.allEvents({fromBlock: 0, toBlock: 'latest'});
     events.get(function (error, logs) {
-
+        
         res.json({
             companyAddress: companyAddress,
             insurerAddress: insurerAddress,
