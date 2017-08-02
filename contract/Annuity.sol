@@ -44,10 +44,10 @@ contract Annuity {
     }
 
     //事件
-    event buyEvent(address from, string inf, uint[3] timestamp);
+    event buyEvent(address from, string inf, uint value, uint[3] timestamp);
     event confirmEvent(address from, string inf, uint[3] timestamp);
     event revokeEvent(address from, string inf, uint[3] timestamp);
-    event payEvent(address from, string inf, uint value, uint payTime, uint[3] timestamp);
+    event payEvent(address from, address to, string inf, uint value, uint payTime, uint[3] timestamp);
 
     //建構子
     function Annuity(address insuredAddress, uint[3] date, uint payment_TWD, uint payment_wei, uint paymentDate, uint guaranteePeriod, string beneficiary, string deathBeneficiary) {
@@ -120,10 +120,10 @@ contract Annuity {
         }
         
         if(msg.value >= _payment_wei) {
-            buyEvent(msg.sender , "success buy", _nowTime);
+            buyEvent(msg.sender , "success buy", msg.value, _nowTime);
         }
         else {
-            buyEvent(msg.sender , "not enough", _nowTime);
+            buyEvent(msg.sender , "not enough", msg.value, _nowTime);
             throw;
         }
         
@@ -210,9 +210,9 @@ contract Annuity {
 
                 _paymentDate[0] += _timeInterval;
                 _payTime += 1;
-                
+                _insuredAddress.transfer(_payment_wei/10);
                 //通知保險公司給付年金
-                payEvent(msg.sender , "pay annuity", _payment_wei/10, _payTime , _nowTime);
+                payEvent(msg.sender , _insuredAddress, "pay annuity", _payment_wei/10, _payTime , _nowTime);
             }
         }
     }
