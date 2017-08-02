@@ -1,8 +1,8 @@
 node_modules
 package-lock.json
 package.json
-ip.js
 annuity.abi
 annuity.bin
 transfer.abi
 transfer.bin
+ip.js
