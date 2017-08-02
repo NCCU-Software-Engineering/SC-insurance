@@ -16,7 +16,8 @@ $(document).ready(function() {
     $("#transfer").click(function(){
         $.post('/transfer',{
             from: $("#accounts option:selected").text(),
-            to: $("#target option:selected").text()
+            to: $("#target option:selected").text(),
+            money: $('#money').text()
         })
     })
     $("#compile").click(function() {

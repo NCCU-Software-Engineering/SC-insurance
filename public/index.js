@@ -32,14 +32,17 @@ $(document).ready(function () {
                 $('button').prop('disabled', false);
                 data.forEach((element) => {
                     switch (element.args.inf) {
-                        case "confirm success":
-                            $("#result").append('於 ' + new Date(element.args.timestamp * 1000).toDateString() + '  合約確認' + '</br>');
+                        case "success buy":
+                            $("#result").append('於 '+ element.args.timestamp[0]+'年'+element.args.timestamp[1]+'月'+element.args.timestamp[2]+'日' +'  購買合約' + '</br><p>from:'+element.args.from+'<br>to:'+element.address+'<br>value:'+element.args.value+'</p>');
+                            break;
+                        case "success confirm":
+                            $("#result").append('於 '+ element.args.timestamp[0]+'年'+element.args.timestamp[1]+'月'+element.args.timestamp[2]+'日' +'  合約確認' + '</br>');
                             break;
                         case "revoke the contract":
-                            $("#result").append('於 ' + new Date(element.args.timestamp * 1000).toDateString() + '  撤銷合約' + '</br>');
+                            $("#result").append('於 '+ element.args.timestamp[0]+'年'+element.args.timestamp[1]+'月'+element.args.timestamp[2]+'日' +'  撤銷合約' + '</br>');
                             break;
                         case "pay annuity":
-                            $("#result").append('於 ' + new Date(element.args.timestamp * 1000).toDateString() + '  給付年金' + '</br>');
+                            $("#result").append('於 '+ element.args.timestamp[0]+'年'+element.args.timestamp[1]+'月'+element.args.timestamp[2]+'日' +'  給付年金' + '</br><p>from:'+element.args.from+'<br>to:'+element.args.to+'<br>value:'+element.args.value+'</p>');
                             break;
                     }
                 })

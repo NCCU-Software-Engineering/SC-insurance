@@ -32,14 +32,10 @@ router.post('/getresult', function (req, res, next) {
   var abi = JSON.parse(fs.readFileSync('annuity.abi'));
   var address = req.body.contracts;
   var contract = web3.eth.contract(abi).at(address);
-  var events = contract.allEvents({ fromBlock: 0, toBlock: 'latest' });
+  var events = contract.allEvents({fromBlock: 0, toBlock: 'latest'});
   events.get(function (error, logs) {
     res.send(logs);
-    /*logs.forEach((element)=>{
-      console.log(element.args.inf);
-    })*/
   });
-  //res.send('success');
 });
 
 router.post('/compile', function (req, res, next) {
@@ -59,7 +55,8 @@ router.post('/deploy', function (req, res, next) {
   var Annuity = web3.eth.contract(abi);
 
   var d = new Date();
-  Annuity.new(d.getFullYear(), d.getMonth(), d.getDate(), {
+  web3.personal.unlockAccount(req.body.account, "", 300)
+  Annuity.new(d.getFullYear(), d.getMonth(), d.getDate(), 1, 1, '123', {
     from: req.body.account,
     gas: '4700000',
     data: bytecode
@@ -110,21 +107,8 @@ router.post('/getaccount', function (req, res, next) {
   res.send(accounts);
 });
 
-router.post('/transfer',async function (req, res, next) {
-  //console.log(req.body.from)
-  //console.log(req.body.to)
-  console.log(web3.eth.getBalance(req.body.from).toString())
-  console.log(web3.eth.getBalance(req.body.to).toString())
-
-  web3.personal.unlockAccount(req.body.from, "", 300)
-  var t = await web3.eth.sendTransaction({
-    "from":req.body.from,
-    "to":req.body.to,
-    "value":web3.toWei("1","ether")
-  });
-  var r = web3.eth.getTransactionReceipt(t);
-  console.log(r)
-  res.send(t);
+router.post('/transfer', function (req, res, next) {
+  web3.eth.sendTransaction({ from: main, to: contract1, value: 100000000000000000000 })
 });
 
 module.exports = router;
