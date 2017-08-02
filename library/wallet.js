@@ -14,7 +14,7 @@ testContract.buy({
 });
 
 
-eb3.eth.sendTransaction({ from: main, to: contract1, value: 100000000000000000000 })
+web3.eth.sendTransaction({ from: main, to: contract1, value: 100000000000000000000 })
 
 console.log('main = ' + web3.eth.getBalance(main));
 console.log('company = ' + web3.eth.getBalance(company));

@@ -88,7 +88,7 @@ router.get('/deploy', function (req, res, next) {
 
     contract.deploy('0x0xA4716ae2279E6e18cF830Da2A72E60FB9d9B51C6', payment_TWD, payment_wei, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, (address) => {
         mysql.addContract(req.session.user_ID, address);
-        res.redirect('buy');
+        res.render('buy',{address: address});
     });
 });
 
@@ -100,9 +100,31 @@ router.get('/quickDeploy', function (req, res, next) {
 
     contract.deploy('0x0xA4716ae2279E6e18cF830Da2A72E60FB9d9B51C6', payment_TWD, payment_wei, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, (address) => {
         mysql.addContract(req.session.user_ID, address);
-        res.redirect('buy');
+        res.redirect('buy',{address: address});
     });
 });
+
+router.get('/payeth', function (req, res, next) {
+    let main = '0x5720c11041D8cD5a3E69F71e38475138D87FE71c';
+    let company = '0x1ad59A6D33002b819fe04Bb9c9d0333F990750a4';
+    let nidhogg5 = '0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6';
+    let personal = '0x4ed1098bBD3D742F311682782f823d66bCa0Be87';
+    let testContract = new contract.getContract(req.query.address);
+    
+    testContract.buy({
+        from: personal,
+        value: 5000000000000000000,
+        gas: 4444444
+    });
+    /*web3.eth.sendTransaction({ from: main, to: req.query.address, value: 100000000000000000000 })
+
+    console.log('main = ' + web3.eth.getBalance(main));
+    console.log('company = ' + web3.eth.getBalance(company));
+    console.log('nidhogg5 = ' + web3.eth.getBalance(nidhogg5));
+    console.log('contract1 = ' + web3.eth.getBalance(req.query.address));*/
+    res.render('index')
+
+})
 
 router.get('/takepic', function (req, res, next) {
     res.send('picture');
