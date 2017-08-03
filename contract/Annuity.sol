@@ -120,6 +120,9 @@ contract Annuity {
         }
         
         if(msg.value >= _payment_wei) {
+            if( !_companyAddress.send(_payment_wei) ) {
+                throw;
+            }
             buyEvent(msg.sender , "success buy", msg.value, _nowTime);
         }
         else {
@@ -210,7 +213,9 @@ contract Annuity {
 
                 _paymentDate[0] += _timeInterval;
                 _payTime += 1;
-                _insuredAddress.transfer(_payment_wei/10);
+                if( !_insuredAddress.send(_payment_wei/10) ) {
+                throw;
+                }
                 //通知保險公司給付年金
                 payEvent(msg.sender , _insuredAddress, "pay annuity", _payment_wei/10, _payTime , _nowTime);
             }
