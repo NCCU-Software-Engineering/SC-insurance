@@ -47,7 +47,8 @@ contract Annuity {
     event buyEvent(address from, string inf, uint value, uint[3] timestamp);
     event confirmEvent(address from, string inf, uint[3] timestamp);
     event revokeEvent(address from, string inf, uint[3] timestamp);
-    event payEvent(address from, address to, string inf, uint value, uint payTime, uint[3] timestamp);
+    event payEvent(address from, string inf, uint value, uint payTime, uint[3] timestamp);
+    event companyPayEvent(address from, string inf, uint value, uint payTime, uint[3] timestamp);
 
     //建構子
     function Annuity(address insuredAddress, uint[3] date, uint payment_TWD, uint payment_wei, uint paymentDate, uint guaranteePeriod, string beneficiary, string deathBeneficiary) {
@@ -71,8 +72,8 @@ contract Annuity {
         _paymentDate = [date[0]+paymentDate, date[1], date[2]];
     }
 
-    function getState() constant returns (State){
-        return _state;
+    function getState() constant returns (uint){
+        return uint(_state);
     }
 
     function getCompanyAddress() constant returns (address) {
@@ -99,6 +100,9 @@ contract Annuity {
     }
     function getDeathBeneficiary() constant returns (string) {
         return _deathBeneficiary;
+    }
+    function gatPayTime() constant returns (uint) {
+        return _payTime;
     }
 
     function getDeployTime() constant returns (uint[3]) {
@@ -211,16 +215,27 @@ contract Annuity {
                 (year==_paymentDate[0] && month>_paymentDate[1]) ||
                 (year==_paymentDate[0] && month==_paymentDate[1] && day>=_paymentDate[2])){
 
-                _paymentDate[0] += _timeInterval;
-                _payTime += 1;
-                if( !_insuredAddress.send(_payment_wei/10) ) {
-                throw;
-                }
-                //通知保險公司給付年金
-                payEvent(msg.sender , _insuredAddress, "pay annuity", _payment_wei/10, _payTime , _nowTime);
+                payEvent(msg.sender, "Notify the insurance company to pay", _payment_wei/10, _payTime+1 , _nowTime);
             }
         }
     }
+    
+    function companyPay() payable{
+        
+        if(msg.value >= _payment_wei/10) {
+            if( !_insuredAddress.send(msg.value) ) {
+                throw;
+            }
+            _paymentDate[0] += _timeInterval;
+            _payTime += 1;
+            companyPayEvent(msg.sender , "company pay success", msg.value, _payTime, _nowTime);
+        }
+        
+        else {
+            throw;
+        }
+    }    
+
 
     //摧毀合約
     function destroy() {
