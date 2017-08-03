@@ -3,6 +3,7 @@ var adrress;
 var email = false;
 var letter = false;
 var testContract;
+var payTime;
 
 $(document).ready(function () {
 
@@ -32,29 +33,32 @@ $(document).ready(function () {
         switch ($(this).attr('id')) {
 
             case "next_day":
-                console.log("next_day");
-                testContract.time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate() + 1, {
+                //console.log("next_day");
+                myDate.setDate(myDate.getDate() + 1);
+                testContract.time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate(), {
                     from: web3.eth.coinbase,
                     gas: 4444444
                 });
                 break;
             case "next_month":
-                console.log("next_month");
-                testContract.time(myDate.getFullYear(), myDate.getMonth() + 2, myDate.getDate(), {
+                //console.log("next_month");
+                myDate.setMonth(myDate.getMonth() + 1);
+                testContract.time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate(), {
                     from: web3.eth.coinbase,
                     gas: 4444444
                 });
                 break;
             case "next_year":
-                console.log("next_year");
-                testContract.time(myDate.getFullYear() + 1, myDate.getMonth() + 1, myDate.getDate(), {
+                //console.log("next_year");
+                myDate.setFullYear(myDate.getFullYear() + 1);
+                testContract.time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate(), {
                     from: web3.eth.coinbase,
                     gas: 4444444
                 });
                 break;
 
             case "confirm":
-                console.log("confirm");
+                //console.log("confirm");
                 testContract.confirm(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate() + 11, {
                     from: web3.eth.coinbase,
                     gas: 4444444
@@ -62,7 +66,7 @@ $(document).ready(function () {
                 break;
 
             case "revoke":
-                console.log("revoke");
+                //console.log("revoke");
                 testContract.revoke({
                     from: web3.eth.coinbase,
                     gas: 4444444
@@ -70,7 +74,7 @@ $(document).ready(function () {
                 break;
 
             case "update":
-                console.log("update");
+                //console.log("update");
                 break;
 
             default:
@@ -91,6 +95,7 @@ function update() {
     let timeInterval = testContract.getTimeInterval();
     let beneficiarie = testContract.getBeneficiarie();
     let deathBeneficiary = testContract.getDeathBeneficiary();
+    let payTime = testContract.gatPayTime();
 
     let deployTime = testContract.getDeployTime();
     let nowTime = testContract.getNowTime();
@@ -104,14 +109,15 @@ function update() {
         "insurerAddress : " + insurerAddress + "<br>" +
         "state : " + state + "<br>" +
         "保費(新台幣) : " + payment_TWD + "元<br>" +
-        "保費(以太幣) : " + payment_wei + "wei<br>" +
-        "保證期間 : " + guaranteePeriod + "年<br>" +
+        "保費(以太幣) : " + web3.fromWei(payment_wei) + "eth<br>" +
+        "已給付次數 : " + payTime + "<br>" +
+        //"保證期間 : " + guaranteePeriod + "年<br>" +
         "給付間格 : " + timeInterval + "年<br>" +
         "受益人 : " + beneficiarie + "<br>" +
         "死亡受益人 : " + deathBeneficiary + "<br>" +
         "部屬時間 : " + slash(deployTime) + "<br>" +
-        "合約時間 : " + slash(nowTime) + "<br>" +
         "契撤期限 : " + slash(revocationPeriod) + "<br>" +
+        "合約時間 : " + slash(nowTime) + "<br>" +
         "年金給付 : " + slash(paymentDate)
     );
 
@@ -120,9 +126,45 @@ function update() {
         console.log(logs);
         $("#event_body").html('');
         logs.forEach((element) => {
-            $("#event_body").append('from : ' + element.args.from + '<br>');
-            $("#event_body").append('inf : ' + element.args.inf + '<br>');
-            $("#event_body").append('timestamp : ' + slash(element.args.timestamp) + '<br><hr>');
+
+            switch (element.event) {
+                case 'buyEvent':
+                    $("#event_body").append(element.event + '<br>');
+                    $("#event_body").append('from : ' + element.args.from + '<br>');
+                    $("#event_body").append('inf : ' + element.args.inf + '<br>');
+                    $("#event_body").append('timestamp : ' + slash(element.args.timestamp) + '<br><hr>');
+                    break;
+                case 'confirmEvent':
+                    $("#event_body").append(element.event + '<br>');
+                    $("#event_body").append('from : ' + element.args.from + '<br>');
+                    $("#event_body").append('inf : ' + element.args.inf + '<br>');
+                    $("#event_body").append('timestamp : ' + slash(element.args.timestamp) + '<br><hr>');
+                    break;
+                case 'payEvent':
+                    $("#event_body").append(element.event + '<br>');
+                    $("#event_body").append('from : ' + element.args.from + '<br>');
+                    $("#event_body").append('inf : ' + element.args.inf + '<br>');
+                    $("#event_body").append('payTime :　第' + element.args.payTime + '次給付年金通知<br>');
+                    $("#event_body").append('保險公司應給付金額 : ' + web3.fromWei(element.args.value) + 'eth<br>');
+                    $("#event_body").append('timestamp : ' + slash(element.args.timestamp) + '<br><hr>');
+                    if (element.args.payTime > payTime) {
+                        console.log('company pay');
+                        testContract.companyPay({
+                            from: '0x1ad59A6D33002b819fe04Bb9c9d0333F990750a4',
+                            value: element.args.value,
+                            gas: 4444444
+                        });
+                    }
+                    break;
+                case 'companyPayEvent':
+                    $("#event_body").append(element.event + '<br>');
+                    $("#event_body").append('from : ' + element.args.from + '<br>');
+                    $("#event_body").append('inf : ' + element.args.inf + '<br>');
+                    $("#event_body").append('payTime :　第' + element.args.payTime + '次給付年金完成<br>');
+                    $("#event_body").append('保險公司給付金額 : ' + web3.fromWei(element.args.value) + 'eth<br>');
+                    $("#event_body").append('timestamp : ' + slash(element.args.timestamp) + '<br><hr>');
+                    break;
+            }
         })
     });
 }

@@ -1,16 +1,12 @@
 var web3 = require('../library/web3.js');
 var contract = require('../library/contract.js');
-
-let main = '0x5720c11041D8cD5a3E69F71e38475138D87FE71c';
-let company = '0x1ad59A6D33002b819fe04Bb9c9d0333F990750a4';
-let nidhogg5 = '0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6';
 let personal = '0x4ed1098bBD3D742F311682782f823d66bCa0Be87';
 
-let testContract = new contract.getContract('0x399cdecbfecf68927ff79107446e5c5c4a5594f3');
+let testContract = new contract.getContract('0x6b0dfce68e13fc2bc9d9f1d404c1e97e8692983d');
 
 testContract.buy({
     from: personal,
-    value: 6000000000000000000,
+    value: 10000000000000000000,
     gas: 4444444
 });
 
