@@ -88,7 +88,7 @@ router.get('/deploy', function (req, res, next) {
 
     contract.deploy('0x0xA4716ae2279E6e18cF830Da2A72E60FB9d9B51C6', payment_TWD, payment_wei, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, (address) => {
         mysql.addContract(req.session.user_ID, address);
-        res.render('buy',{address: address});
+        res.render('buy', { address: address });
     });
 });
 
@@ -100,7 +100,7 @@ router.get('/quickDeploy', function (req, res, next) {
 
     contract.deploy('0x0xA4716ae2279E6e18cF830Da2A72E60FB9d9B51C6', payment_TWD, payment_wei, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, (address) => {
         mysql.addContract(req.session.user_ID, address);
-        res.redirect('buy',{address: address});
+        res.redirect('buy', { address: address });
     });
 });
 
@@ -110,7 +110,7 @@ router.get('/payeth', function (req, res, next) {
     let nidhogg5 = '0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6';
     let personal = '0x4ed1098bBD3D742F311682782f823d66bCa0Be87';
     let testContract = new contract.getContract(req.query.address);
-    
+
     testContract.buy({
         from: nidhogg5,
         value: 5000000000000000000,
@@ -128,108 +128,6 @@ router.get('/payeth', function (req, res, next) {
 
 router.get('/takepic', function (req, res, next) {
     res.send('picture');
-});
-
-router.post('/button', function (req, res, next) {
-
-    console.log(req.body);
-
-    let testContract = new contract.getContract(req.body.address);
-
-    let myDate = new Date();
-    let contractTime = testContract.getNowTime();
-
-    myDate.setFullYear(contractTime[0]);
-    myDate.setMonth(contractTime[1] - 1);
-    myDate.setDate(contractTime[2]);
-
-    switch (req.body.type) {
-
-        case "next_day":
-            //console.log("next_day");
-            testContract.time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate() + 1, {
-                from: web3.eth.coinbase,
-                gas: 4444444
-            });
-            break;
-        case "next_month":
-            //console.log("next_month");
-            testContract.time(myDate.getFullYear(), myDate.getMonth() + 2, myDate.getDate(), {
-                from: web3.eth.coinbase,
-                gas: 4444444
-            });
-            //contract.watch(testContract, "pay", req.body.email, req.body.letter);
-            break;
-        case "next_year":
-            //console.log("next_year");
-            testContract.time(myDate.getFullYear() + 1, myDate.getMonth() + 1, myDate.getDate(), {
-                from: web3.eth.coinbase,
-                gas: 4444444
-            });
-            //contract.watch(testContract, "pay", req.body.email, req.body.letter);
-            break;
-
-        case "confirm":
-            //console.log("confirm");
-            testContract.confirm(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate() + 11, {
-                from: web3.eth.coinbase,
-                gas: 4444444
-            });
-            //contract.watch(testContract, "confirm", req.body.email, req.body.letter);
-            break;
-
-        case "revoke":
-            //console.log("revoke");
-            testContract.revoke({
-                from: web3.eth.coinbase,
-                gas: 4444444
-            });
-            //contract.watch(testContract, "revoke", req.body.email, req.body.letter);
-            break;
-
-        case "update":
-            console.log("update");
-            break;
-
-        default:
-            console.error("not fond");
-    }
-
-    let companyAddress = testContract.getCompanyAddress();
-    let insurerAddress = testContract.getInsurerAddress();
-    let state = testContract.getState();
-    let payment_TWD = testContract.getPayment_TWD();
-    let payment_wei = testContract.getPayment_wei();
-    let guaranteePeriod = testContract.getGuaranteePeriod();
-    let timeInterval = testContract.getTimeInterval();
-    let beneficiarie = testContract.getBeneficiarie();
-    let deathBeneficiary = testContract.getDeathBeneficiary();
-
-    let deployTime = testContract.getDeployTime();
-    let nowTime = testContract.getNowTime();
-    let revocationPeriod = testContract.getRevocationPeriod();
-    let paymentDate = testContract.getPaymentDate();
-
-    let events = testContract.allEvents({fromBlock: 0, toBlock: 'latest'});
-    events.get(function (error, logs) {
-        
-        res.json({
-            companyAddress: companyAddress,
-            insurerAddress: insurerAddress,
-            state: state,
-            payment_TWD: payment_TWD,
-            payment_wei: payment_wei,
-            guaranteePeriod: guaranteePeriod,
-            timeInterval: timeInterval,
-            beneficiarie: beneficiarie,
-            deathBeneficiary: deathBeneficiary,
-            deployTime: deployTime,
-            nowTime: nowTime,
-            revocationPeriod: revocationPeriod,
-            paymentDate: paymentDate,
-            events: logs
-        })
-    });
 });
 
 module.exports = router;

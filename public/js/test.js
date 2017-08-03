@@ -1,65 +1,131 @@
+var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
 var adrress;
 var email = false;
 var letter = false;
+var testContract;
 
 $(document).ready(function () {
 
     $("#radio_group :radio").change(function () {
         reset();
-        adrress = $(this).val();
-
-        $.post("/button", {
-            "type": "update",
-            address: adrress
-        }, update);
+        testContract = web3.eth.contract(data.interface).at($(this).val());
+        update()
     });
 
     $("#email, #letter").change(function () {
         email = document.getElementById("email").checked;
         letter = document.getElementById("letter").checked;
-        console.log(email, letter);
+        console.log('email :　' + email);
+        console.log('letter : ' + letter);
     });
 
+    $('button').click(function () {
+        console.log('button');
+
+        let myDate = new Date();
+        let contractTime = testContract.getNowTime();
+
+        myDate.setFullYear(contractTime[0]);
+        myDate.setMonth(contractTime[1] - 1);
+        myDate.setDate(contractTime[2]);
+
+        switch ($(this).attr('id')) {
+
+            case "next_day":
+                console.log("next_day");
+                testContract.time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate() + 1, {
+                    from: web3.eth.coinbase,
+                    gas: 4444444
+                });
+                break;
+            case "next_month":
+                console.log("next_month");
+                testContract.time(myDate.getFullYear(), myDate.getMonth() + 2, myDate.getDate(), {
+                    from: web3.eth.coinbase,
+                    gas: 4444444
+                });
+                break;
+            case "next_year":
+                console.log("next_year");
+                testContract.time(myDate.getFullYear() + 1, myDate.getMonth() + 1, myDate.getDate(), {
+                    from: web3.eth.coinbase,
+                    gas: 4444444
+                });
+                break;
+
+            case "confirm":
+                console.log("confirm");
+                testContract.confirm(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate() + 11, {
+                    from: web3.eth.coinbase,
+                    gas: 4444444
+                });
+                break;
+
+            case "revoke":
+                console.log("revoke");
+                testContract.revoke({
+                    from: web3.eth.coinbase,
+                    gas: 4444444
+                });
+                break;
+
+            case "update":
+                console.log("update");
+                break;
+
+            default:
+                console.error("not fond");
+        }
+        update();
+    });
 });
 
-function update(data, status) {
-    console.log(data);
+function update() {
 
-    setState(data.state);
+    let companyAddress = testContract.getCompanyAddress();
+    let insurerAddress = testContract.getInsurerAddress();
+    let state = testContract.getState();
+    let payment_TWD = testContract.getPayment_TWD();
+    let payment_wei = testContract.getPayment_wei();
+    let guaranteePeriod = testContract.getGuaranteePeriod();
+    let timeInterval = testContract.getTimeInterval();
+    let beneficiarie = testContract.getBeneficiarie();
+    let deathBeneficiary = testContract.getDeathBeneficiary();
+
+    let deployTime = testContract.getDeployTime();
+    let nowTime = testContract.getNowTime();
+    let revocationPeriod = testContract.getRevocationPeriod();
+    let paymentDate = testContract.getPaymentDate();
+
+    setState(state.toString());
 
     $("#state_body").html(
-        "companyAddress : " + data.companyAddress + "<br>" +
-        "insurerAddress : " + data.insurerAddress + "<br>" +
-        "state : " + data.state + "<br>" +
-        "保費(新台幣) : " + tenThousandComma(data.payment_TWD) + "元<br>" +
-        "保費(以太幣) : " + data.payment_wei + "wei<br>" +
-        "保證期間 : " + data.guaranteePeriod + "年<br>" +
-        "給付間格 : " + data.timeInterval + "年<br>" +
-        "受益人 : " + data.beneficiarie + "<br>" +
-        "死亡受益人 : " + data.deathBeneficiary + "<br>" +
-        "部屬時間 : " + data.deployTime.toString().replace(/,/g, '-') + "<br>" +
-        "合約時間 : " + data.nowTime.toString().replace(/,/g, '-') + "<br>" +
-        "契撤期限 : " + data.revocationPeriod.toString().replace(/,/g, '-') + "<br>" +
-        "年金給付 : " + data.paymentDate.toString().replace(/,/g, '-')
+        "companyAddress : " + companyAddress + "<br>" +
+        "insurerAddress : " + insurerAddress + "<br>" +
+        "state : " + state + "<br>" +
+        "保費(新台幣) : " + payment_TWD + "元<br>" +
+        "保費(以太幣) : " + payment_wei + "wei<br>" +
+        "保證期間 : " + guaranteePeriod + "年<br>" +
+        "給付間格 : " + timeInterval + "年<br>" +
+        "受益人 : " + beneficiarie + "<br>" +
+        "死亡受益人 : " + deathBeneficiary + "<br>" +
+        "部屬時間 : " + slash(deployTime) + "<br>" +
+        "合約時間 : " + slash(nowTime) + "<br>" +
+        "契撤期限 : " + slash(revocationPeriod) + "<br>" +
+        "年金給付 : " + slash(paymentDate)
     );
 
-    $("#event_body").html('');
-    data.events.forEach((element) => {
-        $("#event_body").append('from : ' + element.args.from + '<br>');
-        $("#event_body").append('inf : ' + element.args.inf + '<br>');
-        $("#event_body").append('timestamp : ' + element.args.timestamp + '<br><hr>');
-    })
+    let events = testContract.allEvents({ fromBlock: 0, toBlock: 'latest' });
+    events.get(function (error, logs) {
+        console.log(logs);
+        $("#event_body").html('');
+        logs.forEach((element) => {
+            $("#event_body").append('from : ' + element.args.from + '<br>');
+            $("#event_body").append('inf : ' + element.args.inf + '<br>');
+            $("#event_body").append('timestamp : ' + slash(element.args.timestamp) + '<br><hr>');
+        })
+    });
 }
-
-$("button").click(function () {
-    console.log();
-    $.post("/button", {
-        type: $(this).attr('id'),
-        email: email,
-        letter: letter,
-        address: adrress,
-    }, update);
-});
 
 function setState(state) {
     $("#state").removeClass();
@@ -95,7 +161,6 @@ function setState(state) {
         default:
             $("#state").addClass("panel panel-default");
             $("#state_heading").html("合約狀態：未知狀態???");
-
     }
 }
 
@@ -109,13 +174,6 @@ function reset() {
     $("#b").html("");
 }
 
-function tenThousandComma(number) {
-    var num = number.toString();
-    var pattern = /(-?\d+)(\d{4})/;
-
-    while (pattern.test(num)) {
-        num = num.replace(pattern, "$1,$2");
-
-    }
-    return num;
+function slash(date) {
+    return date.toString().replace(/,/g, '/');
 }
