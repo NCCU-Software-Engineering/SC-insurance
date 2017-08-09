@@ -27,7 +27,6 @@
                 <button class="btn btn-success btn-lg" id="next_day">下一天</button>
                 <button class="btn btn-success btn-lg" id="next_month">下一月</button>
                 <button class="btn btn-success btn-lg" id="next_year">下一年</button>
-                <button class="btn btn-success btn-lg" id="pay">付款</button>
             </div>
             <br>
             <div class="btn-group.btn-group-justified" role="group">
@@ -51,10 +50,16 @@
 <section id="out">
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="panel panel-default" id="state">
                     <div class="panel-heading" id="state_heading">合約狀態</div>
                     <div class="panel-body" id="state_body">請先選擇合約</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default" id="event">
+                    <div class="panel-heading" id="event_heading">合約狀態</div>
+                    <div class="panel-body" id="event_body">請先選擇合約</div>
                 </div>
             </div>
             <!--
@@ -76,5 +81,7 @@
 </section>
 
 {{#section 'script'}}
+<script src="js/web3.min.js"></script>
+<script src="js/data.js"></script>
 <script src="js/test.js"></script>
 {{/section}}

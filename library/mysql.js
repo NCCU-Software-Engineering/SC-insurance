@@ -27,15 +27,15 @@ function sing_in(ID, password, callback) {
 function sing_up(ID, password, name, identity, email, phone, birthday, address, callback) {
     getUserByID(ID, (result) => {
         if (result == "") {
-            addUser(ID, password, name, identity, email, phone, birthday, address, (isSuccess, result) => {
-                callback(isSuccess, isSuccess ? '註冊成功' : '註冊失敗');
+            addUser(ID, password, name, identity, email, phone, birthday, address, (isSuccess, result, account) => {
+                callback(isSuccess, isSuccess ? '註冊成功\n' + account : '註冊失敗');
             })
         } else {
             callback(false, "此帳號已有人註冊過");
         }
     });
 
-    async function addUser(ID, password, name, identity, email, phone, birthday, address, callback) {
+    function addUser(ID, password, name, identity, email, phone, birthday, address, callback) {
 
         let account = web3.personal.newAccount("1234");
         console.log("create a new account : " + account);
@@ -46,10 +46,10 @@ function sing_up(ID, password, name, identity, email, phone, birthday, address, 
         ];
         connection.query(cmd, [value], (err, result) => {
             if (!err) {
-                callback(true, result);
+                callback(true, result, account);
             } else {
                 console.log(err);
-                callback(false, result);
+                callback(false, result, account);
             }
         });
     }
@@ -103,6 +103,7 @@ module.exports = {
     connection: connection,
     sing_in: sing_in,
     sing_up: sing_up,
+    getUserByID: getUserByID,
     addContract: addContract,
     getContract: getContract
 }

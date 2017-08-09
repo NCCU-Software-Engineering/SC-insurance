@@ -1,8 +1,11 @@
 $(function () {
-    one();
+    console.log($('#address').text());
+    $('#payeth').click(function(){
+        $.get('/payeth',{address:$('#address').text()})
+    })
 });
 
-function one(){
+/*function one(){
     console.log("one");
 
     $("#step1").addClass("active");
@@ -34,4 +37,4 @@ function three(){
     $("#basic").get(0).style.display = "none";
     $("#insured").get(0).style.display = "none";
     $("#payment").get(0).style.display = "block";
-}
+}*/
