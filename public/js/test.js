@@ -115,7 +115,7 @@ function update() {
         "給付間格 : " + timeInterval + "年<br>" +
         "受益人 : " + beneficiarie + "<br>" +
         "死亡受益人 : " + deathBeneficiary + "<br>" +
-        "部屬時間 : " + slash(deployTime) + "<br>" +
+        "部署時間 : " + slash(deployTime) + "<br>" +
         "契撤期限 : " + slash(revocationPeriod) + "<br>" +
         "合約時間 : " + slash(nowTime) + "<br>" +
         "年金給付 : " + slash(paymentDate)
