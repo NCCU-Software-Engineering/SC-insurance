@@ -1,0 +1,17 @@
+html{
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+}
+
+section {
+    margin-top: 3rem;
+}
+
+footer {
+    position:fixed;
+    bottom: 0px;
+    width: 100vw;
+}
