@@ -1,17 +1,27 @@
 /*
+ *body
+*/
+body {
+	font-family: 'Noto Sans TC', sans-serif;
+}
+
+/*
  *header
 */
 header {
-  background-color: #F8F8F8;
+
+  font-size: 2rem;
+  background-color: #2d344b;
 }
+
 header ul {
   margin: 0;
 }
 
 header a,
 header li {
+  color: #fff; 
   padding: 1.4rem 0;
-  color: #777;
   font-weight: bold;
 }
 
