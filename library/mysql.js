@@ -11,16 +11,15 @@ var connection = mysql.createConnection({
 
 async function sing_in(ID, password) {
     let user = await getUserByID(ID)
-    console.log('2 : ' + user[0].name);
 
-    if (!user) {
+    if (!user.length) {
         return { type: 0, inf: '查無此帳號' }
     }
     else if (user[0].password != password) {
         return { type: 2, inf: '密碼錯誤' }
     }
     else if (user[0].password == password) {
-        return { type: 1, inf: '登錄成功' }
+        return { type: 1, inf: '登錄成功', ID: user[0].ID, name: user[0].name }
     }
 }
 
@@ -41,7 +40,6 @@ function getUserByID(ID) {
     return new Promise(function (resolve, reject) {
         connection.query(cmd, [ID], (err, result) => {
             if (!err) {
-                console.log('1 : ' + result[0].name);
                 resolve(result)
             } else {
                 reject(err)
