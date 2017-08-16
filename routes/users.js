@@ -18,10 +18,10 @@ router.all('/sign_out', function (req, res, next) {
 });
 
 //post
-router.post('/sign_in', function (req, res, next) {
+router.post('/sign_in', async function (req, res, next) {
     console.log("sign_in-post");
     console.log(req.body);
-    let result = mysql.sing_in(req.body.ID, req.body.password);
+    let result = await mysql.sing_in(req.body.ID, req.body.password);
     console.log('3 : ' + result.inf);
     req.session.user_name = result.name;
 
