@@ -1,14 +1,14 @@
-#statusBar {
-    font-size: 2rem;
+.container{
+    width:80vw;
 }
-
-#a, #b {
+#state, #event {
     height: 40rem;
 }
 
 button {
-    width: 15rem;
+    width: 10rem;
 }
+
 .panel-heading {
     font-size: 3rem;
 }
@@ -17,10 +17,6 @@ button {
 }
 
 #face {
-    display: none;
-}
-
-#event_button {
     display: none;
 }
 

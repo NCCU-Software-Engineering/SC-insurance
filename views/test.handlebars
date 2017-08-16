@@ -1,21 +1,20 @@
 {{#section 'css'}}
-<link rel="stylesheet" href="css/test.css"> {{/section}}
+<link rel="stylesheet" href="css/test.css">
+<link rel="stylesheet" href="css/countDown.css"> {{/section}}
 
 <section id="main">
     <div class="container">
         <div class="row">
-            <h1>智能合約模擬</h1>
-            <hr>
-            <!--
-            <div class="alert alert-info" role="alert">本功能僅供測試</div>
-            -->
-            <input type="checkbox" id="email">電子郵件</input>
-            <input type="checkbox" id="letter">簡訊</input>
-
-            <ul class="list-unstyled" id="radio_group">
-                {{{radio}}}
-            </ul>
-            <hr>
+            <div class="col-md-12">
+                <h1>智能合約模擬</h1>
+                <hr>
+                <input type="checkbox" id="email">電子郵件</input>
+                <input type="checkbox" id="letter">簡訊</input>
+                <ul class="list-unstyled" id="radio_group">
+                    {{{radio}}}
+                </ul>
+                <hr>
+            </div>
         </div>
     </div>
 </section>
@@ -23,26 +22,31 @@
 <section id="event_button">
     <div class="container">
         <div class="row">
-            <div class="btn-group.btn-group-justified" role="group">
-                <button class="btn btn-success btn-lg" id="next_day">下一天</button>
-                <button class="btn btn-success btn-lg" id="next_month">下一月</button>
-                <button class="btn btn-success btn-lg" id="next_year">下一年</button>
+            <div class="col-md-5" id="time">
+                <h3 class="jcountTimer"></h3>
             </div>
-            <br>
-            <div class="btn-group.btn-group-justified" role="group">
-                <button class="btn btn-success btn-lg" id="update">更新</button>
-                <button class="btn btn-success btn-lg" id="dead">被保人往生</button>
-                <button class="btn btn-success btn-lg" id="confirm">確認合約</button>
-                <button class="btn btn-success btn-lg" id="revoke">撤銷合約</button>
+            <div class="col-md-7">
+                <div class="btn-group.btn-group-justified" role="group">
+                    <button class="btn btn-success btn-lg" id="next_day">下一天</button>
+                    <button class="btn btn-success btn-lg" id="next_month">下一月</button>
+                    <button class="btn btn-success btn-lg" id="next_year">下一年</button>
+                </div>
+                <div class="btn-group.btn-group-justified" role="group">
+                    <br>
+                    <button class="btn btn-success btn-lg" id="update">更新</button>
+                    <button class="btn btn-success btn-lg" id="dead">被保人往生</button>
+                    <button class="btn btn-success btn-lg" id="confirm">確認合約</button>
+                    <button class="btn btn-success btn-lg" id="revoke">撤銷合約</button>
+                </div>
+                <div class="btn-group.btn-group-justified" role="group" id="face">
+                    <br>
+                    <button class="btn btn-success btn-lg" id="success">人臉辨識成功</button>
+                    <button class="btn btn-success btn-lg" id="failure">人臉辨識失敗</button>
+                </div>
             </div>
-            <br>
-            <!--
-            <div class="btn-group.btn-group-justified" role="group" id="face">
-                <button class="btn btn-success btn-lg" id="success">人臉辨識成功</button>
-                <button class="btn btn-success btn-lg" id="failure">人臉辨識失敗</button>
+            <div class="col-md-12">
+                <hr>
             </div>
-            -->
-            <hr>
         </div>
     </div>
 </section>
@@ -58,7 +62,7 @@
             </div>
             <div class="col-md-6">
                 <div class="panel panel-default" id="event">
-                    <div class="panel-heading" id="event_heading">合約狀態</div>
+                    <div class="panel-heading" id="event_heading">事件監聽</div>
                     <div class="panel-body" id="event_body">請先選擇合約</div>
                 </div>
             </div>
@@ -82,6 +86,7 @@
 
 {{#section 'script'}}
 <script src="js/web3.min.js"></script>
+<script src="js/timeCounter.js"></script>
 <script src="js/data.js"></script>
 <script src="js/test.js"></script>
 {{/section}}

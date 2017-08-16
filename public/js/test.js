@@ -7,6 +7,11 @@ var payTime;
 
 $(document).ready(function () {
 
+    countDown(".jcountTimer", 2017, 10, 15)
+    $('.jcountTimer .day').removeClass('run-animation')
+    $('.jcountTimer .day').addClass('run-animation')
+
+
     $("#radio_group :radio").change(function () {
         reset();
         testContract = web3.eth.contract(data.interface).at($(this).val());
@@ -22,7 +27,6 @@ $(document).ready(function () {
 
     $('button').click(function () {
         console.log('button');
-
         let myDate = new Date();
         let contractTime = testContract.getNowTime();
 
