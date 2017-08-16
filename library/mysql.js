@@ -9,19 +9,18 @@ var connection = mysql.createConnection({
     database: 'smart'
 });
 
-function sing_in(ID, password, callback) {
-    getUserByID(ID, (result) => {
-        //找不到使用者
-        if (result == "") {
-            callback(false, "查無此帳號");
-        } else {
-            if (result[0].password == password) {
-                callback(true, "登錄成功", result[0].name);
-            } else {
-                callback(false, "密碼無效");
-            }
-        }
-    });
+async function sing_in(ID, password) {
+    let user = await getUserByID(ID)
+    console.log('2 : ' + user[0].name)
+    if (!user) {
+        return { type: 0, inf: '查無此帳號' }
+    }
+    else if (user[0].password != password) {
+        return { type: 2, inf: '密碼錯誤' }
+    }
+    else if (user[0].password == password) {
+        return { type: 1, inf: '登錄成功' }
+    }
 }
 
 function sing_up(ID, password, name, identity, email, phone, birthday, address, callback) {
@@ -34,37 +33,40 @@ function sing_up(ID, password, name, identity, email, phone, birthday, address, 
             callback(false, "此帳號已有人註冊過");
         }
     });
-
-    function addUser(ID, password, name, identity, email, phone, birthday, address, callback) {
-
-        let account = web3.personal.newAccount("1234");
-        console.log("create a new account : " + account);
-
-        let cmd = "INSERT INTO user (ID, password, name, identity, email, phone, birthday, address, account) VALUES ?";
-        let value = [
-            [ID, password, name, identity, email, phone, birthday, address, account]
-        ];
-        connection.query(cmd, [value], (err, result) => {
-            if (!err) {
-                callback(true, result, account);
-            } else {
-                console.log(err);
-                callback(false, result, account);
-            }
-        });
-    }
 }
 
-function getUserByID(ID, callback) {
+function getUserByID(ID) {
     let cmd = "SELECT * FROM user WHERE ID = ?";
-    connection.query(cmd, [ID], (err, result) => {
+    return new Promise(function (resolve, reject) {
+        connection.query(cmd, [ID], (err, result) => {
+            if (!err) {
+                console.log('1 : ' + result[0].name);
+                resolve(result)
+            } else {
+                reject(err)
+            }
+        });
+    })
+}
+
+function addUser(ID, password, name, identity, email, phone, birthday, address, callback) {
+    let account = web3.personal.newAccount("1234");
+    console.log("create a new account : " + account);
+
+    let cmd = "INSERT INTO user (ID, password, name, identity, email, phone, birthday, address, account) VALUES ?";
+    let value = [
+        [ID, password, name, identity, email, phone, birthday, address, account]
+    ];
+    connection.query(cmd, [value], (err, result) => {
         if (!err) {
-            callback(result);
+            callback(true, result, account);
         } else {
             console.log(err);
+            callback(false, result, account);
         }
     });
 }
+
 function getAccountCount() {
     let cmd = "SELECT count(account) FROM user";
     connection.query(cmd, (err, result) => {

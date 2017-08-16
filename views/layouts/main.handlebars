@@ -8,8 +8,9 @@
 
 	<title>正大人壽</title>
 
-	<link rel="stylesheet" href="/css/bootstrap.css" />
-	<link rel="stylesheet" href="/css/base.css" /> {{{_sections.css}}}
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="/css/sweetalert.css">
+	<link rel="stylesheet" type="text/css" href="/css/base.css" /> {{{_sections.css}}}
 
 	<link rel="shortcut icon" href="/imgs/favicon.ico" />
 	<link rel="bookmark" href="/imgs/favicon.ico" />
@@ -17,7 +18,6 @@
 	<style type="text/css">
 		@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
 	</style>
-
 </head>
 
 <body ng-app="customInterpolationApp">
@@ -27,8 +27,8 @@
 			<div class="row">
 				<a class="brand pull-left" href="/" id="title">正大人壽</a>
 				<ul class="list-inline list-unstyled pull-right">
-					<li><a href="/quickDeploy">快速部署</a></li>
-					<li><a href="/test">測試頁面</a></li>
+					<li class="sign"><a href="/quickDeploy">快速部署</a></li>
+					<li class="sign"><a href="/test">測試頁面</a></li>
 
 					<li class="sign"><a href="/personal" id="user_name">{{{user_name}}}</a></li>
 					<li class="sign"><a href="/users/sign_out">登出</a></li>
@@ -84,6 +84,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
 	<script src="/js/jquery-3.1.1.js"></script>
 	<script src="/js/bootstrap.js"></script>
+	<script src="/js/sweetalert.min.js"></script>
 	<script src="/js/base.js"></script>
 	{{{_sections.script}}}
 
