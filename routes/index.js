@@ -80,35 +80,26 @@ router.get('/camera', function (req, res, next) {
     res.render('camera')
 });
 
-router.get('/deploy', function (req, res, next) {
-    console.log("deploy");
-
-    let payment_TWD = req.cookies.payment * 10000;
-    let payment_wei = payment_TWD * 100000000000000;
-
-    contract.deploy('0x0xA4716ae2279E6e18cF830Da2A72E60FB9d9B51C6', payment_TWD, payment_wei, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, (address) => {
-        mysql.addContract(req.session.user_ID, address);
-        res.render('buy', { address: address });
-    });
-});
-
-router.get('/quickDeploy', function (req, res, next) {
-    console.log("quickDeploy");
-
-    let payment_TWD = req.cookies.payment * 10000;
-    let payment_wei = payment_TWD * 100000000000000;
-
-    contract.deploy('0x0xA4716ae2279E6e18cF830Da2A72E60FB9d9B51C6', payment_TWD, payment_wei, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, (address) => {
-        mysql.addContract(req.session.user_ID, address);
-        res.redirect('buy', { address: address });
-    });
+router.post('/deploy', async function (req, res, next) {
+    console.log('deploy')
+    let user = await mysql.getUserByID(req.session.user_ID)
+    let payment_TWD = req.cookies.payment * 10000
+    let payment_wei = payment_TWD * 100000000000000
+    console.log(user.account, payment_TWD, payment_wei)
+    if (user.account && payment_TWD && payment_wei) {
+        contract.deploy(user.account, payment_TWD, payment_wei, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, (address) => {
+            mysql.addContract(req.session.user_ID, address)
+            res.json({ type: true, address: address })
+        });
+    }
+    else {
+        res.json({ type: false })
+    }
 });
 
 router.get('/payeth', function (req, res, next) {
-    let main = '0x5720c11041D8cD5a3E69F71e38475138D87FE71c';
     let company = '0x1ad59A6D33002b819fe04Bb9c9d0333F990750a4';
     let nidhogg5 = '0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6';
-    let personal = '0x4ed1098bBD3D742F311682782f823d66bCa0Be87';
     let testContract = new contract.getContract(req.query.address);
 
     testContract.buy({

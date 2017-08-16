@@ -11,10 +11,20 @@ $("#default").click(function () {
 })
 
 $("#test").click(function () {
-    $.post("sign_up", $("#sign_up-form").serialize(), function(data) {
-        alert(data.result);
-        if(data.isSuccess) {
-            window.location = '/'
+    $.post("sign_up", $("#sign_up-form").serialize(), function (result) {
+        if (result.type)
+            swal({
+                title: result.inf,
+                text: '即將導向回首頁',
+                type: 'success',
+                closeOnConfirm: false
+            }, () => { window.location = '/' })
+        else {
+            swal({
+                title: result.inf,
+                text: '請換一個帳號',
+                type: 'warning',
+            })
         }
-    });
+    })
 })
