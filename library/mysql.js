@@ -123,6 +123,22 @@ function getAccountByID(ID, callback) {
     });
 }
 
+function setVerification(ID, code) {
+    let cmd = "UPDATE user SET verification = '" + code + "' WHERE ID = '" + ID + "' ";
+    connection.query(cmd);
+}
+
+function getVerification(ID, callback) {
+    let cmd = "SELECT verification FROM user WHERE ID = ?";
+    connection.query(cmd, [ID], (err, result) => {
+        if (!err) {
+            callback(result);
+        } else {
+            console.log(err);
+        }
+    });
+}
+
 module.exports = {
     connection: connection,
     sing_in: sing_in,
@@ -130,5 +146,7 @@ module.exports = {
     getUserByID: getUserByID,
     addContract: addContract,
     getContract: getContract,
-    getAccountByID: getAccountByID
+    getAccountByID: getAccountByID,
+    setVerification: setVerification,
+    getVerification: getVerification
 }

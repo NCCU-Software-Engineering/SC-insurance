@@ -130,6 +130,25 @@ router.post('/getcontracts', function (req, res, next) {
     })
 })
 
+router.post('/createcode', function (req, res, next) {
+    var crypto = require('crypto');
+    var randomString = crypto.randomBytes(32).toString('base64').substr(0, 8);
+    mysql.setVerification(req.session.user_ID,randomString)
+    res.send('done')
+})
+
+router.post('/verify', function (req, res, next) {
+    mysql.getVerification(req.session.user_ID,(result)=>{
+        if(req.body.code == result[0].verification){
+            mysql.setVerification(req.session.user_ID,'true')
+            res.send('success')
+        }
+        else{
+            res.send('error')
+        }
+    })
+})
+
 router.get('/takepic', function (req, res, next) {
     res.send('picture');
 });
