@@ -106,12 +106,12 @@ router.post('/deploy', async function (req, res, next) {
 });
 
 router.get('/payeth', function (req, res, next) {
-    
+
     let testContract = new contract.getContract(req.query.address);
 
     testContract.buy({
         from: req.query.account,
-        value: web3.toWei(req.query.amount,"ether"),
+        value: web3.toWei(req.query.amount, "ether"),
         gas: 4444444
     });
 
@@ -132,18 +132,23 @@ router.post('/getcontracts', function (req, res, next) {
 
 router.post('/createcode', function (req, res, next) {
     var crypto = require('crypto');
+    var send = require('../library/notice.js');
+
     var randomString = crypto.randomBytes(32).toString('base64').substr(0, 8);
-    mysql.setVerification(req.session.user_ID,randomString)
+    mysql.setVerification(req.session.user_ID, randomString)
+    var cont = "您的驗證碼為: " + randomString;
+    send.newsletter("0912254446", cont);
+
     res.send('done')
 })
 
 router.post('/verify', function (req, res, next) {
-    mysql.getVerification(req.session.user_ID,(result)=>{
-        if(req.body.code == result[0].verification){
-            mysql.setVerification(req.session.user_ID,'true')
+    mysql.getVerification(req.session.user_ID, (result) => {
+        if (req.body.code == result[0].verification) {
+            mysql.setVerification(req.session.user_ID, 'true')
             res.send('success')
         }
-        else{
+        else {
             res.send('error')
         }
     })
