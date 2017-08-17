@@ -84,6 +84,10 @@ router.get('/pay', function (req, res, next) {
     res.render('pay', { user_name: req.session.user_name })
 });
 
+router.get('/verify', function (req, res, next) {
+    res.render('verify', { user_name: req.session.user_name })
+});
+
 router.post('/deploy', async function (req, res, next) {
     console.log('deploy')
     let user = await mysql.getUserByID(req.session.user_ID)
