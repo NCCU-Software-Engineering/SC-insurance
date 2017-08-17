@@ -112,11 +112,23 @@ function getContract(ID, callback) {
     });
 }
 
+function getAccountByID(ID, callback) {
+    let cmd = "SELECT account FROM user WHERE ID = ?";
+    connection.query(cmd, [ID], (err, result) => {
+        if (!err) {
+            callback(result);
+        } else {
+            console.log(err);
+        }
+    });
+}
+
 module.exports = {
     connection: connection,
     sing_in: sing_in,
     sing_up: sing_up,
     getUserByID: getUserByID,
     addContract: addContract,
-    getContract: getContract
+    getContract: getContract,
+    getAccountByID: getAccountByID
 }

@@ -1,0 +1,36 @@
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h1>付款</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="payment">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 id="account">你的帳戶:</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <h4 for="contracts">選擇合約:</h4>
+                <select class="form-control" id="contracts">
+                    <option></option>
+                </select>
+                <br>
+                <h4 for="money">金額(ether):</h4>
+                <input type="text" class="form-control" id="money">
+                <br>
+            </div>
+        </div>
+        <button class="btn btn-primary" id="payeth">確認</button>
+    </div>
+</section>
+
+{{#section 'script'}}
+<script src="js/pay.js"></script>
+{{/section}}

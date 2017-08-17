@@ -1,8 +1,5 @@
 $(function () {
-    console.log($('#address').text());
-    $('#payeth').click(function(){
-        $.get('/payeth',{address:$('#address').text()})
-    })
+    
 });
 
 /*function one(){

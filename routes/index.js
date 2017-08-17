@@ -77,7 +77,11 @@ router.get('/test', function (req, res, next) {
 });
 
 router.get('/camera', function (req, res, next) {
-    res.render('camera')
+    res.render('camera', { user_name: req.session.user_name })
+});
+
+router.get('/pay', function (req, res, next) {
+    res.render('pay', { user_name: req.session.user_name })
 });
 
 router.post('/deploy', async function (req, res, next) {
@@ -98,23 +102,28 @@ router.post('/deploy', async function (req, res, next) {
 });
 
 router.get('/payeth', function (req, res, next) {
-    let company = '0x1ad59A6D33002b819fe04Bb9c9d0333F990750a4';
-    let nidhogg5 = '0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6';
+    
     let testContract = new contract.getContract(req.query.address);
 
     testContract.buy({
-        from: nidhogg5,
-        value: 5000000000000000000,
+        from: req.query.account,
+        value: web3.toWei(req.query.amount,"ether"),
         gas: 4444444
     });
-    /*web3.eth.sendTransaction({ from: main, to: req.query.address, value: 100000000000000000000 })
 
-    console.log('main = ' + web3.eth.getBalance(main));
-    console.log('company = ' + web3.eth.getBalance(company));
-    console.log('nidhogg5 = ' + web3.eth.getBalance(nidhogg5));
-    console.log('contract1 = ' + web3.eth.getBalance(req.query.address));*/
-    res.render('index')
+    res.render('index', { user_name: req.session.user_name })
 
+})
+router.post('/getaccount', function (req, res, next) {
+    mysql.getAccountByID(req.session.user_ID, (result) => {
+        res.send(result);
+    })
+})
+
+router.post('/getcontracts', function (req, res, next) {
+    mysql.getContract(req.session.user_ID, (result) => {
+        res.send(result);
+    })
 })
 
 router.get('/takepic', function (req, res, next) {

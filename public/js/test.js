@@ -121,8 +121,8 @@ function update() {
         "死亡受益人 : " + deathBeneficiary + "<br>" +
         "部署時間 : " + slash(deployTime) + "<br>" +
         "契撤期限 : " + slash(revocationPeriod) + "<br>" +
-        "合約時間 : " + slash(nowTime) + "<br>" +
-        "年金給付 : " + slash(paymentDate)
+        "現在時間 : " + slash(nowTime) + "<br>" +
+        "年金給付日 : " + slash(paymentDate)
     );
 
     let events = testContract.allEvents({ fromBlock: 0, toBlock: 'latest' });
