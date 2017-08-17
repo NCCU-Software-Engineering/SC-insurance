@@ -2,12 +2,13 @@
     width: 80vw;
 }
 
-.panel {
-    height: 36rem;
-}
-
 button {
     width: 32%;
+    
+}
+
+.panel {
+    min-height: 36rem;
 }
 
 .panel-heading {
@@ -19,7 +20,7 @@ button {
 }
 
 #state_body dt{
-    width: 10rem;
+    width: 14rem;
 }
 
 #face {

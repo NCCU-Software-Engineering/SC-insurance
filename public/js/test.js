@@ -5,13 +5,12 @@ let letter = false
 let testContract
 let payTime
 let myDate1 = new MyDate('#myDate1', '現在時間', 2017, 8, 17)
-let myDate2 = new MyDate('#myDate2', '契撤期限', 2017, 8, 17)
+let myDate2 = new MyDate('#myDate2', '', 0, 0, 0)
 
 $(document).ready(function () {
 
     //選擇合約
     $("#radio_group :radio").change(function () {
-        reset();
         testContract = web3.eth.contract(data.interface).at($(this).val());
         update()
     });
@@ -24,7 +23,6 @@ $(document).ready(function () {
     });
 
     $('button').click(function () {
-        console.log('button');
         let myDate = new Date();
         let contractTime = testContract.getNowTime();
 
@@ -36,51 +34,52 @@ $(document).ready(function () {
 
             case "next_day":
                 //console.log("next_day");
-                myDate.setDate(myDate.getDate() + 1);
+                myDate.setDate(myDate.getDate() + 1)
                 testContract.time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate(), {
                     from: web3.eth.coinbase,
                     gas: 4444444
-                });
-                break;
+                })
+                break
             case "next_month":
                 //console.log("next_month");
-                myDate.setMonth(myDate.getMonth() + 1);
+                myDate.setMonth(myDate.getMonth() + 1)
                 testContract.time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate(), {
                     from: web3.eth.coinbase,
                     gas: 4444444
-                });
-                break;
+                })
+                break
             case "next_year":
                 //console.log("next_year");
-                myDate.setFullYear(myDate.getFullYear() + 1);
+                myDate.setFullYear(myDate.getFullYear() + 1)
                 testContract.time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate(), {
                     from: web3.eth.coinbase,
                     gas: 4444444
-                });
-                break;
+                })
+                break
 
             case "confirm":
                 //console.log("confirm");
-                testContract.confirm(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate() + 11, {
+                myDate.setDate(myDate.getDate() + 11)
+                testContract.confirm(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate(), {
                     from: web3.eth.coinbase,
                     gas: 4444444
-                });
-                break;
+                })
+                break
 
             case "revoke":
                 //console.log("revoke");
                 testContract.revoke({
                     from: web3.eth.coinbase,
                     gas: 4444444
-                });
-                break;
+                })
+                break
 
             case "update":
                 //console.log("update");
                 break;
 
             default:
-                console.error("not fond");
+                console.error("not fond")
         }
         update();
     });
@@ -88,41 +87,27 @@ $(document).ready(function () {
 
 function update() {
 
-    let companyAddress = testContract.getCompanyAddress();
-    let insurerAddress = testContract.getInsurerAddress();
-    let state = testContract.getState();
-    let payment_TWD = testContract.getPayment_TWD();
-    let payment_wei = testContract.getPayment_wei();
-    let guaranteePeriod = testContract.getGuaranteePeriod();
-    let timeInterval = testContract.getTimeInterval();
-    let beneficiarie = testContract.getBeneficiarie();
-    let deathBeneficiary = testContract.getDeathBeneficiary();
-    let payTime = testContract.gatPayTime();
+    setState(testContract.getState().toString())
+    myDate1.setText('目前合約日期')
+    myDate1.satDate(testContract.getNowTime())
 
-    let deployTime = testContract.getDeployTime();
-    let nowTime = testContract.getNowTime();
-    let revocationPeriod = testContract.getRevocationPeriod();
-    let paymentDate = testContract.getPaymentDate();
-
-    setState(state.toString());
-
-    $("#companyAddress").text(companyAddress)
-    $("#insurerAddress").text(insurerAddress)
-    $("#state").text(state)
-    $("#payment_TWD").text(payment_TWD)
-    $("#payment_wei").text(payment_wei)
-    $("#payTime").text(payTime)
-    $("#timeInterval").text(timeInterval)
-    $("#beneficiarie").text(beneficiarie)
-    $("#deathBeneficiary").text(deathBeneficiary)
-    $("#deployTime").text(deployTime)
-    $("#revocationPeriod").text(revocationPeriod)
-    $("#paymentDate").text(paymentDate)
+    $("#companyAddress").text(testContract.getCompanyAddress())
+    $("#insurerAddress").text(testContract.getInsurerAddress())
+    $("#payment_TWD").text(testContract.getPayment_TWD() + ' 元')
+    $("#payment_wei").text(testContract.getPayment_wei() + ' wei')
+    $("#payTime").text(testContract.gatPayTime() + '次')
+    $("#timeInterval").text(testContract.getTimeInterval() + '年')
+    $("#beneficiarie").text(testContract.getBeneficiarie())
+    $("#deathBeneficiary").text(testContract.getDeathBeneficiary())
+    $("#deployTime").text(slash(testContract.getDeployTime()))
+    $("#nowTime").text(slash(testContract.getNowTime()))
+    $("#revocationPeriod").text(slash(testContract.getRevocationPeriod()))
+    $("#paymentDate").text(slash(testContract.getPaymentDate()))
 
     let events = testContract.allEvents({ fromBlock: 0, toBlock: 'latest' });
     events.get(function (error, logs) {
-        console.log(logs);
-        $("#event_body").html('');
+        //console.log(logs)
+        $("#event_body").html('')
         logs.forEach((element) => {
 
             switch (element.event) {
@@ -172,7 +157,7 @@ function setState(state) {
     switch (state) {
         case '0':
             $("#state_panel").addClass("panel panel-default ");
-            $("#state_heading").html("合約狀態：等待付款");
+            $("#state_heading").html("合約狀態：等待付款")
             break;
         case '1':
             $("#state_panel").addClass("panel panel-warning");
@@ -181,22 +166,26 @@ function setState(state) {
         case '2':
             $("#state_panel").addClass("panel panel-info");
             $("#state_heading").html("合約狀態：合約撤銷期內");
+            myDate2.setText('契約撤銷期限')
+            myDate2.satDate(testContract.getRevocationPeriod())
             break;
         case '3':
             $("#state_panel").addClass("panel panel-primary");
             $("#state_heading").html("合約狀態：合約確認 正式生效");
+            myDate2.setText('下次年金給付日期')
+            myDate2.satDate(testContract.getPaymentDate())
             break;
         case '4':
             $("#state_panel").addClass("panel panel-success");
             $("#state_heading").html("合約狀態：合約給付結束");
+            myDate2.setText('')
+            myDate2.satDate([0, 0, 0])
             break;
         case '5':
             $("#state_panel").addClass("panel panel-danger");
             $("#state_heading").html("合約狀態：合約已被撤銷");
-            break;
-        case '6':
-            $("#state_panel").addClass("panel panel-danger");
-            $("#state_heading").html("合約狀態：合約已被撤銷");
+            myDate2.setText('')
+            myDate2.satDate([0, 0, 0])
             break;
         default:
             $("#state_panel").addClass("panel panel-default");
@@ -204,16 +193,11 @@ function setState(state) {
     }
 }
 
-function reset() {
-    $("#event_button").show();
-    $("#status").removeClass();
-    $("#status").addClass("panel panel-default");
-    $("#status_heading").html("合約狀態");
-    $("#status_body").html("");
-    $("#a").html("");
-    $("#b").html("");
-}
-
 function slash(date) {
-    return date.toString().replace(/,/g, '/');
+    if (date[0] == 0 && date[1] == 0 && date[2] == 0) {
+        return '未訂'
+    }
+    else {
+        return date[0] + '年' + date[1] + '月' + date[2] + '日'
+    }
 }

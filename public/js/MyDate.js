@@ -1,31 +1,31 @@
 class MyDate {
 	constructor(select, text, year, month, day) {
 		this.select = select;
-		$(select + ' p').text(text)
-		$(select + ' .year div').text(this.year = year)
-		$(select + ' .month div').text(this.month = month)
-		$(select + ' .day div').text(this.day = day)
+		$(this.select + ' p').text(text)
+		$(this.select + ' .year div').text(this.year = year)
+		$(this.select + ' .month div').text(this.month = month)
+		$(this.select + ' .day div').text(this.day = day)
 	}
-	satDate(year, month, day) {
-		if (this.year != year) {
-			this.year = year
-			run('.jcountTimer .year', year)
+	satDate(val) {
+		function run(select, val) {
+			$(select + ' div').text(val)
+			$(select).removeClass('run-animation');
+			setTimeout(function () {
+				$(select).addClass('run-animation');
+			}, 1)
 		}
-		if (this.month != month) {
-			this.month = month
-			run('.jcountTimer .month', month)
-		}
-		if (this.day != day) {
-			this.day = day
-			run('.jcountTimer .day', day)
-		}
-	}
-}
 
-function run(select, val) {
-	$(select + ' div').text(val)
-	$(select).removeClass('run-animation');
-	setTimeout(function () {
-		$(select).addClass('run-animation');
-	}, 1)
+		if (this.year != val[0]) {
+			run(this.select + ' .year', this.year = Number(val[0]))
+		}
+		if (this.month != val[1]) {
+			run(this.select + ' .month', this.month = Number(val[1]))
+		}
+		if (this.day != val[2]) {
+			run(this.select + ' .day', this.day = Number(val[2]))
+		}
+	}
+	setText(val) {
+		$(this.select + ' p').text(val)
+	}
 }

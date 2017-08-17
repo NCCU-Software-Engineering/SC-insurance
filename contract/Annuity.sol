@@ -236,7 +236,6 @@ contract Annuity {
         }
     }    
 
-
     //摧毀合約
     function destroy() {
          if (msg.sender == _companyAddress) {
