@@ -1,0 +1,52 @@
+@import url(https://fonts.googleapis.com/css?family=Kelly+Slab);
+.jcountTimer {
+    font-weight: 100;
+    font-size: 3em;
+    height: 112px;
+    margin: 0;
+}
+
+.jcountTimer span {
+    display: block;
+    height: 112px;
+    width: 130px;
+    float: left;
+    margin-right: 10px;
+    background: #ddd;
+    padding: 20px;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.jcountTimer small {
+    display: block;
+    font-size: 2rem;
+}
+
+.jcountTimer .year {
+    color: #65ada2;
+}
+
+.jcountTimer .month {
+    color: #da6665;
+}
+
+.jcountTimer .day {
+    color: #adb87a;
+}
+
+.run-animation {
+    animation: removeText 1s forwards;
+}
+
+@keyframes removeText {
+    0% {
+        margin-top: 0;
+    }
+    50% {
+        margin-top: -20px;
+    }
+    100% {
+        margin-top: 0;
+    }
+}

@@ -7,10 +7,7 @@ var payTime;
 
 $(document).ready(function () {
 
-    countDown(".jcountTimer", 2017, 10, 15)
-    $('.jcountTimer .day').removeClass('run-animation')
-    $('.jcountTimer .day').addClass('run-animation')
-
+    let myDate = new MyDate(2017, 8, 17)
 
     $("#radio_group :radio").change(function () {
         reset();
