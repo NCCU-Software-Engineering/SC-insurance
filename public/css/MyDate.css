@@ -1,25 +1,31 @@
 @import url(https://fonts.googleapis.com/css?family=Kelly+Slab);
 .jcountTimer {
     font-weight: 100;
-    font-size: 3em;
-    height: 112px;
+    font-size: 50px;
     margin: 0;
+}
+
+.jcountTimer p{
+	text-align: center;
+    font-weight: 100;
+    font-size: 20px;
 }
 
 .jcountTimer span {
     display: block;
-    height: 112px;
-    width: 130px;
-    float: left;
+    height: 116px;
+    width: 30%;
+	float: left;
     margin-right: 10px;
     background: #ddd;
-    padding: 20px;
+    padding: 15px 20px 20px 20px;
     text-align: center;
     border-radius: 3px;
 }
 
 .jcountTimer small {
-    display: block;
+	display: block;
+	margin-top: 10px;
     font-size: 2rem;
 }
 

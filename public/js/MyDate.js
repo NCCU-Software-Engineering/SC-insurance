@@ -1,8 +1,10 @@
 class MyDate {
-	constructor(year, month, day) {
-		$('.jcountTimer .year div').text(this.year = year)
-		$('.jcountTimer .month div').text(this.month = month)
-		$('.jcountTimer .day div').text(this.day = day)
+	constructor(select, text, year, month, day) {
+		this.select = select;
+		$(select + ' p').text(text)
+		$(select + ' .year div').text(this.year = year)
+		$(select + ' .month div').text(this.month = month)
+		$(select + ' .day div').text(this.day = day)
 	}
 	satDate(year, month, day) {
 		if (this.year != year) {

@@ -22,32 +22,40 @@
 <section id="event_button">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                <h3 class="jcountTimer">
+            <div class="col-md-4">
+                <h3 class="jcountTimer" id="myDate1">
+                    <p></p>
                     <span class="year"><div></div><small>year</small></span>
                     <span class="month"><div></div><small>month</small></span>
                     <span class="day"><div></div><small>day</small></span>
                 </h3>
             </div>
-            <div class="col-md-6">
-                <div class="btn-group.btn-group-justified" role="group">
+            <div class="col-md-4">
+                <div class="btn-group.btn-group-justified" role="group" style="margin-bottom: 5px;">
                     <button class="btn btn-success btn-lg" id="next_day">下一天</button>
                     <button class="btn btn-success btn-lg" id="next_month">下一月</button>
                     <button class="btn btn-success btn-lg" id="next_year">下一年</button>
                 </div>
-                <div class="btn-group.btn-group-justified" role="group">
-                    <br>
+                <div class="btn-group.btn-group-justified" role="group" style="margin-bottom: 5px;">
                     <button class="btn btn-success btn-lg" id="update">更新</button>
                     <button class="btn btn-success btn-lg" id="dead">被保人往生</button>
                     <button class="btn btn-success btn-lg" id="confirm">確認合約</button>
-                    <button class="btn btn-success btn-lg" id="revoke">撤銷合約</button>
                 </div>
-                <div class="btn-group.btn-group-justified" role="group" id="face">
-                    <br>
+                <div class="btn-group.btn-group-justified" role="group">
+                    <button class="btn btn-success btn-lg" id="revoke">撤銷合約</button>
                     <button class="btn btn-success btn-lg" id="success">人臉辨識成功</button>
                     <button class="btn btn-success btn-lg" id="failure">人臉辨識失敗</button>
                 </div>
             </div>
+            <div class="col-md-4">
+                <h3 class="jcountTimer" id="myDate2">
+                    <p></p>
+                    <span class="year"><div></div><small>year</small></span>
+                    <span class="month"><div></div><small>month</small></span>
+                    <span class="day"><div></div><small>day</small></span>
+                </h3>
+            </div>
+
             <div class="col-md-12">
                 <hr>
             </div>
@@ -59,31 +67,57 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <div class="panel panel-default" id="state">
+                <div class="panel panel-default" id="state_panel">
                     <div class="panel-heading" id="state_heading">合約狀態</div>
-                    <div class="panel-body" id="state_body">請先選擇合約</div>
+                    <div class="panel-body" id="state_body">
+                        <dl class="dl-horizontal">
+                            <dt>保險公司</dt>
+                            <dd id="companyAddress"></dd>
+
+                            <dt>被保人</dt>
+                            <dd id="insurerAddress"></dd>
+
+                            <dt>狀態</dt>
+                            <dd id="state"></dd>
+
+                            <dt>保費(新台幣)</dt>
+                            <dd id="payment_TWD"></dd>
+
+                            <dt>保費(以太幣)</dt>
+                            <dd id="payment_wei"></dd>
+
+                            <dt>已給付次數</dt>
+                            <dd id="payTime"></dd>
+
+                            <dt>給付間格</dt>
+                            <dd id="timeInterval"></dd>
+
+                            <dt>受益人</dt>
+                            <dd id="beneficiarie"></dd>
+
+                            <dt>死亡受益人</dt>
+                            <dd id="deathBeneficiary"></dd>
+
+                            <dt>部署時間</dt>
+                            <dd id="deployTime"></dd>
+
+                            <dt>契撤期限</dt>
+                            <dd id="revocationPeriod"></dd>
+
+                            <dt>年金給付日</dt>
+                            <dd id="paymentDate"></dd>
+
+                        </dl>
+                    </div>
+
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="panel panel-default" id="event">
+                <div class="panel panel-default" id="event_panel">
                     <div class="panel-heading" id="event_heading">事件監聽</div>
                     <div class="panel-body" id="event_body">請先選擇合約</div>
                 </div>
             </div>
-            <!--
-            <div class="col-md-6">
-                <div class="panel panel-success">
-                    <div class="panel-heading">被保人事件</div>
-                    <div class="panel-body" id="a"></div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="panel panel-warning">
-                    <div class="panel-heading">保險公司事件</div>
-                    <div class="panel-body" id="b"></div>
-                </div>
-            </div>
-            -->
         </div>
     </div>
 </section>

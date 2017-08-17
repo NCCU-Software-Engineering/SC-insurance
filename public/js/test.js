@@ -1,14 +1,15 @@
-var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
-var adrress;
-var email = false;
-var letter = false;
-var testContract;
-var payTime;
+let web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+let adrress
+let email = false
+let letter = false
+let testContract
+let payTime
+let myDate1 = new MyDate('#myDate1', '現在時間', 2017, 8, 17)
+let myDate2 = new MyDate('#myDate2', '契撤期限', 2017, 8, 17)
 
 $(document).ready(function () {
 
-    let myDate = new MyDate(2017, 8, 17)
-
+    //選擇合約
     $("#radio_group :radio").change(function () {
         reset();
         testContract = web3.eth.contract(data.interface).at($(this).val());
@@ -105,22 +106,18 @@ function update() {
 
     setState(state.toString());
 
-    $("#state_body").html(
-        "保險公司 : " + companyAddress + "<br>" +
-        "被保人 : " + insurerAddress + "<br>" +
-        "狀態 : " + state + "<br>" +
-        "保費(新台幣) : " + payment_TWD + "元<br>" +
-        "保費(以太幣) : " + web3.fromWei(payment_wei) + "eth<br>" +
-        "已給付次數 : " + payTime + "<br>" +
-        //"保證期間 : " + guaranteePeriod + "年<br>" +
-        "給付間格 : " + timeInterval + "年<br>" +
-        "受益人 : " + beneficiarie + "<br>" +
-        "死亡受益人 : " + deathBeneficiary + "<br>" +
-        "部署時間 : " + slash(deployTime) + "<br>" +
-        "契撤期限 : " + slash(revocationPeriod) + "<br>" +
-        "現在時間 : " + slash(nowTime) + "<br>" +
-        "年金給付日 : " + slash(paymentDate)
-    );
+    $("#companyAddress").text(companyAddress)
+    $("#insurerAddress").text(insurerAddress)
+    $("#state").text(state)
+    $("#payment_TWD").text(payment_TWD)
+    $("#payment_wei").text(payment_wei)
+    $("#payTime").text(payTime)
+    $("#timeInterval").text(timeInterval)
+    $("#beneficiarie").text(beneficiarie)
+    $("#deathBeneficiary").text(deathBeneficiary)
+    $("#deployTime").text(deployTime)
+    $("#revocationPeriod").text(revocationPeriod)
+    $("#paymentDate").text(paymentDate)
 
     let events = testContract.allEvents({ fromBlock: 0, toBlock: 'latest' });
     events.get(function (error, logs) {
@@ -171,38 +168,38 @@ function update() {
 }
 
 function setState(state) {
-    $("#state").removeClass();
+    $("#state_panel").removeClass();
     switch (state) {
         case '0':
-            $("#state").addClass("panel panel-default ");
+            $("#state_panel").addClass("panel panel-default ");
             $("#state_heading").html("合約狀態：等待付款");
             break;
         case '1':
-            $("#state").addClass("panel panel-warning");
+            $("#state_panel").addClass("panel panel-warning");
             $("#state_heading").html("合約狀態：合約未被確認");
             break;
         case '2':
-            $("#state").addClass("panel panel-info");
+            $("#state_panel").addClass("panel panel-info");
             $("#state_heading").html("合約狀態：合約撤銷期內");
             break;
         case '3':
-            $("#state").addClass("panel panel-primary");
+            $("#state_panel").addClass("panel panel-primary");
             $("#state_heading").html("合約狀態：合約確認 正式生效");
             break;
         case '4':
-            $("#state").addClass("panel panel-success");
+            $("#state_panel").addClass("panel panel-success");
             $("#state_heading").html("合約狀態：合約給付結束");
             break;
         case '5':
-            $("#state").addClass("panel panel-danger");
+            $("#state_panel").addClass("panel panel-danger");
             $("#state_heading").html("合約狀態：合約已被撤銷");
             break;
         case '6':
-            $("#state").addClass("panel panel-danger");
+            $("#state_panel").addClass("panel panel-danger");
             $("#state_heading").html("合約狀態：合約已被撤銷");
             break;
         default:
-            $("#state").addClass("panel panel-default");
+            $("#state_panel").addClass("panel panel-default");
             $("#state_heading").html("合約狀態：未知狀態???");
     }
 }

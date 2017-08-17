@@ -1,25 +1,32 @@
-.container{
-    width:80vw;
+.container {
+    width: 80vw;
 }
-#state, #event {
-    height: 40rem;
+
+.panel {
+    height: 36rem;
 }
 
 button {
-    width: 10rem;
+    width: 32%;
 }
 
 .panel-heading {
     font-size: 3rem;
 }
+
 .panel-body {
     font-size: 2rem;
+}
+
+#state_body dt{
+    width: 10rem;
 }
 
 #face {
     display: none;
 }
 
-#email, letter{
+#email,
+letter {
     margin-bottom: 1rem;
 }
