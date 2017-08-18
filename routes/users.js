@@ -31,8 +31,8 @@ router.post('/sign_in', async function (req, res, next) {
 
 router.post('/sign_up', async function (req, res, next) {
     console.log('sign_up-post')
+    console.log(req.body)
     let user = req.body
-    console.log(user)
     let result = await mysql.sing_up(user.ID, user.password, user.name, user.identity, user.email, user.phone, user.birthday, user.address, user.account)
     if (result.type) {
         req.session.user_ID = user.ID
