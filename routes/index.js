@@ -115,7 +115,7 @@ router.get('/payeth', function (req, res, next) {
         gas: 4444444
     });
 
-    res.render('index', { user_name: req.session.user_name })
+    res.send('done')
 
 })
 router.post('/getaccount', function (req, res, next) {
@@ -134,7 +134,7 @@ router.post('/createcode', function (req, res, next) {
     var crypto = require('crypto');
     var send = require('../library/notice.js');
 
-    var randomString = crypto.randomBytes(32).toString('base64').substr(0, 8);
+    var randomString = crypto.randomBytes(32).toString('hex').substr(0, 8);
     mysql.setVerification(req.session.user_ID, randomString)
     var cont = "您的驗證碼為: " + randomString;
     send.newsletter("0912254446", cont);

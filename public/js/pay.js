@@ -17,6 +17,8 @@ $(function () {
             address: $("#contracts option:selected").text(),
             account: account,
             amount: $("#money").val()
+        },(result)=>{
+            window.location = '/';
         })
 	})
 });
