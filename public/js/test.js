@@ -11,8 +11,8 @@ let nidhogg5 = '0xA4716ae2279E6e18cF830Da2A72E60FB9d9B51C6'
 
 $(document).ready(function () {
 
-    $('#money_company').text(web3.fromWei(web3.eth.getBalance(company)))
-    $('#money_your').text(web3.fromWei(web3.eth.getBalance(nidhogg5)))
+    $('#money_company').text(web3.fromWei(web3.eth.getBalance(company)).toFixed(3))
+    $('#money_your').text(web3.fromWei(web3.eth.getBalance(nidhogg5)).toFixed(3))
 
     //選擇合約
     $("#radio_group :radio").change(function () {
@@ -100,8 +100,8 @@ $(document).ready(function () {
 
 function update() {
 
-    $('#money_company').text(web3.fromWei(web3.eth.getBalance(company)))
-    $('#money_your').text(web3.fromWei(web3.eth.getBalance(nidhogg5)))
+    $('#money_company').text(web3.fromWei(web3.eth.getBalance(company)).toFixed(3))
+    $('#money_your').text(web3.fromWei(web3.eth.getBalance(nidhogg5)).toFixed(3))
 
     setState(testContract.getState().toString())
     myDate1.setText('目前合約日期')
