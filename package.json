@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "testrpc": "testrpc --port 8545 --accounts 5 --blocktime 5"
+    "testrpc": "testrpc --port 8545 --accounts 5 --gasPrice 0 --account='0x5f9a53f726597a482f492f4f8d4b949ab6f6d0616d326365b6bd9269f1776ff8,100000000000000000000' --account='0x5695b35083430c171aeddf9bb9aa7f1a52ac850922f08f9d4e41278dc5352620,100000000000000000000'"
   },
   "dependencies": {
     "angular": "^1.6.4",
