@@ -73,7 +73,15 @@ $(document).ready(function () {
                     gas: 4444444
                 })
                 break
-
+                
+            case "dead":
+                //console.log("dead");
+                testContract.endAnnuity({
+                    from: web3.eth.coinbase,
+                    gas: 4444444
+                })
+                break
+                
             case "update":
                 //console.log("update");
                 break;
