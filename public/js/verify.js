@@ -4,12 +4,17 @@ $(document).ready(function () {
             code: $('#verifycode').val()
         }, (result) => {
             if (result == 'success') {
-                alert('驗證成功')
-                window.location = '/';
+                swal({
+                    title: '驗證成功',
+                    type: 'success',
+                    closeOnConfirm: false
+                }, () => { window.location = '/' })
             }
             else {
-                alert('驗證失敗')
-                window.location = '/verify';
+                swal({
+                    title: '驗證失敗',
+                    type: 'error'
+                })
             }
         });
     })
