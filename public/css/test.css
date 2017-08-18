@@ -4,11 +4,6 @@
 
 button {
     width: 32%;
-    
-}
-
-.panel {
-    min-height: 36rem;
 }
 
 .panel-heading {
@@ -16,11 +11,13 @@ button {
 }
 
 .panel-body {
+    height: 40rem;
     font-size: 2rem;
+    overflow: auto;
 }
 
-#state_body dt{
-    width: 14rem;
+#state_body dt {
+    width: 16rem;
 }
 
 #face {

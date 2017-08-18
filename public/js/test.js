@@ -6,7 +6,13 @@ let testContract
 let myDate1 = new MyDate('#myDate1', '現在時間', 2017, 8, 17)
 let myDate2 = new MyDate('#myDate2', '', 0, 0, 0)
 
+let company = '0x1ad59a6d33002b819fe04bb9c9d0333f990750a4'
+let nidhogg5 = '0xA4716ae2279E6e18cF830Da2A72E60FB9d9B51C6'
+
 $(document).ready(function () {
+
+    $('#money_company').text(web3.fromWei(web3.eth.getBalance(company)).toFixed(3))
+    $('#money_your').text(web3.fromWei(web3.eth.getBalance(nidhogg5)).toFixed(3))
 
     //選擇合約
     $("#radio_group :radio").change(function () {
@@ -93,6 +99,9 @@ $(document).ready(function () {
 });
 
 function update() {
+
+    $('#money_company').text(web3.fromWei(web3.eth.getBalance(company)).toFixed(3))
+    $('#money_your').text(web3.fromWei(web3.eth.getBalance(nidhogg5)).toFixed(3))
 
     setState(testContract.getState().toString())
     myDate1.setText('目前合約日期')
