@@ -3,7 +3,6 @@ let adrress
 let email = false
 let letter = false
 let testContract
-let payTime
 let myDate1 = new MyDate('#myDate1', '現在時間', 2017, 8, 17)
 let myDate2 = new MyDate('#myDate2', '', 0, 0, 0)
 
@@ -120,41 +119,42 @@ function update() {
 
             switch (element.event) {
                 case 'buyEvent':
-                    $("#event_body").append(element.event + '<br>');
-                    $("#event_body").append('來自 : ' + element.args.from + '<br>');
-                    $("#event_body").append('資訊 : ' + element.args.inf + '<br>');
-                    $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>');
-                    break;
+                    $("#event_body").append(element.event + '<br>')
+                    $("#event_body").append('來自 : ' + element.args.from + '<br>')
+                    $("#event_body").append('資訊 : ' + element.args.inf + '<br>')
+                    $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
+                    break
                 case 'confirmEvent':
-                    $("#event_body").append(element.event + '<br>');
-                    $("#event_body").append('來自 : ' + element.args.from + '<br>');
-                    $("#event_body").append('資訊 : ' + element.args.inf + '<br>');
-                    $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>');
-                    break;
+                    $("#event_body").append(element.event + '<br>')
+                    $("#event_body").append('來自 : ' + element.args.from + '<br>')
+                    $("#event_body").append('資訊 : ' + element.args.inf + '<br>')
+                    $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
+                    break
                 case 'payEvent':
-                    $("#event_body").append(element.event + '<br>');
-                    $("#event_body").append('來自 : ' + element.args.from + '<br>');
-                    $("#event_body").append('資訊 : ' + element.args.inf + '<br>');
-                    $("#event_body").append('給付次數 :　第' + element.args.payTime + '次給付年金通知<br>');
-                    $("#event_body").append('保險公司應給付金額 : ' + web3.fromWei(element.args.value) + 'eth<br>');
-                    $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>');
-                    if (element.args.payTime > payTime) {
-                        console.log('company pay');
+                    $("#event_body").append(element.event + '<br>')
+                    $("#event_body").append('來自 : ' + element.args.from + '<br>')
+                    $("#event_body").append('資訊 : ' + element.args.inf + '<br>')
+                    $("#event_body").append('給付次數 :　第' + element.args.payTime + '次給付年金通知<br>')
+                    $("#event_body").append('保險公司應給付金額 : ' + web3.fromWei(element.args.value) + 'eth<br>')
+                    $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
+                    console.log(element.args.payTime > testContract.gatPayTime())
+                    if (element.args.payTime > testContract.gatPayTime()) {
+                        console.log('companyPay')
                         testContract.companyPay({
                             from: '0x1ad59A6D33002b819fe04Bb9c9d0333F990750a4',
                             value: element.args.value,
                             gas: 4444444
-                        });
+                        })
                     }
-                    break;
+                    break
                 case 'companyPayEvent':
-                    $("#event_body").append(element.event + '<br>');
-                    $("#event_body").append('來自 : ' + element.args.from + '<br>');
-                    $("#event_body").append('資訊 : ' + element.args.inf + '<br>');
-                    $("#event_body").append('給付次數 :　第' + element.args.payTime + '次給付年金完成<br>');
-                    $("#event_body").append('保險公司給付金額 : ' + web3.fromWei(element.args.value) + 'eth<br>');
-                    $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>');
-                    break;
+                    $("#event_body").append(element.event + '<br>')
+                    $("#event_body").append('來自 : ' + element.args.from + '<br>')
+                    $("#event_body").append('資訊 : ' + element.args.inf + '<br>')
+                    $("#event_body").append('給付次數 :　第' + element.args.payTime + '次給付年金完成<br>')
+                    $("#event_body").append('保險公司給付金額 : ' + web3.fromWei(element.args.value) + 'eth<br>')
+                    $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
+                    break
             }
         })
     });
