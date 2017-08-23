@@ -8,6 +8,7 @@ let myDate2 = new MyDate('#myDate2', '', 0, 0, 0)
 
 let company = '0x1ad59a6d33002b819fe04bb9c9d0333f990750a4'
 let nidhogg5 = '0xA4716ae2279E6e18cF830Da2A72E60FB9d9B51C6'
+let deathBeneficiary = '0x68a874f2e8d20718af2ebb48dc10940ede50c080'
 
 $(document).ready(function () {
 
@@ -80,7 +81,7 @@ $(document).ready(function () {
                 break
 
             case "dead":
-                //console.log("dead");
+                console.log("dead");
                 testContract.endAnnuity({
                     from: web3.eth.coinbase,
                     gas: 4444444
@@ -102,17 +103,21 @@ function update() {
 
     $('#money_company').text(web3.fromWei(web3.eth.getBalance(company)).toFixed(3))
     $('#money_your').text(web3.fromWei(web3.eth.getBalance(nidhogg5)).toFixed(3))
+    $('#money_dead').text(web3.fromWei(web3.eth.getBalance(deathBeneficiary)).toFixed(3))
+    
 
     setState(testContract.getState().toString())
     myDate1.setText('目前合約日期')
     myDate1.satDate(testContract.getNowTime())
 
+    $("#state").text(testContract.getState())
     $("#companyAddress").text(testContract.getCompanyAddress())
     $("#insurerAddress").text(testContract.getInsurerAddress())
     $("#payment_TWD").text(testContract.getPayment_TWD() + ' 元')
     $("#payment_wei").text(testContract.getPayment_wei() + ' wei')
     $("#payTime").text(testContract.gatPayTime() + '次')
     $("#timeInterval").text(testContract.getTimeInterval() + '年')
+    $("#guaranteePeriod").text(testContract.getGuaranteePeriod() + '年')
     $("#beneficiarie").text(testContract.getBeneficiarie())
     $("#deathBeneficiary").text(testContract.getDeathBeneficiary())
     $("#deployTime").text(slash(testContract.getDeployTime()))
@@ -130,7 +135,7 @@ function update() {
                 case 'buyEvent':
                     $("#event_body").append('購買合約' + '<br>')
                     $("#event_body").append('來自 : ' + element.args.from + '<br>')
-                    if(element.args.inf == 'success buy')
+                    if (element.args.inf == 'success buy')
                         $("#event_body").append('資訊 : ' + '購買成功' + '<br>')
                     else
                         $("#event_body").append('資訊 : ' + '購買失敗' + '<br>')
@@ -139,7 +144,7 @@ function update() {
                 case 'confirmEvent':
                     $("#event_body").append('確認合約' + '<br>')
                     $("#event_body").append('來自 : ' + element.args.from + '<br>')
-                    if(element.args.inf == 'success confirm')
+                    if (element.args.inf == 'success confirm')
                         $("#event_body").append('資訊 : ' + '確認成功' + '<br>')
                     else
                         $("#event_body").append('資訊 : ' + '確認失敗' + '<br>')
@@ -148,15 +153,15 @@ function update() {
                 case 'payEvent':
                     $("#event_body").append('給付年金通知' + '<br>')
                     $("#event_body").append('來自 : ' + element.args.from + '<br>')
-                    if(element.args.inf == 'Notify the insurance company to pay')
+                    if (element.args.inf == 'Notify the insurance company to pay')
                         $("#event_body").append('資訊 : ' + '通知成功' + '<br>')
                     else
                         $("#event_body").append('資訊 : ' + '通知失敗' + '<br>')
                     $("#event_body").append('給付次數 :　第' + element.args.payTime + '次給付年金通知<br>')
                     $("#event_body").append('保險公司應給付金額 : ' + web3.fromWei(element.args.value) + 'eth<br>')
                     $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
-                    console.log(element.args.payTime > testContract.gatPayTime())
-                    if (element.args.payTime > testContract.gatPayTime()) {
+                    console.log(element.args.payTime.toString() + ' vs ' + testContract.gatPayTime().toString())
+                    if (parseInt(element.args.payTime) > parseInt(testContract.gatPayTime())) {
                         console.log('companyPay')
                         testContract.companyPay({
                             from: '0x1ad59A6D33002b819fe04Bb9c9d0333F990750a4',
@@ -168,7 +173,7 @@ function update() {
                 case 'companyPayEvent':
                     $("#event_body").append('給付年金完成' + '<br>')
                     $("#event_body").append('來自 : ' + element.args.from + '<br>')
-                    if(element.args.inf == 'company pay success')
+                    if (element.args.inf == 'company pay success')
                         $("#event_body").append('資訊 : ' + '給付成功' + '<br>')
                     else
                         $("#event_body").append('資訊 : ' + '給付失敗' + '<br>')
@@ -179,7 +184,7 @@ function update() {
                 case 'revokeEvent':
                     $("#event_body").append('合約撤銷' + '<br>')
                     $("#event_body").append('來自 : ' + element.args.from + '<br>')
-                    if(element.args.inf == 'revoke the contract')
+                    if (element.args.inf == 'revoke the contract')
                         $("#event_body").append('資訊 : ' + '撤銷成功' + '<br>')
                     else
                         $("#event_body").append('資訊 : ' + '撤銷失敗' + '<br>')
@@ -225,6 +230,12 @@ function setState(state) {
             myDate2.setText('')
             myDate2.satDate([0, 0, 0])
             break;
+        case '6':
+            $("#state_panel").addClass("panel panel-danger");
+            $("#state_heading").html("合約狀態：被保人往生 保證期間內");
+            myDate2.setText('下次年金給付日期')
+            myDate2.satDate(testContract.getPaymentDate())
+            break
         default:
             $("#state_panel").addClass("panel panel-default");
             $("#state_heading").html("合約狀態：未知狀態???");

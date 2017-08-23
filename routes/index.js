@@ -69,6 +69,8 @@ router.get('/verify', function (req, res, next) {
 router.post('/agreement', function (req, res, next) {
     console.log("agreement-post");
     console.log(req.body);
+        
+    res.cookie('deathBeneficiaryAddress', req.body.payment, { maxAge: 60 * 1000 })
     res.cookie('payment', req.body.payment, { maxAge: 60 * 1000 })
     res.cookie('paymentDate', req.body.paymentDate, { maxAge: 60 * 1000 })
     res.cookie('beneficiary', req.session.user_name, { maxAge: 60 * 1000 })
@@ -83,7 +85,7 @@ router.post('/deploy', async function (req, res, next) {
     let payment_wei = payment_TWD * 100000000000000
     console.log(user.account, payment_TWD, payment_wei)
     if (user.account && payment_TWD && payment_wei) {
-        contract.deploy(user.account, payment_TWD, payment_wei, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, (address) => {
+        contract.deploy(user.account, req.cookies.deathBeneficiaryAddress, payment_TWD, payment_wei, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, (address) => {
             mysql.addContract(req.session.user_ID, address)
             res.json({ type: true, address: address })
         })

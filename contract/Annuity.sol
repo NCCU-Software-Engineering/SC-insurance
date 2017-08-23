@@ -6,6 +6,8 @@ contract Annuity {
     address private _companyAddress;
     //被保人adress
     address private _insuredAddress;
+    //被保人adress
+    address private _deathBeneficiaryAddress;
     //時間伺服器address
     address private _timerAddress;
 
@@ -35,7 +37,7 @@ contract Annuity {
     
     //合約狀態
     //等待付款未被確認 契撤期 確認並等待給付 結束給付 被撤銷
-    enum State{waitingForPayment, unconfirmed, canBeRevoked, confirmd, ending, revocation}
+    enum State{waitingForPayment, unconfirmed, canBeRevoked, confirmd, ending, revocation, guarantee}
     State public _state;
 
     modifier inState(State state) {
@@ -51,10 +53,11 @@ contract Annuity {
     event companyPayEvent(address from, string inf, uint value, uint payTime, uint[3] timestamp);
 
     //建構子
-    function Annuity(address insuredAddress, uint[3] date, uint payment_TWD, uint payment_wei, uint paymentDate, uint guaranteePeriod, string beneficiary, string deathBeneficiary) {
+    function Annuity(address insuredAddress, address deathBeneficiaryAddress, uint[3] date, uint payment_TWD, uint payment_wei, uint paymentDate, uint guaranteePeriod, string beneficiary, string deathBeneficiary) {
 
         _companyAddress = msg.sender;
         _insuredAddress = insuredAddress;
+        _deathBeneficiaryAddress = deathBeneficiaryAddress;
 
         _payment_TWD = payment_TWD;
         _payment_wei = payment_wei;
@@ -188,7 +191,12 @@ contract Annuity {
         //if(msg.sender != companyAddress) {
         //    throw;
         //}
-        _state = State.ending;
+        if(_payTime > _guaranteePeriod) {
+            _state = State.ending;
+        }
+        else {
+            _state = State.guarantee;
+        }
     }
 
     function time(uint year, uint month, uint day) {
@@ -210,7 +218,7 @@ contract Annuity {
             }
         }
         //開始給付年金
-        else if(_state == State.confirmd) {
+        else if(_state == State.confirmd || _state == State.guarantee) {
             if((year>_paymentDate[0]) ||
                 (year==_paymentDate[0] && month>_paymentDate[1]) ||
                 (year==_paymentDate[0] && month==_paymentDate[1] && day>=_paymentDate[2])){
@@ -223,11 +231,24 @@ contract Annuity {
     function companyPay() payable{
         
         if(msg.value >= _payment_wei/10) {
-            if( !_insuredAddress.send(msg.value) ) {
-                throw;
+            if(_state != State.guarantee){
+                if( !_insuredAddress.send(msg.value) ) {
+                    throw;
+                }
+                _paymentDate[0] += _timeInterval;
+                _payTime += 1;
             }
-            _paymentDate[0] += _timeInterval;
-            _payTime += 1;
+            else {
+                if( !_deathBeneficiaryAddress.send(msg.value) ) {
+                    throw;
+                }
+                _paymentDate[0] += _timeInterval;
+                _payTime += 1;
+                
+                if(_payTime > _guaranteePeriod) {
+                    _state = State.ending;
+                }
+            }
             companyPayEvent(msg.sender , "company pay success", msg.value, _payTime, _nowTime);
         }
         

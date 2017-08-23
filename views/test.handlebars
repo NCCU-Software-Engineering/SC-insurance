@@ -14,13 +14,17 @@
                     {{{radio}}}
                 </ul>
             </div>
-            <div class="col-md-6" style="font-size: 2rem;">
+            <div class="col-md-4" style="font-size: 2rem;">
                 <div style="display: inline-block;">保險公司方以太坊帳戶餘額：</div>
                 <div style="display: inline-block;" id="money_company"></div>
             </div>
-            <div class="col-md-6" style="font-size: 2rem;">
+            <div class="col-md-4" style="font-size: 2rem;">
                 <div style="display: inline-block;">您的以太坊帳戶餘額：</div>
                 <div style="display: inline-block;" id="money_your"></div>
+            </div>
+            <div class="col-md-4" style="font-size: 2rem;">
+                <div style="display: inline-block;">身故受益人以太坊帳戶餘額：</div>
+                <div style="display: inline-block;" id="money_dead"></div>
             </div>
             <div class="col-md-12">
                 <hr>
@@ -90,6 +94,10 @@
                     <div class="panel-heading" id="state_heading">合約狀態</div>
                     <div class="panel-body" id="state_body">
                         <dl class="dl-horizontal">
+
+                            <dt style="color:purple">合約狀態：</dt>
+                            <dd id="state"></dd>
+
                             <dt style="color:purple">保險公司：</dt>
                             <dd id="companyAddress"></dd>
 
@@ -107,6 +115,9 @@
 
                             <dt style="color:darkblue">給付間格：</dt>
                             <dd id="timeInterval"></dd>
+
+                            <dt style="color:darkblue">保證期間：</dt>
+                            <dd id="guaranteePeriod"></dd>
 
                             <dt style="color:red;">受益人：</dt>
                             <dd id="beneficiarie"></dd>
