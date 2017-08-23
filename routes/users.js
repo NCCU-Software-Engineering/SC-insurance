@@ -27,7 +27,7 @@ router.post('/sign_in', async function (req, res, next) {
         req.session.user_name = result.name
     }
     res.json(result)
-});
+})
 
 router.post('/sign_up', async function (req, res, next) {
     console.log('sign_up-post')
@@ -39,6 +39,6 @@ router.post('/sign_up', async function (req, res, next) {
         req.session.user_name = user.name
     }
     res.json(result)
-});
+})
 
-module.exports = router;
+module.exports = router
