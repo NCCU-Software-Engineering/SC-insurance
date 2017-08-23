@@ -9,6 +9,19 @@ var connection = mysql.createConnection({
     database: 'smart'
 });
 
+function connect() {
+    connection.connect((err) => {
+        if (err) {
+            console.log('error when connecting to db:', err)
+            // 2秒後重新連線
+            //setTimeout(handleDisconnect, 2000)
+        }
+        else {
+            console.log('connecting to db')
+        }
+    })
+}
+
 async function sing_in(ID, password) {
     try {
         let user = await getUserByID(ID)
@@ -141,6 +154,7 @@ function getVerification(ID, callback) {
 
 module.exports = {
     connection: connection,
+    connect, connect,
     sing_in: sing_in,
     sing_up: sing_up,
     getUserByID: getUserByID,
