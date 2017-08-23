@@ -27,7 +27,7 @@ async function sing_in(ID, password) {
     }
 }
 
-async function sing_up(ID, password, name, identity, email, phone, birthday, address, account) {
+async function sing_up(ID, password, name, identity, email, phone, birthday, address, account, deathaccount) {
     try {
         let user = await getUserByID(ID)
         let isHosted
@@ -38,7 +38,7 @@ async function sing_up(ID, password, name, identity, email, phone, birthday, add
                 isHosted = true
                 account = '0x1234'//web3.personal.newAccount("1234")}
             }
-            let result = await addUser(ID, password, name, identity, email, phone, birthday, address, account, isHosted)
+            let result = await addUser(ID, password, name, identity, email, phone, birthday, address, account, isHosted, deathaccount)
             return { type: true, inf: '註冊成功', account: account }
         }
         else {
@@ -62,10 +62,10 @@ function getUserByID(ID) {
     })
 }
 
-function addUser(ID, password, name, identity, email, phone, birthday, address, account, isHosted) {
-    let cmd = "INSERT INTO user (ID, password, name, identity, email, phone, birthday, address, account, isHosted) VALUES ?"
+function addUser(ID, password, name, identity, email, phone, birthday, address, account, isHosted, deathaccount) {
+    let cmd = "INSERT INTO user (ID, password, name, identity, email, phone, birthday, address, account, isHosted, deathaccount) VALUES ?"
     let value = [
-        [ID, password, name, identity, email, phone, birthday, address, account, isHosted]
+        [ID, password, name, identity, email, phone, birthday, address, account, isHosted, deathaccount]
     ];
     return new Promise(function (resolve, reject) {
         connection.query(cmd, [value], (err, result) => {

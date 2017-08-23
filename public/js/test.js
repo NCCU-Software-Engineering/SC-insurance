@@ -78,7 +78,7 @@ $(document).ready(function () {
                     gas: 4444444
                 })
                 break
-                
+
             case "dead":
                 //console.log("dead");
                 testContract.endAnnuity({
@@ -86,7 +86,7 @@ $(document).ready(function () {
                     gas: 4444444
                 })
                 break
-                
+
             case "update":
                 //console.log("update");
                 break;
@@ -128,21 +128,30 @@ function update() {
 
             switch (element.event) {
                 case 'buyEvent':
-                    $("#event_body").append(element.event + '<br>')
+                    $("#event_body").append('購買合約' + '<br>')
                     $("#event_body").append('來自 : ' + element.args.from + '<br>')
-                    $("#event_body").append('資訊 : ' + element.args.inf + '<br>')
+                    if(element.args.inf == 'success buy')
+                        $("#event_body").append('資訊 : ' + '購買成功' + '<br>')
+                    else
+                        $("#event_body").append('資訊 : ' + '購買失敗' + '<br>')
                     $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
                     break
                 case 'confirmEvent':
-                    $("#event_body").append(element.event + '<br>')
+                    $("#event_body").append('確認合約' + '<br>')
                     $("#event_body").append('來自 : ' + element.args.from + '<br>')
-                    $("#event_body").append('資訊 : ' + element.args.inf + '<br>')
+                    if(element.args.inf == 'success confirm')
+                        $("#event_body").append('資訊 : ' + '確認成功' + '<br>')
+                    else
+                        $("#event_body").append('資訊 : ' + '確認失敗' + '<br>')
                     $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
                     break
                 case 'payEvent':
-                    $("#event_body").append(element.event + '<br>')
+                    $("#event_body").append('給付年金通知' + '<br>')
                     $("#event_body").append('來自 : ' + element.args.from + '<br>')
-                    $("#event_body").append('資訊 : ' + element.args.inf + '<br>')
+                    if(element.args.inf == 'Notify the insurance company to pay')
+                        $("#event_body").append('資訊 : ' + '通知成功' + '<br>')
+                    else
+                        $("#event_body").append('資訊 : ' + '通知失敗' + '<br>')
                     $("#event_body").append('給付次數 :　第' + element.args.payTime + '次給付年金通知<br>')
                     $("#event_body").append('保險公司應給付金額 : ' + web3.fromWei(element.args.value) + 'eth<br>')
                     $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
@@ -157,11 +166,23 @@ function update() {
                     }
                     break
                 case 'companyPayEvent':
-                    $("#event_body").append(element.event + '<br>')
+                    $("#event_body").append('給付年金完成' + '<br>')
                     $("#event_body").append('來自 : ' + element.args.from + '<br>')
-                    $("#event_body").append('資訊 : ' + element.args.inf + '<br>')
+                    if(element.args.inf == 'company pay success')
+                        $("#event_body").append('資訊 : ' + '給付成功' + '<br>')
+                    else
+                        $("#event_body").append('資訊 : ' + '給付失敗' + '<br>')
                     $("#event_body").append('給付次數 :　第' + element.args.payTime + '次給付年金完成<br>')
                     $("#event_body").append('保險公司給付金額 : ' + web3.fromWei(element.args.value) + 'eth<br>')
+                    $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
+                    break
+                case 'revokeEvent':
+                    $("#event_body").append('合約撤銷' + '<br>')
+                    $("#event_body").append('來自 : ' + element.args.from + '<br>')
+                    if(element.args.inf == 'revoke the contract')
+                        $("#event_body").append('資訊 : ' + '撤銷成功' + '<br>')
+                    else
+                        $("#event_body").append('資訊 : ' + '撤銷失敗' + '<br>')
                     $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
                     break
             }
