@@ -14,6 +14,7 @@ $(document).ready(function () {
 
     $('#money_company').text(web3.fromWei(web3.eth.getBalance(company)).toFixed(3))
     $('#money_your').text(web3.fromWei(web3.eth.getBalance(nidhogg5)).toFixed(3))
+    $('#money_dead').text(web3.fromWei(web3.eth.getBalance(deathBeneficiary)).toFixed(3))
 
     //選擇合約
     $("#radio_group :radio").change(function () {

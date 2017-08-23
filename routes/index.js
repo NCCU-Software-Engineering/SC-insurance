@@ -69,8 +69,8 @@ router.get('/verify', function (req, res, next) {
 router.post('/agreement', function (req, res, next) {
     console.log("agreement-post");
     console.log(req.body);
-        
-    res.cookie('deathBeneficiaryAddress', req.body.payment, { maxAge: 60 * 1000 })
+
+    res.cookie('deathBeneficiaryAddress', req.body.deathBeneficiaryAddress, { maxAge: 60 * 1000 })
     res.cookie('payment', req.body.payment, { maxAge: 60 * 1000 })
     res.cookie('paymentDate', req.body.paymentDate, { maxAge: 60 * 1000 })
     res.cookie('beneficiary', req.session.user_name, { maxAge: 60 * 1000 })
@@ -85,9 +85,10 @@ router.post('/deploy', async function (req, res, next) {
     let payment_wei = payment_TWD * 100000000000000
     console.log(user.account, payment_TWD, payment_wei)
     if (user.account && payment_TWD && payment_wei) {
-        contract.deploy(user.account, req.cookies.deathBeneficiaryAddress, payment_TWD, payment_wei, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, (address) => {
-            mysql.addContract(req.session.user_ID, address)
-            res.json({ type: true, address: address })
+        contract.deploy(user.account, req.cookies.deathBeneficiaryAddress, payment_TWD, payment_wei, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, async (address) => {
+            let number = await mysql.getContractCount(req.session.user_ID) + 1
+            mysql.addContract(req.session.user_ID, address, number)
+            res.json({ type: true, address: address, number: number })
         })
     }
     else {
@@ -104,10 +105,24 @@ router.get('/payeth', function (req, res, next) {
         value: web3.toWei(req.query.amount, "ether"),
         gas: 4444444
     })
-
+    send.email('dennis456852@gmail.com', '請確認合約', '請前往 localhost:50000/confirm?address=' + req.query.address + ' 確認合約')
     res.send('done')
 
 })
+
+router.get('/confirm', function (req, res, next) {
+
+    let testContract = new contract.getContract(req.query.address);
+    let myDate = new Date()
+    myDate.setDate(myDate.getDate() + 11)
+    testContract.confirm(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate(), {
+        from: web3.eth.coinbase,
+        gas: 4444444
+    })
+
+    res.render('index')
+})
+
 router.post('/getaccount', function (req, res, next) {
     mysql.getAccountByID(req.session.user_ID, (result) => {
         res.send(result)
@@ -121,8 +136,8 @@ router.post('/getcontracts', function (req, res, next) {
 })
 
 router.post('/createcode', function (req, res, next) {
-    
-    
+
+
 
     var randomString = crypto.randomBytes(32).toString('hex').substr(0, 8);
     mysql.setVerification(req.session.user_ID, randomString)

@@ -8,13 +8,13 @@ $(function () {
         data.forEach(function(element) {
             $('#contracts').append($('<option>', {
                 value: 1,
-                text: element.address
+                text:'合約編號'+element.number+': '+ element.address
             }));
         }, this);
     });
     $('#payeth').click(function () {
 		$.get('/payeth',{
-            address: $("#contracts option:selected").text(),
+            address: $("#contracts option:selected").text().replace(/合約編號\d+\: /,''),
             account: account,
             amount: $("#money").val()
         },(result)=>{

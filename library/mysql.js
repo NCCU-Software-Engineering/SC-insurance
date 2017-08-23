@@ -75,10 +75,10 @@ function getUserByID(ID) {
     })
 }
 
-function addUser(ID, password, name, identity, email, phone, birthday, address, account, isHosted, deathaccount) {
-    let cmd = "INSERT INTO user (ID, password, name, identity, email, phone, birthday, address, account, isHosted, deathaccount) VALUES ?"
+function addUser(ID, password, name, identity, email, phone, birthday, address, account, isHosted) {
+    let cmd = "INSERT INTO user (ID, password, name, identity, email, phone, birthday, address, account, isHosted) VALUES ?"
     let value = [
-        [ID, password, name, identity, email, phone, birthday, address, account, isHosted, deathaccount]
+        [ID, password, name, identity, email, phone, birthday, address, account, isHosted]
     ];
     return new Promise(function (resolve, reject) {
         connection.query(cmd, [value], (err, result) => {
@@ -102,10 +102,10 @@ function getAccountCount() {
         }
     })
 }
-function addContract(ID, address, callback) {
-    let cmd = "INSERT INTO contract (ID, address) VALUES ?";
+async function addContract(ID, address, number, callback) {
+    let cmd = "INSERT INTO contract (ID, address, number) VALUES ?";
     let value = [
-        [ID, address]
+        [ID, address, number]
     ];
     connection.query(cmd, [value], (err, result) => {
         if (err) {
@@ -125,6 +125,18 @@ function getContract(ID, callback) {
     });
 }
 
+function getContractCount(ID) {
+    let cmd = "SELECT count(auto) FROM contract where ID = ?";
+    return new Promise(function (resolve, reject) {
+        connection.query(cmd,[ID], (err, result) => {
+            if (!err) {
+                resolve(result[0]['count(auto)'])
+            } else {
+                reject(err)
+            }
+        })
+    })
+}
 function getAccountByID(ID, callback) {
     let cmd = "SELECT account FROM user WHERE ID = ?";
     connection.query(cmd, [ID], (err, result) => {
@@ -160,6 +172,7 @@ module.exports = {
     getUserByID: getUserByID,
     addContract: addContract,
     getContract: getContract,
+    getContractCount: getContractCount,
     getAccountByID: getAccountByID,
     setVerification: setVerification,
     getVerification: getVerification

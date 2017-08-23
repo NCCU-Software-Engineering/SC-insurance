@@ -49,7 +49,7 @@ $(function () {
 		if (data.type) {
 			swal({
 				title: '部署成功',
-				text: '智能合約位址：\n' + data.address,
+				text: '合約編號：'+data.number+'\n智能合約位址：\n' + data.address,
 				type: 'success',
 				closeOnConfirm: false
 			}, () => { window.location = '/buy' })

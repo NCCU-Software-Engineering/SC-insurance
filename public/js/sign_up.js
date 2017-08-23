@@ -9,7 +9,6 @@ $("#default").click(function () {
     $("#contact-birthday").val("1990-01-01");
     $("#contact-address").val("台北市文山區指南路二段");
     $("#contact-account").val("0xA4716ae2279E6e18cF830Da2A72E60FB9d9B51C6");
-    $("#contact-deathaccount").val("0x4ed1098bbd3d742f311682782f823d66bca0be87");
 })
 
 $("#test").click(function () {
