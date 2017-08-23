@@ -1,5 +1,6 @@
 var express = require('express')
 var crypto = require('crypto')
+var format = require('string-format')
 
 var web3 = require('../library/web3.js')
 var contract = require('../library/contract.js')
@@ -46,7 +47,7 @@ router.get('/test', function (req, res, next) {
     mysql.getContract(req.session.user_ID, (result) => {
         let li = ''
         for (var i = 0; i < result.length; i++) {
-            li += "<li><input name=\"smart\" type=\"radio\" value=\"" + result[i].address + "\">智能合約" + (i + 1) + ":" + result[i].address + "</li>"
+            li += format('<li><input name="smart" type="radio" value="{}">智能合約{}:{}</li>', result[i].address, (i + 1), result[i].address)
         }
         res.render('test', { user_name: req.session.user_name, radio: li })
     })
