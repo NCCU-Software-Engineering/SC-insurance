@@ -13,10 +13,6 @@ mysql.connect()
 
 //get
 router.get('/', function (req, res, next) {
-
-    req.session.user_ID = 'nidhogg5'
-    req.session.user_name = '賴晨禾'
-
     res.render('index', { user_name: req.session.user_name })
 })
 
@@ -92,7 +88,7 @@ router.post('/deploy', async function (req, res, next) {
     })
 });
 
-router.get('/payeth', function (req, res, next) {
+router.get('/payeth', async function (req, res, next) {
     let testContract = new contract.getContract(req.query.address);
     testContract.buy({
         from: req.query.account,
@@ -101,7 +97,7 @@ router.get('/payeth', function (req, res, next) {
     })
     mysql.buyContract(req.query.address)
     let user = await mysql.getUserByID(req.session.user_ID)
-    send.email(user.email, '請確認合約', '請前往 localhost:50000/confirm?address=' + req.query.address + ' 確認合約')
+    send.email(user.email, '請確認合約', '請前往\n http://localhost:50000/confirm?address=' + req.query.address + '\n確認合約')
     res.send('done')
 })
 

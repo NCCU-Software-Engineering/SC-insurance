@@ -4,7 +4,7 @@ $("#default").click(function () {
     $("#contact-repassword").val("1234");
     $("#contact-name").val("賴晨禾");
     $("#contact-identity").val("AXXXXXXXXX");
-    $("#contact-email").val("test@email.com");
+    $("#contact-email").val("nidhogg55555@gmail.com");
     $("#contact-phone").val("0912254446");
     $("#contact-birthday").val("1990-01-01");
     $("#contact-address").val("台北市文山區指南路二段");
