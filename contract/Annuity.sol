@@ -239,7 +239,7 @@ contract Annuity {
                 _paymentDate[0] += _timeInterval;
                 _payTime += 1;
                 
-                if(_payTime > _guaranteePeriod) {
+                if(_payTime >= _guaranteePeriod) {
                     _state = State.ending;
                 }
             }
