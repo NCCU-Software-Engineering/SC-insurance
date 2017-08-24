@@ -93,18 +93,16 @@ router.post('/deploy', async function (req, res, next) {
 });
 
 router.get('/payeth', function (req, res, next) {
-
     let testContract = new contract.getContract(req.query.address);
-
     testContract.buy({
         from: req.query.account,
         value: web3.toWei(req.query.amount, "ether"),
         gas: 4444444
     })
     mysql.buyContract(req.query.address)
-    send.email('dennis456852@gmail.com', '請確認合約', '請前往 localhost:50000/confirm?address=' + req.query.address + ' 確認合約')
+    let user = await mysql.getUserByID(req.session.user_ID)
+    send.email(user.email, '請確認合約', '請前往 localhost:50000/confirm?address=' + req.query.address + ' 確認合約')
     res.send('done')
-
 })
 
 router.get('/confirm', function (req, res, next) {

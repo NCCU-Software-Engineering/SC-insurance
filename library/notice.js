@@ -1,6 +1,14 @@
-var mailTransport = require("./nodemailer.js")
+var nodemailer = require('nodemailer');
 var credentials = require("./credentials.js")
 var request = require('request');
+
+var mailTransport = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: credentials.gmail.user,
+        pass: credentials.gmail.password,
+    }
+});
 
 function email(target, subject, text) {
 
