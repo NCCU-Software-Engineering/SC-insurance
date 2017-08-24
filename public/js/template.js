@@ -39,7 +39,7 @@ $(function () {
 		width += 5;
 		$('#progress').css('width', width + '%')
 		if (width < 100) {
-			setTimeout(widthCount, 200)
+			setTimeout(widthCount, 100)
 		}
 		else {
 			setTimeout(showSwal, 500)

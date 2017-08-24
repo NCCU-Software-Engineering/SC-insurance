@@ -95,19 +95,19 @@ function getAccountCount() {
         }
     })
 }
-async function addContract(ID, address, number, callback) {
-    let cmd = "INSERT INTO contract (ID, address, number) VALUES ?";
+async function addContract(ID, address, payment) {
+    let cmd = "INSERT INTO contract (ID, address, payment, isBuy) VALUES ?";
     let value = [
-        [ID, address, number]
+        [ID, address, payment, false]
     ];
     connection.query(cmd, [value], (err, result) => {
         if (err) {
-            console.error(err);
+            console.error(err)
         }
     });
 }
 
-function getContract(ID, callback) {
+function getContractByID(ID, callback) {
     let cmd = "SELECT * FROM contract WHERE ID = ?";
     connection.query(cmd, [ID], (err, result) => {
         if (!err) {
@@ -118,8 +118,34 @@ function getContract(ID, callback) {
     });
 }
 
+function getContractByAddress(address) {
+    let cmd = "SELECT * FROM contract WHERE address = ?"
+    return new Promise(function (resolve, reject) {
+        connection.query(cmd, [address], (err, result) => {
+            if (!err) {
+                resolve(result[0])
+            } else {
+                reject(err)
+            }
+        });
+    })
+}
+
+function buyContract(address) {
+    let cmd = "UPDATE contract SET isBuy = 1 WHERE address = ?"
+    return new Promise(function (resolve, reject) {
+        connection.query(cmd, [address], (err, result) => {
+            if (!err) {
+                resolve(result[0])
+            } else {
+                reject(err)
+            }
+        });
+    })
+}
+
 function getContractCount(ID) {
-    let cmd = "SELECT count(auto) FROM contract where ID = ?";
+    let cmd = "SELECT auto FROM contract where ID = ?";
     return new Promise(function (resolve, reject) {
         connection.query(cmd,[ID], (err, result) => {
             if (!err) {
@@ -130,6 +156,7 @@ function getContractCount(ID) {
         })
     })
 }
+
 function getAccountByID(ID, callback) {
     let cmd = "SELECT account FROM user WHERE ID = ?";
     connection.query(cmd, [ID], (err, result) => {
@@ -164,9 +191,11 @@ module.exports = {
     sing_up: sing_up,
     getUserByID: getUserByID,
     addContract: addContract,
-    getContract: getContract,
+    getContractByID: getContractByID,
+    getContractByAddress: getContractByAddress,
     getContractCount: getContractCount,
     getAccountByID: getAccountByID,
     setVerification: setVerification,
-    getVerification: getVerification
+    getVerification: getVerification,
+    buyContract: buyContract
 }

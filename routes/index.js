@@ -13,6 +13,10 @@ mysql.connect()
 
 //get
 router.get('/', function (req, res, next) {
+
+    req.session.user_ID = 'nidhogg5'
+    req.session.user_name = '賴晨禾'
+
     res.render('index', { user_name: req.session.user_name })
 })
 
@@ -44,7 +48,7 @@ router.get('/template', function (req, res, next) {
 })
 
 router.get('/test', function (req, res, next) {
-    mysql.getContract(req.session.user_ID, (result) => {
+    mysql.getContractByID(req.session.user_ID, (result) => {
         let li = ''
         for (var i = 0; i < result.length; i++) {
             li += format('<li><input name="smart" type="radio" value="{}">智能合約{}:{}</li>', result[i].address, (i + 1), result[i].address)
@@ -81,19 +85,11 @@ router.post('/agreement', function (req, res, next) {
 router.post('/deploy', async function (req, res, next) {
     console.log('deploy')
     let user = await mysql.getUserByID(req.session.user_ID)
-    let payment_TWD = req.cookies.payment * 10000
-    let payment_wei = payment_TWD * 100000000000000
-    console.log(user.account, payment_TWD, payment_wei)
-    if (user.account && payment_TWD && payment_wei) {
-        contract.deploy(user.account, req.cookies.deathBeneficiaryAddress, payment_TWD, payment_wei, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, async (address) => {
-            let number = await mysql.getContractCount(req.session.user_ID) + 1
-            mysql.addContract(req.session.user_ID, address, number)
-            res.json({ type: true, address: address, number: number })
-        })
-    }
-    else {
-        res.json({ type: false })
-    }
+    contract.deploy(user.account, req.cookies.deathBeneficiaryAddress, req.cookies.payment, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, async (address) => {
+        await mysql.addContract(req.session.user_ID, address, req.cookies.payment)
+        let number = (await mysql.getContractByAddress(address)).auto
+        res.json({ type: true, address: address, number: number })
+    })
 });
 
 router.get('/payeth', function (req, res, next) {
@@ -105,6 +101,7 @@ router.get('/payeth', function (req, res, next) {
         value: web3.toWei(req.query.amount, "ether"),
         gas: 4444444
     })
+    mysql.buyContract(req.query.address)
     send.email('dennis456852@gmail.com', '請確認合約', '請前往 localhost:50000/confirm?address=' + req.query.address + ' 確認合約')
     res.send('done')
 
@@ -130,15 +127,12 @@ router.post('/getaccount', function (req, res, next) {
 })
 
 router.post('/getcontracts', function (req, res, next) {
-    mysql.getContract(req.session.user_ID, (result) => {
+    mysql.getContractByID(req.session.user_ID, (result) => {
         res.send(result)
     })
 })
 
 router.post('/createcode', function (req, res, next) {
-
-
-
     var randomString = crypto.randomBytes(32).toString('hex').substr(0, 8);
     mysql.setVerification(req.session.user_ID, randomString)
     var cont = "您的驗證碼為: " + randomString

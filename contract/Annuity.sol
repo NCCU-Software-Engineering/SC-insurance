@@ -11,10 +11,8 @@ contract Annuity {
     //時間伺服器address
     address private _timerAddress;
 
-    //保險金額-新台幣
-    uint _payment_TWD;
     //保險金額-以太幣
-    uint _payment_wei;
+    uint _payment;
     //給付次數
     uint _payTime;
     //保證期間
@@ -53,14 +51,13 @@ contract Annuity {
     event companyPayEvent(address from, string inf, uint value, uint payTime, uint[3] timestamp);
 
     //建構子
-    function Annuity(address insuredAddress, address deathBeneficiaryAddress, uint[3] date, uint payment_TWD, uint payment_wei, uint paymentDate, uint guaranteePeriod, string beneficiary, string deathBeneficiary) {
+    function Annuity(address insuredAddress, address deathBeneficiaryAddress, uint[3] date, uint payment, uint paymentDate, uint guaranteePeriod, string beneficiary, string deathBeneficiary) {
 
         _companyAddress = msg.sender;
         _insuredAddress = insuredAddress;
         _deathBeneficiaryAddress = deathBeneficiaryAddress;
 
-        _payment_TWD = payment_TWD;
-        _payment_wei = payment_wei;
+        _payment = payment;
         _timeInterval = 1;
         _guaranteePeriod = guaranteePeriod;
         _beneficiary = beneficiary;
@@ -86,11 +83,8 @@ contract Annuity {
         return _insuredAddress;
     }
 
-    function getPayment_TWD() constant returns (uint) {
-        return _payment_TWD;
-    }
-    function getPayment_wei() constant returns (uint) {
-        return _payment_wei;
+    function getPayment() constant returns (uint) {
+        return _payment;
     }    
     function getGuaranteePeriod() constant returns (uint) {
         return _guaranteePeriod;
@@ -126,8 +120,8 @@ contract Annuity {
             throw;
         }
         
-        if(msg.value >= _payment_wei) {
-            if( !_companyAddress.send(_payment_wei) ) {
+        if(msg.value >= _payment) {
+            if( !_companyAddress.send(_payment) ) {
                 throw;
             }
             buyEvent(msg.sender , "success buy", msg.value, _nowTime);
@@ -223,14 +217,14 @@ contract Annuity {
                 (year==_paymentDate[0] && month>_paymentDate[1]) ||
                 (year==_paymentDate[0] && month==_paymentDate[1] && day>=_paymentDate[2])){
 
-                payEvent(msg.sender, "Notify the insurance company to pay", _payment_wei/10, _payTime+1 , _nowTime);
+                payEvent(msg.sender, "Notify the insurance company to pay", _payment/10, _payTime+1 , _nowTime);
             }
         }
     }
     
     function companyPay() payable{
         
-        if(msg.value >= _payment_wei/10) {
+        if(msg.value >= _payment/10) {
             if(_state != State.guarantee){
                 if( !_insuredAddress.send(msg.value) ) {
                     throw;
