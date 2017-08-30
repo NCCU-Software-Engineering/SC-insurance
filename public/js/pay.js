@@ -14,7 +14,7 @@ $(function () {
             if (!element.isBuy) {
                 $('#contracts').append($('<option>', {
                     value: 1,
-                    text: '保單編號' + element.auto + ': ' + element.address
+                    text: addZero(element.auto) + '-' + element.alias
                 }))
             }
         }, this)
@@ -23,7 +23,7 @@ $(function () {
     $("select").change(function () {
         let tar = $("#contracts option:selected").text()
         contract.forEach(function (element) {
-            if(tar == ('保單編號' + element.auto + ': ' + element.address)) {
+            if (tar == (addZero(element.auto) + '-' + element.alias)) {
                 $("#money").val(element.payment)
             }
         })
@@ -31,11 +31,14 @@ $(function () {
 
     $('#payeth').click(function () {
         $.get('/payeth', {
-            address: $("#contracts option:selected").text().replace(/保單編號\d+\: /, ''),
+            address: $("#contracts option:selected").text().replace(/\d+(.*)\: /, ''),
             account: account,
             amount: $("#money").val()
         }, (result) => {
             window.location = '/'
         })
     })
+    function addZero(n) {
+		return (n < 10000 ? (n < 1000 ? (n < 100 ? (n < 10 ? "0000" : "000") : "00") : "0") : "")+n
+	}
 });
