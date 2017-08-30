@@ -21,7 +21,7 @@ $(function () {
 		if (data.type) {
 			swal({
 				title: '部署成功',
-				text: '合約編號：'+data.number+'\n智能合約位址：\n' + data.address,
+				text: '保單編號：' + addZero(data.number) + '\n保單名稱：' + data.alias + '\n智能合約位址：\n' + data.address,
 				type: 'success',
 				closeOnConfirm: false
 			}, () => { window.location = '/buy' })
@@ -32,5 +32,8 @@ $(function () {
 				type: 'error',
 			})
 		}
+	}
+	function addZero(n) {
+		return (n < 10000 ? (n < 1000 ? (n < 100 ? (n < 10 ? "0000" : "000") : "00") : "0") : "")+n
 	}
 })
