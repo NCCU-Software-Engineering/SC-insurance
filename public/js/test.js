@@ -208,7 +208,7 @@ function setState(state) {
             break;
         case '2':
             $("#state_panel").addClass("panel panel-info");
-            $("#state_heading").html("合約狀態：合約撤銷期內");
+            $("#state_heading").html("合約狀態：合約可撤銷期內");
             myDate2.setText('契約撤銷期限')
             myDate2.satDate(testContract.getRevocationPeriod())
             break;
