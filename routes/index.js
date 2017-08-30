@@ -89,7 +89,7 @@ router.post('/deploy', async function (req, res, next) {
     contract.deploy(user.account, req.cookies.deathBeneficiaryAddress, req.cookies.payment, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, async (address) => {
         await mysql.addContract(req.session.user_ID, address, req.cookies.payment, req.cookies.contractAlias)
         let number = (await mysql.getContractByAddress(address)).auto
-        res.json({ type: true, address: address, number: number })
+        res.json({ type: true, address: address, number: number, alias: req.cookies.contractAlias })
     })
 });
 
