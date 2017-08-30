@@ -30,6 +30,10 @@ $(document).ready(function () {
     });
 
     $('button').click(function () {
+
+        $('button').attr('disabled', 'true')
+        setTimeout(() => { $('button').removeAttr('disabled') }, 1000);
+
         let myDate = new Date();
         let contractTime = testContract.getNowTime();
 
@@ -105,7 +109,7 @@ function update() {
     $('#money_company').text(web3.fromWei(web3.eth.getBalance(company)).toFixed(3))
     $('#money_your').text(web3.fromWei(web3.eth.getBalance(nidhogg5)).toFixed(3))
     $('#money_dead').text(web3.fromWei(web3.eth.getBalance(deathBeneficiary)).toFixed(3))
-    
+
 
     setState(testContract.getState().toString())
     myDate1.setText('目前合約日期')
