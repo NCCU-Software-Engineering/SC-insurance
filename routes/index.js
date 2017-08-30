@@ -16,6 +16,10 @@ router.get('/', function (req, res, next) {
     res.render('index', { user_name: req.session.user_name })
 })
 
+router.get('/trial', function (req, res, next) {
+    res.render('trial', { user_name: req.session.user_name })
+})
+
 router.get('/buy', function (req, res, next) {
     if (req.session.user_ID && req.session.user_name) {
         res.render('buy', { user_name: req.session.user_name })

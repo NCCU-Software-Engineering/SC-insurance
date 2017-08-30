@@ -1,0 +1,55 @@
+{{#section 'css'}}
+<link rel="stylesheet" href="css/trial.css"> {{/section}}
+
+<section id="main">
+    <div class="container">
+        <div class="row">
+            <table border="1">
+                <tr>
+                    <th colspan="2">保費試算</th>
+                </tr>
+                <tr>
+                    <th>繳費方式</th>
+                    <td>
+                        預計繳 <input> 元(限1萬元~10萬元)
+                    </td>
+                </tr>
+                <tr>
+                    <th>投保年度</th>
+                    <td>
+                        <p>第<input>年保單年度末的保單狀況累計可領回多少金額?(投保年度：限6~66年)</p>
+                    </td>
+                </tr>
+            </table>
+            <button>試算</button>
+        </div>
+    </div>
+</section>
+
+<section id="result">
+    <div class="container">
+        <div class="row">
+
+            <h2>第6保單年度末的年金保單價值準備金為$114,644元</h2>
+            <h3>假設宣告利率皆維持在2.5%不變之情況下)</h3>
+            <h3>單位：新臺幣/元</h3>
+
+            <table border="1">
+                <tr>
+                    <th>保單年度（末）</th>
+                    <th>年繳保險費</th>
+                    <th>年末年金保單價值準備金</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>100,000</td>
+                    <td>101,280</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+{{#section 'script'}}
+<script src="js/trial.js"></script>
+{{/section}}
