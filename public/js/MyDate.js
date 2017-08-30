@@ -1,10 +1,12 @@
 class MyDate {
-	constructor(select, text, year, month, day) {
+	constructor(select, year, month, day, text) {
 		this.select = select;
-		$(this.select + ' p').text(text)
-		$(this.select + ' .year div').text(this.year = year)
-		$(this.select + ' .month div').text(this.month = month)
-		$(this.select + ' .day div').text(this.day = day)
+		$(select + ' .year div').text(this.year = year)
+		$(select + ' .month div').text(this.month = month)
+		$(select + ' .day div').text(this.day = day)
+		if (text) {
+			$(select + ' p').text(text)
+		}
 	}
 	satDate(val) {
 		function run(select, val) {

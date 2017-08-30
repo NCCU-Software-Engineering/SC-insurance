@@ -3,8 +3,8 @@ let adrress
 let email = false
 let letter = false
 let testContract
-let myDate1 = new MyDate('#myDate1', '現在時間', 2017, 8, 17)
-let myDate2 = new MyDate('#myDate2', '', 0, 0, 0)
+let myDate1 = new MyDate('#myDate1', 2017, 8, 17, '模擬智能合約目前日期(Time Travel)')
+let myDate2 = new MyDate('#myDate2', 0, 0, 0, '契約撤銷期限')
 
 let company = '0x1ad59a6d33002b819fe04bb9c9d0333f990750a4'
 let nidhogg5 = '0xA4716ae2279E6e18cF830Da2A72E60FB9d9B51C6'
@@ -115,7 +115,6 @@ function update() {
     myDate1.setText('目前合約日期')
     myDate1.satDate(testContract.getNowTime())
 
-    $("#state").text(testContract.getState())
     $("#companyAddress").text(testContract.getCompanyAddress())
     $("#insurerAddress").text(testContract.getInsurerAddress())
     $("#payment").text(web3.fromWei(testContract.getPayment()) + ' eth')

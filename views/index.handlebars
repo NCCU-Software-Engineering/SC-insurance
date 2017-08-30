@@ -1,22 +1,6 @@
 {{#section 'css'}}
 <link rel="stylesheet" href="css/index.css"> {{/section}}
 
-<!--功能條-->
-<!--
-<section>
-    <div class="container">
-        <div class="row">
-            <ul class="list-inline list-unstyled">
-                <li><a href="#product">商品內容</a></li>
-                <li><a href="#trial">保費試算</a></li>
-                <li><a href="#rule">投保規則</a></li>
-                <li><a href="#question">相關問題</a></li>
-                <li><a href="#notice">注意事項</a></li>
-            </ul>
-        </div>
-</section>
--->
-
 <!--商品內容-->
 <section id="product">
     <div class="container">
@@ -37,7 +21,7 @@
     </div>
 </section>
 
-<!--保費試算-->
+<!--保費試算
 <section id="trial" class="content">
     <div class="container">
         <h2>保費試算</h2>
@@ -49,6 +33,7 @@
         <hr>
     </div>
 </section>
+-->
 
 <!--投保規則-->
 <section id=rule class="content">
@@ -63,7 +48,7 @@
 
             <dt>要/被保人</dt>
             <dd>要保人與被保險人限同一人</dd>
-            
+
             <dt>身故受益人</dt>
             <dd>限直系血親、配偶或法定繼承人</dd>
 
@@ -111,13 +96,28 @@
 <!--注意事項-->
 <section id="notice">
     <div class="container">
-        <h2>注意事項</h2>
-        <ul>
-            <li>商品名稱：即期年金網路投保</li>
-            <li>商品文號：12345678</li>
-            <li>給付項目：</li>
-            <li>年金開始給付年齡：</li>
-            <li>年金金額限制：</li>
-        </ul>
+        <div class="col-md-12">
+            <h2>注意事項</h2>
+            <ul>
+                <li>商品名稱：即期年金網路投保</li>
+                <li>商品文號：12345678</li>
+                <li>給付項目：</li>
+                <li>年金開始給付年齡：</li>
+                <li>年金金額限制：</li>
+            </ul>
+            <hr>
+        </div>
+    </div>
+</section>
+
+<!--按鈕-->
+<section>
+    <div class="container">
+        <div class="col-md-12">
+            <ul class="list-inline list-unstyled">
+                <li><a href="agreement" role="button" class="btn btn-success btn-lg">立即購買</a></li>
+                <li><a href="trial" role="button" class="btn btn-info btn-lg">保費試算</a></li>
+            </ul>
+        </div>
     </div>
 </section>
