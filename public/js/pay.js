@@ -1,7 +1,7 @@
 $(function () {
     let account
     let contract
-
+    let address
     $.post("/getaccount", function (data) {
         account = data[0].account;
         $('#account').append(data[0].account)
@@ -25,13 +25,15 @@ $(function () {
         contract.forEach(function (element) {
             if (tar == (addZero(element.auto) + '-' + element.alias)) {
                 $("#money").val(element.payment)
+                address = element.address
             }
         })
     });
 
     $('#payeth').click(function () {
+        console.log(address);
         $.get('/payeth', {
-            address: $("#contracts option:selected").text().replace(/\d+(.*)\: /, ''),
+            address: address,
             account: account,
             amount: $("#money").val()
         }, (result) => {
