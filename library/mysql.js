@@ -95,10 +95,10 @@ function getAccountCount() {
         }
     })
 }
-async function addContract(ID, address, payment, alias) {
-    let cmd = "INSERT INTO contract (ID, address, payment, isBuy, alias) VALUES ?";
+async function addContract(ID, address, alias, payment) {
+    let cmd = "INSERT INTO contract (ID, address, alias, payment, isBuy) VALUES ?";
     let value = [
-        [ID, address, payment, false, alias]
+        [ID, address, alias, payment, false]
     ];
     connection.query(cmd, [value], (err, result) => {
         if (err) {
