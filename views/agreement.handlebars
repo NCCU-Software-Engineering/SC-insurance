@@ -21,7 +21,14 @@
                         請填入參數
                     </div>
                     <div class="panel-body">
-                        <form class="form-horizontal" action="agreement" method="post" style="margin-top: 1rem">
+                        <form class="form-horizontal" style="margin-top: 1rem">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">保單名稱</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="alias" value="我的第一張保單">
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">姓名</label>
                                 <div class="col-sm-8">
@@ -41,19 +48,13 @@
                                 <div class="col-sm-8">
                                     <input class="form-control" type="number" name='payment' placeholder='1到10' value="10" ng-model="money" value="1" min="1"
                                         max="10" oninput={go( '8')}>
-                                    <div class="help-tip">
-                                        <p>
-                                            <iframe id='widget-ticker-preview' src='//www.coingecko.com/zh-tw/%E5%B7%A5%E5%85%B7%E7%B5%84%E4%BB%B6/%E6%94%B6%E5%A0%B1%E6%A9%9F/%E4%BB%A5%E5%A4%AA%E5%B9%A3/twd?id=%E4%BB%A5%E5%A4%AA%E5%B9%A3'
-                                                style='border:none; height:125px; width: 275px;' scrolling='no' frameborder='0' allowTransparency='true'></iframe>
-                                        </p>
-                                    </div>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" for="contact-name">年金給付日(n年後)</label>
+                                <label class="col-sm-3 control-label" for="contact-name">投保年度<br>(限6~66年)</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="number" name="paymentDate" placeholder="幾年後" value="1" ng-model="time" min="1" max="40"
+                                    <input class="form-control" type="number" name="paymentDate" placeholder="第幾保單年度開始領取年金" value="6" ng-model="time" min="6" max="66"
                                         oninput={go( '8')}>
                                 </div>
                             </div>
@@ -72,34 +73,48 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group ">
                                 <label class="col-sm-3 control-label" for="contact-name">身故受益人關係</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="deathBeneficiary" value="被保險人之法定繼承人">
+                                    <select class="form-control">
+                                        <option value="直系血親">直系血親</option>
+                                        <option value="配偶">配偶</option>
+                                        <option value="法定繼承人">法定繼承人</option>
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" for="contact-name">身故受益人以太坊帳戶</label>
+                                <label class="col-sm-3 control-label" for="contact-name">身故受益人<br>以太坊帳戶</label>
                                 <div class="col-sm-8">
                                     <input class="form-control" type="text" name="deathBeneficiaryAddress" value="0x68a874f2e8d20718af2ebb48dc10940ede50c080">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" for="contact-name">保單名稱</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="contractAlias" value="我的保單">
-                                </div>
-                            </div>
 
                             <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-9">
-                                    <button class="btn btn-success btn-lg" type="submit" style="margin-right:3rem">送出</a>
-                                    <button class="btn btn-success btn-lg" type="reset">重設</a>
+                                <div class="col-sm-offset-3 col-sm-7">
+                                    <button class="btn btn-success btn-lg" id="deploy" style="margin-right:3rem">部屬</button>
+                                    <button class="btn btn-success btn-lg" type="reset">重設</button>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="help-tip">
+                                        <p>
+                                            <iframe id='widget-ticker-preview' src='//www.coingecko.com/zh-tw/%E5%B7%A5%E5%85%B7%E7%B5%84%E4%BB%B6/%E6%94%B6%E5%A0%B1%E6%A9%9F/%E4%BB%A5%E5%A4%AA%E5%B9%A3/twd?id=%E4%BB%A5%E5%A4%AA%E5%B9%A3'
+                                                style='border:none; height:125px; width: 275px;' scrolling='no' frameborder='0'
+                                                allowTransparency='true'></iframe>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </form>
                         
+                        <div class="col-sm-12">
+                            <div class="progress">
+                                <div id="progress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
