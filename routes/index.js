@@ -70,26 +70,14 @@ router.get('/verify', function (req, res, next) {
 })
 
 //post
-router.post('/agreement', function (req, res, next) {
-    console.log("agreement-post");
-    console.log(req.body);
-
-    res.cookie('deathBeneficiaryAddress', req.body.deathBeneficiaryAddress, { maxAge: 60 * 1000 })
-    res.cookie('payment', req.body.payment, { maxAge: 60 * 1000 })
-    res.cookie('paymentDate', req.body.paymentDate, { maxAge: 60 * 1000 })
-    res.cookie('beneficiary', req.session.user_name, { maxAge: 60 * 1000 })
-    res.cookie('deathBeneficiary', req.body.deathBeneficiary, { maxAge: 60 * 1000 })
-    res.cookie('contractAlias', req.body.contractAlias, { maxAge: 60 * 1000 })
-    res.redirect('template')
-});
-
 router.post('/deploy', async function (req, res, next) {
     console.log('deploy')
+    console.log(req.body)
     let user = await mysql.getUserByID(req.session.user_ID)
-    contract.deploy(user.account, req.cookies.deathBeneficiaryAddress, req.cookies.payment, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, async (address) => {
-        await mysql.addContract(req.session.user_ID, address, req.cookies.payment, req.cookies.contractAlias)
+    contract.deploy(user.account, req.body.deathBeneficiaryAddress, req.body.payment, req.body.paymentDate, req.body.beneficiary, req.body.deathBeneficiary, async (address) => {
+        await mysql.addContract(req.session.user_ID, address, req.body.alias, req.body.payment)
         let number = (await mysql.getContractByAddress(address)).auto
-        res.json({ type: true, address: address, number: number, alias: req.cookies.contractAlias })
+        res.json({ type: true, address: address, number: number, alias: req.body.alias })
     })
 });
 

@@ -3,7 +3,7 @@ $(function () {
 	let data
 	$('#deploy').click(function () {
 		widthCount()
-		$.post("deploy", function (result) {
+		$.post("deploy", $( 'form' ).serialize(), (result) => {
 			data = result
 		})
 	})
