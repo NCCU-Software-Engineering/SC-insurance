@@ -79,6 +79,7 @@ router.post('/agreement', function (req, res, next) {
     res.cookie('paymentDate', req.body.paymentDate, { maxAge: 60 * 1000 })
     res.cookie('beneficiary', req.session.user_name, { maxAge: 60 * 1000 })
     res.cookie('deathBeneficiary', req.body.deathBeneficiary, { maxAge: 60 * 1000 })
+    res.cookie('contractAlias', req.body.contractAlias, { maxAge: 60 * 1000 })
     res.redirect('template')
 });
 
@@ -86,7 +87,7 @@ router.post('/deploy', async function (req, res, next) {
     console.log('deploy')
     let user = await mysql.getUserByID(req.session.user_ID)
     contract.deploy(user.account, req.cookies.deathBeneficiaryAddress, req.cookies.payment, req.cookies.paymentDate, req.cookies.beneficiary, req.cookies.deathBeneficiary, async (address) => {
-        await mysql.addContract(req.session.user_ID, address, req.cookies.payment)
+        await mysql.addContract(req.session.user_ID, address, req.cookies.payment, req.cookies.contractAlias)
         let number = (await mysql.getContractByAddress(address)).auto
         res.json({ type: true, address: address, number: number })
     })
