@@ -73,12 +73,18 @@ router.get('/verify', function (req, res, next) {
 router.post('/deploy', async function (req, res, next) {
     console.log('deploy')
     console.log(req.body)
-    let user = await mysql.getUserByID(req.session.user_ID)
-    contract.deploy(user.account, req.body.deathBeneficiaryAddress, req.body.payment, req.body.paymentDate, req.body.beneficiary, req.body.deathBeneficiary, async (address) => {
-        await mysql.addContract(req.session.user_ID, address, req.body.alias, req.body.payment)
-        let number = (await mysql.getContractByAddress(address)).auto
-        res.json({ type: true, address: address, number: number, alias: req.body.alias })
-    })
+    if (req.body.payment != undefined && req.body.paymentDate != undefined) {
+        let user = await mysql.getUserByID(req.session.user_ID)
+        contract.deploy(user.account, req.body.deathBeneficiaryAddress, req.body.payment, req.body.paymentDate, req.body.beneficiary, req.body.deathBeneficiary, async (address) => {
+            await mysql.addContract(req.session.user_ID, address, req.body.alias, req.body.payment)
+            let number = (await mysql.getContractByAddress(address)).auto
+            res.json({ type: true, address: address, number: number, alias: req.body.alias })
+        })
+    }
+    else {
+        console.log('invalid')
+        res.json({ type: false, inf: '不能留空' })
+    }
 });
 
 router.get('/payeth', async function (req, res, next) {

@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Kelly+Slab);
 .jcountTimer {
     font-weight: 100;
-    font-size: 50px;
+    font-size: 45px;
     margin: 0;
 }
 
@@ -26,7 +26,7 @@
 .jcountTimer small {
 	display: block;
 	margin-top: 10px;
-    font-size: 2rem;
+    font-size: 20px;
 }
 
 .jcountTimer .year {
