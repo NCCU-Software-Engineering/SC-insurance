@@ -1,0 +1,11 @@
+CREATE TABLE `contract` (
+  `auto` int(11) NOT NULL AUTO_INCREMENT,
+  `ID` varchar(45) NOT NULL,
+  `address` char(45) NOT NULL,
+  `payment` int(11) DEFAULT NULL,
+  `isBuy` tinyint(1) DEFAULT NULL,
+  `alias` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`auto`),
+  UNIQUE KEY `aderss_UNIQUE` (`address`),
+  UNIQUE KEY `自動序號_UNIQUE` (`auto`)
+) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
