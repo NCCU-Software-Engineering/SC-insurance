@@ -17,6 +17,7 @@ function deploy(insuredAddress, deathBeneficiaryAddress, payment, paymentDate, b
         payment*1000000000000000000,
         paymentDate,
         10,
+        '正大人壽',
         beneficiary,
         deathBeneficiary,
         {
