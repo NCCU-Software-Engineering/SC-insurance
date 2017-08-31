@@ -1,0 +1,6 @@
+CREATE TABLE `verification` (
+  `ID` varchar(45) NOT NULL,
+  `verification code` char(10) DEFAULT NULL,
+  `time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
