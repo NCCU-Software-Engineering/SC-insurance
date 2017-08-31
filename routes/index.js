@@ -113,20 +113,47 @@ router.get('/payeth', async function (req, res, next) {
     content += '身故受益人：' + policy.deathBeneficiary  + '\n'
     content += '身故受益人關係：' + policy.deathBeneficiaryRelationship  + '\n'
     content += '身故受益人身分證：' + policy.deathBeneficiaryIdentity  + '\n'
-    content += '請前往  http://localhost:50000/confirm?address=' + req.query.address + '  正式啟用合約\n'
+    content += '請前往  http://localhost:50000/confirm?address=' + req.query.address +'&id='+req.session.user_ID+ '  正式啟用合約\n'
     content += '啟用合約後您將享有10天無條件契約撤銷權利'
     send.email(user.email, '正大人壽網路投保電子保單付款成功通知', content)
     res.send('done')
 })
 
-router.get('/confirm', function (req, res, next) {
-    let testContract = new contract.getContract(req.query.address);
+router.get('/confirm', async function (req, res, next) {
+    let testContract = new contract.getContract(req.query.address)
+    let user = await mysql.getUserByID(req.query.id)
+    let policy = await mysql.getContractByAddress(req.query.address)
     let myDate = new Date()
     myDate.setDate(myDate.getDate() + 11)
     testContract.confirm(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate(), {
         from: web3.eth.coinbase,
         gas: 4444444
     })
+    let content = ''
+    content += '親愛的會員您好\n'
+    content += '感謝您購買本公司利率變動型年金保險\n\n'
+    content += '您的保單內容如下：\n'
+    content += '保險名稱：' + policy.alias  + '\n'
+    content += '保險金額：' + policy.payment  + '以太幣\n'
+    content += '保險時間：' + policy.paymentDate  + '年\n'
+    content += '身故受益人：' + policy.deathBeneficiary  + '\n'
+    content += '身故受益人關係：' + policy.deathBeneficiaryRelationship  + '\n'
+    content += '身故受益人身分證：' + policy.deathBeneficiaryIdentity  + '\n'
+    content += '根據本契約，於簽收保單後十日內得撤銷本契約，本公司將無息返還保險費。如於'+myDate.getFullYear()+'年'+(myDate.getMonth()+1)+'月'+myDate.getDate()+'日時前，要執行本權利，請點擊以下\n'
+    content += 'http://localhost:50000/revoke?address=' + req.query.address +'&id='+req.query.id
+
+    send.email(user.email, '正大人壽網路投保電子保單契約撤銷期通知', content)
+    res.render('index')
+})
+router.get('/revoke', async function (req, res, next) {
+    let testContract = new contract.getContract(req.query.address)
+    let user = await mysql.getUserByID(req.query.id)
+
+    testContract.revoke({
+        from: web3.eth.coinbase,
+        gas: 4444444
+    })
+
     res.render('index')
 })
 
