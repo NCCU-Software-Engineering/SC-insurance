@@ -47,22 +47,28 @@ router.get('/template', function (req, res, next) {
     })
 })
 
-router.get('/test', function (req, res, next) {
-    mysql.getContractByID(req.session.user_ID, (result) => {
+router.get('/test', async function (req, res, next) {
+    if (req.session.user_ID && req.session.user_name) {
+        let contract = await mysql.getContractByID(req.session.user_ID)
         let li = ''
-        for (var i = 0; i < result.length; i++) {
-            li += format('<li><input name="smart" type="radio" value="{}">智能合約{}:{}</li>', result[i].address, (i + 1), result[i].address)
+        for (var i = 0; i < contract.length; i++) {
+            li += format('<li><input name="smart" type="radio" value="{}">{}({}年，{}以太幣)</li>', contract[i].address, contract[i].alias, contract[i].payment, contract[i].paymentDate)
         }
         res.render('test', { user_name: req.session.user_name, radio: li })
-    })
+    }
+    else {
+        res.redirect('users/sign_in')
+    }
 })
 
-router.get('/camera', function (req, res, next) {
-    res.render('camera', { user_name: req.session.user_name })
-})
-
-router.get('/pay', function (req, res, next) {
-    res.render('pay', { user_name: req.session.user_name })
+router.get('/pay', async function (req, res, next) {
+    if (req.session.user_ID && req.session.user_name) {
+        let user = await mysql.getUserByID(req.session.user_ID)
+        res.render('pay', { user_name: req.session.user_name, account: user.account })
+    }
+    else {
+        res.redirect('users/sign_in')
+    }
 })
 
 router.get('/verify', function (req, res, next) {
@@ -76,7 +82,7 @@ router.post('/deploy', async function (req, res, next) {
     if (req.body.payment != undefined && req.body.paymentDate != undefined) {
         let user = await mysql.getUserByID(req.session.user_ID)
         contract.deploy(user.account, req.body.deathBeneficiaryAddress, req.body.payment, req.body.paymentDate, req.body.beneficiary, req.body.deathBeneficiary, async (address) => {
-            await mysql.addContract(req.session.user_ID, address, req.body.alias, req.body.payment)
+            await mysql.addContract(req.session.user_ID, address, req.body.alias, req.body.payment, req.body.paymentDate, req.body.deathBeneficiary, req.body.deathBeneficiaryRelationship, req.body.deathBeneficiaryIdentity)
             let number = (await mysql.getContractByAddress(address)).auto
             res.json({ type: true, address: address, number: number, alias: req.body.alias })
         })
@@ -88,20 +94,32 @@ router.post('/deploy', async function (req, res, next) {
 });
 
 router.get('/payeth', async function (req, res, next) {
-    let testContract = new contract.getContract(req.query.address);
+    let testContract = new contract.getContract(req.query.address)
+    let user = await mysql.getUserByID(req.session.user_ID)
+    let policy = await mysql.getContractByAddress(req.query.address)
     testContract.buy({
-        from: req.query.account,
+        from: user.account,
         value: web3.toWei(req.query.amount, "ether"),
         gas: 4444444
     })
     mysql.buyContract(req.query.address)
-    let user = await mysql.getUserByID(req.session.user_ID)
-    send.email(user.email, '請確認合約', '請前往\n http://localhost:50000/confirm?address=' + req.query.address + '\n確認合約')
+    let content = ''
+    content += '親愛的會員您好\n'
+    content += '感謝您購買本公司利率變動型年金保險\n\n'
+    content += '您的保單內容如下：\n'
+    content += '保險名稱：' + policy.alias  + '\n'
+    content += '保險金額：' + policy.payment  + '以太幣\n'
+    content += '保險時間：' + policy.paymentDate  + '年\n'
+    content += '身故受益人：' + policy.deathBeneficiary  + '\n'
+    content += '身故受益人關係：' + policy.deathBeneficiaryRelationship  + '\n'
+    content += '身故受益人身分證：' + policy.deathBeneficiaryIdentity  + '\n'
+    content += '請前往  http://localhost:50000/confirm?address=' + req.query.address + '  正式啟用合約\n'
+    content += '啟用合約後您將享有10天無條件契約撤銷權利'
+    send.email(user.email, '正大人壽網路投保電子保單付款成功通知', content)
     res.send('done')
 })
 
 router.get('/confirm', function (req, res, next) {
-
     let testContract = new contract.getContract(req.query.address);
     let myDate = new Date()
     myDate.setDate(myDate.getDate() + 11)
@@ -109,26 +127,18 @@ router.get('/confirm', function (req, res, next) {
         from: web3.eth.coinbase,
         gas: 4444444
     })
-
     res.render('index')
 })
 
-router.post('/getaccount', function (req, res, next) {
-    mysql.getAccountByID(req.session.user_ID, (result) => {
-        res.send(result)
-    })
-})
-
-router.post('/getcontracts', function (req, res, next) {
-    mysql.getContractByID(req.session.user_ID, (result) => {
-        res.send(result)
-    })
+router.post('/getContracts', async function (req, res, next) {
+    let contract = await mysql.getContractByID(req.session.user_ID)
+    res.send(contract)
 })
 
 router.post('/createcode', function (req, res, next) {
-    var randomString = crypto.randomBytes(32).toString('hex').substr(0, 8);
+    let randomString = crypto.randomBytes(32).toString('hex').substr(0, 8);
     mysql.setVerification(req.session.user_ID, randomString)
-    var cont = "您的驗證碼為: " + randomString
+    let cont = "您的驗證碼為: " + randomString
     send.newsletter("0912254446", cont)
 
     res.send('done')

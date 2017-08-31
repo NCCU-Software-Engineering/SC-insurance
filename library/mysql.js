@@ -95,10 +95,10 @@ function getAccountCount() {
         }
     })
 }
-async function addContract(ID, address, alias, payment) {
-    let cmd = "INSERT INTO contract (ID, address, alias, payment, isBuy) VALUES ?";
+async function addContract(ID, address, alias, payment, paymentDate, deathBeneficiary, deathBeneficiaryRelationship, deathBeneficiaryIdentity) {
+    let cmd = "INSERT INTO contract (ID, address, alias, payment, paymentDate, deathBeneficiary, deathBeneficiaryRelationship, deathBeneficiaryIdentity, isBuy) VALUES ?";
     let value = [
-        [ID, address, alias, payment, false]
+        [ID, address, alias, payment, paymentDate, deathBeneficiary, deathBeneficiaryRelationship, deathBeneficiaryIdentity, false]
     ];
     connection.query(cmd, [value], (err, result) => {
         if (err) {
@@ -107,15 +107,17 @@ async function addContract(ID, address, alias, payment) {
     });
 }
 
-function getContractByID(ID, callback) {
+function getContractByID(ID) {
     let cmd = "SELECT * FROM contract WHERE ID = ?";
-    connection.query(cmd, [ID], (err, result) => {
-        if (!err) {
-            callback(result);
-        } else {
-            console.log(err);
-        }
-    });
+    return new Promise(function (resolve, reject) {
+        connection.query(cmd, [ID], (err, result) => {
+            if (!err) {
+                resolve(result)
+            } else {
+                reject(err)
+            }
+        });
+    })
 }
 
 function getContractByAddress(address) {

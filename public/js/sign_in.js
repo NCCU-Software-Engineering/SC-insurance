@@ -13,10 +13,10 @@ $("#test").click(function () {
             case 2: {
                 swal({
                     title: result.inf,
-                    text: '忘記密碼了嗎?QQ',
+                    text: '忘記密碼?',
                     type: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: '忘記密碼了啊!',
+                    confirmButtonText: '忘記密碼了!',
                     cancelButtonText: "不，我再試試",
                 })
                 break
@@ -24,7 +24,7 @@ $("#test").click(function () {
             case 0: {
                 swal({
                     title: result.inf,
-                    text: '要不要註冊啊',
+                    text: '找不到此使用者',
                     type: 'error',
                     showCancelButton: true,
                     confirmButtonText: '前往註冊',

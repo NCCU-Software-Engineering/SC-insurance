@@ -11,9 +11,8 @@ var mailTransport = nodemailer.createTransport({
 });
 
 function email(target, subject, text) {
-
     mailTransport.sendMail({
-        from: 'gramr@gmail.com',
+        from: '正大人壽網路投保中心',
         to: target,
         subject: subject,
         text: text

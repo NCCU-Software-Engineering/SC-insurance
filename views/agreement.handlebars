@@ -46,16 +46,15 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="contact-name">保費<br>(以太幣)</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="number" name='payment' placeholder='1到10' value="10" ng-model="money" value="1" min="1"
-                                        max="10" oninput={go( '8')}>
+                                    <input class="form-control" type="number" name='payment' placeholder='1到10' value="10" ng-model="money" value="1" min="1" max="10">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="contact-name">投保年度<br>(限6~66年)</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="number" name="paymentDate" placeholder="第幾保單年度開始領取年金" value="6" ng-model="time" min="6" max="66"
-                                        oninput={go( '8')}>
+                                    <input class="form-control" type="number" name="paymentDate" placeholder="第幾保單年度開始領取年金" value="6" ng-model="time" min="6"
+                                        max="66">
                                 </div>
                             </div>
 
@@ -73,14 +72,32 @@
                                 </div>
                             </div>
 
-                            <div class="form-group ">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="contact-name">身故受益人</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="deathBeneficiary" placeholder="身故受益人姓名">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label" for="contact-name">身故受益人關係</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control">
-                                        <option value="直系血親">直系血親</option>
+                                    <select class="form-control" name="deathBeneficiaryRelationship">
+                                        <option value="直系血親：父子">直系血親：父子</option>
+                                        <option value="直系血親：父女">直系血親：父女</option>
+                                        <option value="直系血親：母子">直系血親：母子</option>
+                                        <option value="直系血親：母女">直系血親：母女</option>
+                                        <option value="直系血親：(外)祖孫">直系血親：(外)祖孫</option>
                                         <option value="配偶">配偶</option>
                                         <option value="法定繼承人">法定繼承人</option>
                                     </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="contact-name">身故受益人身分證</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="deathBeneficiaryIdentity" value="AOOOOOOOOO">
                                 </div>
                             </div>
 
@@ -107,10 +124,11 @@
                                 </div>
                             </div>
                         </form>
-                        
+
                         <div class="col-sm-12">
                             <div class="progress">
-                                <div id="progress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                <div id="progress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                                    style="width: 0%;">
                                 </div>
                             </div>
                         </div>
@@ -118,7 +136,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!--右視窗-->
             <div class="col-md-7">
                 <div class="panel panel-info" id="traditional-contract">
@@ -130,7 +148,9 @@
                             【保險契約的構成】<br>第一條
                         </h2>
                         <p>
-                            本保險單條款、附著之要保書、批註及其他約定書，均為本保險契約（以下簡稱本契約）的構成部分。 本契約的解釋，應探求契約當事人<font color="black" style="background-color: yellow">[ {{user_name}} ]</font>的真意不得拘泥於所用文字；如有疑義時以作利被 本契約的解釋，應探求當事人<font color="black" style="background-color: yellow">[ {{user_name}} ]</font>真意不得拘泥於所用文字；如有疑義時以作利於被保險人的解釋為原則。
+                            本保險單條款、附著之要保書、批註及其他約定書，均為本保險契約（以下簡稱本契約）的構成部分。 本契約的解釋，應探求契約當事人
+                            <font color="black" style="background-color: yellow">[ {{user_name}} ]</font>的真意不得拘泥於所用文字；如有疑義時以作利被 本契約的解釋，應探求當事人
+                            <font color="black" style="background-color: yellow">[ {{user_name}} ]</font>真意不得拘泥於所用文字；如有疑義時以作利於被保險人的解釋為原則。
                         </p>
 
                         <h2 id="2">
@@ -139,9 +159,9 @@
                         <p>
                             本契約所稱名詞定義如下：
                             <bt> 一、本契約所稱「保證期間」係指依本契約約定，不論被保險人生存與否，本公司保證給付年金之期間。要保人於投保時在要保書上選擇十年、二十年或三十年為保證期間。
-                            <br> 二、本契約所稱「年金金額」係指依本契約約定之條件及期間，本公司分期給付之金額。
-                            <br> 三、本契約所稱「未支領之年金餘額」係指被保險人於本契約年金保證期間內尚未領取之年金金額。
-                            <br> 四、本契約所稱「保險年齡」係指按投保時被保險人之足歲計算，但未滿一歲的零數超過六個月者加算一歲，以後每經過一個保險單年度加算一歲，且同一保險單年度內保險年齡不變。 五、本契約所稱「預定利率」係指本公司於年金給付開始日用以計算年金金額之利率，本契約之預定利率為年利率百分之二點三。
+                                <br> 二、本契約所稱「年金金額」係指依本契約約定之條件及期間，本公司分期給付之金額。
+                                <br> 三、本契約所稱「未支領之年金餘額」係指被保險人於本契約年金保證期間內尚未領取之年金金額。
+                                <br> 四、本契約所稱「保險年齡」係指按投保時被保險人之足歲計算，但未滿一歲的零數超過六個月者加算一歲，以後每經過一個保險單年度加算一歲，且同一保險單年度內保險年齡不變。 五、本契約所稱「預定利率」係指本公司於年金給付開始日用以計算年金金額之利率，本契約之預定利率為年利率百分之二點三。
                         </p>
 
                         <h2 id="3">
@@ -256,7 +276,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </section>

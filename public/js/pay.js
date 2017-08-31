@@ -1,13 +1,8 @@
 $(function () {
-    let account
     let contract
     let address
-    $.post("/getaccount", function (data) {
-        account = data[0].account;
-        $('#account').append(data[0].account)
-    })
 
-    $.post("/getcontracts", function (data) {
+    $.post("/getContracts", function (data) {
         contract = data
         data.forEach(function (element) {
             console.log(element)
@@ -34,13 +29,15 @@ $(function () {
         console.log(address);
         $.get('/payeth', {
             address: address,
-            account: account,
             amount: $("#money").val()
         }, (result) => {
-            window.location = '/'
+            swal({
+                title: '付款成功',
+                type: 'success',
+            }, () => { window.location = '/' })
         })
     })
     function addZero(n) {
-		return (n < 10000 ? (n < 1000 ? (n < 100 ? (n < 10 ? "0000" : "000") : "00") : "0") : "")+n
-	}
+        return 'nccuin' + (n < 10000 ? (n < 1000 ? (n < 100 ? (n < 10 ? "0000" : "000") : "00") : "0") : "") + n
+    }
 });
