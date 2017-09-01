@@ -9,6 +9,7 @@ let myDate2 = new MyDate('#myDate2', 0, 0, 0, '契約撤銷期限')
 let company = '0x1ad59a6d33002b819fe04bb9c9d0333f990750a4'
 let nidhogg5 = '0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6'
 let deathBeneficiary = '0x68a874f2e8d20718af2ebb48dc10940ede50c080'
+let timeServer = '0x90353894b5edddcf49978b029f16bbed8e7e9355'
 
 $(document).ready(function () {
 
@@ -45,7 +46,7 @@ $(document).ready(function () {
                 myDate.setDate(myDate.getDate() + 1)
                 console.log(myDate.toDateString())
                 testContract.time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate(), {
-                    from: web3.eth.coinbase,
+                    from: timeServer,
                     gas: 4444444
                 })
                 break
@@ -53,7 +54,7 @@ $(document).ready(function () {
                 console.log("next_month");
                 myDate.setMonth(myDate.getMonth() + 1)
                 testContract.time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate(), {
-                    from: web3.eth.coinbase,
+                    from: timeServer,
                     gas: 4444444
                 })
                 break
@@ -61,7 +62,7 @@ $(document).ready(function () {
                 console.log("next_year");
                 myDate.setFullYear(myDate.getFullYear() + 1)
                 testContract.time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate(), {
-                    from: web3.eth.coinbase,
+                    from: timeServer,
                     gas: 4444444
                 })
                 break
@@ -69,7 +70,7 @@ $(document).ready(function () {
             case "revoke":
                 console.log("revoke");
                 testContract.revoke({
-                    from: web3.eth.coinbase,
+                    from: nidhogg5,
                     gas: 4444444
                 })
                 break
@@ -77,7 +78,7 @@ $(document).ready(function () {
             case "dead":
                 console.log("dead");
                 testContract.endAnnuity({
-                    from: web3.eth.coinbase,
+                    from: company,
                     gas: 4444444
                 })
                 break
@@ -86,7 +87,7 @@ $(document).ready(function () {
                 console.log('go');
                 myDate = new Date($('#datePicker').val())
                 testContract.time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate(), {
-                    from: web3.eth.coinbase,
+                    from: timeServer,
                     gas: 4444444
                 })
                 break
@@ -100,6 +101,11 @@ $(document).ready(function () {
         }
         update()
     })
+
+    $('#myDate2').click(function () {
+        console.log('set')
+        $('#datePicker').val(myDate2.getDate());
+    })
 })
 
 function update() {
@@ -109,7 +115,6 @@ function update() {
     $('#money_dead').text(web3.fromWei(web3.eth.getBalance(deathBeneficiary)).toFixed(3))
 
     setState(testContract.getState().toString())
-    myDate1.setText('目前合約日期')
     myDate1.satDate(testContract.getNowTime())
 
     $("#company").text('正大人壽')
@@ -129,8 +134,9 @@ function update() {
     events.get(function (error, logs) {
         //console.log(logs)
         $("#event_body").html('')
-        logs.reverse().forEach((element) => {
-
+        
+        logs.reverse().forEach((element, index) => {
+            $("#event_body").append(logs.length-index + '.')
             switch (element.event) {
                 case 'buyEvent':
                     $("#event_body").append('購買合約' + '<br>')
@@ -163,7 +169,7 @@ function update() {
                     if (parseInt(element.args.payTime) > parseInt(testContract.gatPayTime())) {
                         console.log('companyPay')
                         testContract.companyPay({
-                            from: '0x1ad59A6D33002b819fe04Bb9c9d0333F990750a4',
+                            from: company,
                             value: element.args.value,
                             gas: 4444444
                         })
@@ -232,7 +238,7 @@ function setState(state) {
             break;
         case '6':
             $("#state_panel").addClass("panel panel-danger");
-            $("#state_heading").html("合約狀態：被保人往生 保證期間內");
+            $("#state_heading").html("合約狀態：被保人往生 保證期間內<br>受益人轉為死亡受益人");
             myDate2.setText('下次年金給付日期')
             myDate2.satDate(testContract.getPaymentDate())
             break
@@ -254,11 +260,13 @@ function slash(date) {
 function ethAddress(address) {
     switch (address.toString()) {
         case company:
-            return '正大人壽以太坊帳戶'
+            return '正大人壽'
         case nidhogg5:
-            return '被保人以太坊帳戶'
+            return '被保人'
         case deathBeneficiary:
-            return '身故受益人以太坊帳戶'
+            return '身故受益人'
+        case timeServer:
+            return '時間伺服器'
         default:
             return address
     }

@@ -8,6 +8,17 @@ class MyDate {
 			$(select + ' p').text(text)
 		}
 	}
+	getDate() {
+		function padLeft(str, len) {
+			str = '' + str;
+			if (str.length >= len) {
+				return str;
+			} else {
+				return padLeft("0" + str, len);
+			}
+		}
+		return this.year + '-' + padLeft(this.month, 2) + '-' + padLeft(this.day, 2)
+	}
 	satDate(val) {
 		function run(select, val) {
 			$(select + ' div').text(val)

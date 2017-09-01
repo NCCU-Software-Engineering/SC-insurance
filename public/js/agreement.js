@@ -30,15 +30,15 @@ $(function () {
 	function showSwal() {
 		if (data.type) {
 			swal({
-				title: '部署成功',
-				text: '保單編號：' + addZero(data.number) + '\n保單名稱：' + data.alias + '\n智能合約位址：\n' + data.address,
+				title: '智能保單部署成功',
+				text: '保單編號：' + addZero(data.number) + '\n保單名稱：' + data.alias + '\n保單對應智能合約地址：\n' + data.address,
 				type: 'success',
 				closeOnConfirm: false
 			}, () => { window.location = '/buy' })
 		}
 		else {
 			swal({
-				title: '部署失敗',
+				title: '智能保單部署失敗',
 				text: data.inf,
 				type: 'error',
 			})

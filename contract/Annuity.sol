@@ -2,11 +2,11 @@ pragma solidity ^0.4.7;
 
 contract Annuity {
 
-    //保險商adress
+    //保險公司adress
     address private _companyAddress;
     //被保人adress
     address private _insuredAddress;
-    //被保人adress
+    //死亡受益人adress
     address private _deathBeneficiaryAddress;
     //時間伺服器address
     address private _timerAddress;
@@ -19,6 +19,9 @@ contract Annuity {
     uint _guaranteePeriod;
     //給付間隔
     uint _timeInterval;
+    
+    //保險公司
+    string _company;
     //受益人
     string _beneficiary;
     //身故受益人
@@ -51,7 +54,7 @@ contract Annuity {
     event companyPayEvent(address from, string inf, uint value, uint payTime, uint[3] timestamp);
 
     //建構子
-    function Annuity(address insuredAddress, address deathBeneficiaryAddress, uint[3] date, uint payment, uint paymentDate, uint guaranteePeriod, string beneficiary, string deathBeneficiary) {
+    function Annuity(address insuredAddress, address deathBeneficiaryAddress, uint[3] date, uint payment, uint paymentDate, uint guaranteePeriod, string company, string beneficiary, string deathBeneficiary) {
 
         _companyAddress = msg.sender;
         _insuredAddress = insuredAddress;
@@ -60,6 +63,8 @@ contract Annuity {
         _payment = payment;
         _timeInterval = 1;
         _guaranteePeriod = guaranteePeriod;
+        
+        _company = company;
         _beneficiary = beneficiary;
         _deathBeneficiary = deathBeneficiary;
         _payTime = 0;

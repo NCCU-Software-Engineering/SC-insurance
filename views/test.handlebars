@@ -8,8 +8,10 @@
             <div class="col-md-12">
                 <h1>智能合約模擬</h1>
                 <hr>
+                <!--
                 <input type="checkbox" id="email">電子郵件</input>
                 <input type="checkbox" id="letter">簡訊</input>
+                -->
                 <ul class="list-unstyled" id="radio_group">
                     {{{radio}}}
                 </ul>
@@ -69,15 +71,14 @@
                     <button class="btn btn-success btn-lg" id="next_year">下一年</button>
                 </div>
                 <div class="btn-group.btn-group-justified" role="group" style="margin-bottom: 10px;">
-                    <button class="btn btn-success btn-lg" id="update">更新</button>
-                    <button class="btn btn-success btn-lg" id="revoke">撤銷合約</button>
-                    <button class="btn btn-success btn-lg" id="dead">被保人往生</button>
+                    <button class="btn btn-success btn-lg" id="go">指定日期</button>
+                    <input id="datePicker" type="date" name="user_date">
                 </div>
                 <div class="btn-group.btn-group-justified" role="group">
-                    <button class="btn btn-success btn-lg" id="go">送出</button>
-                    <input id="datePicker" type="date" name="user_date" />
+                    <button class="btn btn-primary btn-lg" id="update">更新</button>
+                    <button class="btn btn-primary btn-lg" id="revoke">撤銷合約</button>
+                    <button class="btn btn-primary btn-lg" id="dead">被保人往生</button>
                 </div>
-                
             </div>
             <div class="col-md-12">
                 <hr>

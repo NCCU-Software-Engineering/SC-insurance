@@ -141,9 +141,8 @@ router.get('/confirm', async function (req, res, next) {
     content += '身故受益人身分證：' + policy.deathBeneficiaryIdentity  + '\n'
     content += '根據本契約，於簽收保單後十日內得撤銷本契約，本公司將無息返還保險費。如於'+myDate.getFullYear()+'年'+(myDate.getMonth()+1)+'月'+myDate.getDate()+'日時前，要執行本權利，請點擊以下\n'
     content += 'http://localhost:50000/revoke?address=' + req.query.address +'&id='+req.query.id
-
     send.email(user.email, '正大人壽網路投保電子保單契約撤銷期通知', content)
-    res.render('index')
+    res.redirect('/')
 })
 router.get('/revoke', async function (req, res, next) {
     let testContract = new contract.getContract(req.query.address)

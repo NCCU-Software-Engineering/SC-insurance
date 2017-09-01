@@ -33,7 +33,7 @@ async function sing_in(ID, password) {
             return { type: 2, inf: '密碼錯誤' }
         }
         else if (user.password == password) {
-            return { type: 1, inf: '登錄成功', ID: user.ID, name: user.name }
+            return { type: 1, inf: '登入成功', ID: user.ID, name: user.name }
         }
     } catch (err) {
         console.error(err);
