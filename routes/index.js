@@ -113,7 +113,7 @@ router.get('/payeth', async function (req, res, next) {
     content += '身故受益人：' + policy.deathBeneficiary  + '\n'
     content += '身故受益人關係：' + policy.deathBeneficiaryRelationship  + '\n'
     content += '身故受益人身分證：' + policy.deathBeneficiaryIdentity  + '\n'
-    content += '保單對應以太坊地址：' + req.query.address + '\n'
+    content += '保單對應智能合約地址：' + req.query.address + '\n'
     content += '如需查看JSON介面，請前往 http://localhost:50000/data/json' + '\n'
     content += '請前往  http://localhost:50000/confirm?address=' + req.query.address +'&id='+req.session.user_ID+ '  正式啟用合約\n'
     content += '啟用合約後您將享有10天無條件契約撤銷權利'
