@@ -46,22 +46,8 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="contact-name">保費<br>(以太幣)</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="number" name='payment' placeholder='1到10' value="10" ng-model="money" value="1" min="1" max="10">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" for="contact-name">投保年度<br>(限6~66年)</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="number" name="paymentDate" placeholder="第幾保單年度開始領取年金" value="6" ng-model="time" min="6"
-                                        max="66">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">保證期間(年)</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="guaranteePeriod" value="十年" readonly="readonly">
+                                    <input class="form-control" type="number" name='payment' placeholder='1到10' value="10" ng-model="money" value="1" min="1"
+                                        max="10">
                                 </div>
                             </div>
 
@@ -73,13 +59,37 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-sm-3 control-label" for="guarantee-type">是否保證</label>
+                                <div class="col-sm-8">
+                                    <label class="radio-inline"><input type="radio" name="guarantee-type" class="check" value="y">是</label>
+                                    <label class="radio-inline"><input type="radio" name="guarantee-type" class="check" value="n" checked>否</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group" style="display:none;">
+                                <label class="col-sm-3 control-label" for="contact-name">投保年度<br>(限1~66年)</label>
+                                <div class="col-sm-8">
+                                    <!--<input class="form-control" type="number" name="paymentDate" placeholder="第幾保單年度開始領取年金" value="1" ng-model="time" min="1"
+                                        max="66">-->
+                                    <input class="form-control" type="number" name="paymentDate" value="1" readonly="readonly">
+                                </div>
+                            </div>
+
+                            <div class="form-group guarantee">
+                                <label class="col-sm-3 control-label">保證期間(年)</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="guaranteePeriod" value="10" readonly="readonly">
+                                </div>
+                            </div>
+
+                            <div class="form-group guarantee">
                                 <label class="col-sm-3 control-label" for="contact-name">身故受益人</label>
                                 <div class="col-sm-8">
                                     <input class="form-control" type="text" name="deathBeneficiary" placeholder="身故受益人姓名">
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group guarantee">
                                 <label class="col-sm-3 control-label" for="contact-name">身故受益人關係</label>
                                 <div class="col-sm-8">
                                     <select class="form-control" name="deathBeneficiaryRelationship">
@@ -94,14 +104,14 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group guarantee">
                                 <label class="col-sm-3 control-label" for="contact-name">身故受益人身分證</label>
                                 <div class="col-sm-8">
                                     <input class="form-control" type="text" name="deathBeneficiaryIdentity" value="AOOOOOOOOO">
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group guarantee">
                                 <label class="col-sm-3 control-label" for="contact-name">身故受益人<br>以太坊帳戶</label>
                                 <div class="col-sm-8">
                                     <input class="form-control" type="text" name="deathBeneficiaryAddress" value="0x68a874f2e8d20718af2ebb48dc10940ede50c080">

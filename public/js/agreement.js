@@ -17,6 +17,12 @@ $(function () {
 			})
 		});
 	})
+
+	check();
+	$('.check').click(function () {
+		check();
+	})
+
 	function widthCount() {
 		width += 5;
 		$('#progress').css('width', width + '%')
@@ -48,5 +54,23 @@ $(function () {
 	}
 	function addZero(n) {
 		return 'nccuin' + (n < 10000 ? (n < 1000 ? (n < 100 ? (n < 10 ? "0000" : "000") : "00") : "0") : "") + n
+	}
+	function check(){
+		if ($('input[name="guarantee-type"]:checked').val() == 'n') {
+			$('.guarantee').hide()
+			$('input[name="guaranteePeriod"]').val(0)
+			$('input[name="deathBeneficiary"]').val('')
+			//$('input[name="deathBeneficiaryRelationship"]').val('')
+			$('input[name="deathBeneficiaryIdentity"]').val('')
+			$('input[name="deathBeneficiaryAddress"]').val('')
+		}
+		else if ($('input[name="guarantee-type"]:checked').val() == 'y') {
+			$('.guarantee').show()
+			$('input[name="guaranteePeriod"]').val(10)
+			$('input[name="deathBeneficiary"]').val('')
+			//$('input[name="deathBeneficiaryRelationship"]').val('')
+			$('input[name="deathBeneficiaryIdentity"]').val('A000000000')
+			$('input[name="deathBeneficiaryAddress"]').val('0x68a874f2e8d20718af2ebb48dc10940ede50c080')
+		}
 	}
 })

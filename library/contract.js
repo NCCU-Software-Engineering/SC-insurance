@@ -5,7 +5,7 @@ var credentials = require('./credentials.js');
 
 var annuityContract = web3.eth.contract(data.interface);
 
-function deploy(insuredAddress, deathBeneficiaryAddress, payment, paymentDate, beneficiary, deathBeneficiary, callback) {
+function deploy(insuredAddress, deathBeneficiaryAddress, payment, paymentDate, guaranteePeriod, beneficiary, deathBeneficiary, callback) {
 
     let date = new Date();
     //web3.personal.unlockAccount(credentials.account.company, '', 300);
@@ -16,7 +16,7 @@ function deploy(insuredAddress, deathBeneficiaryAddress, payment, paymentDate, b
         [date.getFullYear(), date.getMonth() + 1, + date.getDate()],
         payment*1000000000000000000,
         paymentDate,
-        10,
+        guaranteePeriod,
         '正大人壽',
         beneficiary,
         deathBeneficiary,
