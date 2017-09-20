@@ -196,18 +196,21 @@ contract Annuity {
         //由保險公司取消
         //if(msg.sender != companyAddress) {
         //    throw;
-        //}_state == waitingForPayment || 
-        if(_state == State.unconfirmed || _state == State.canBeRevoked){
+        //}
+        //確認前死亡
+        if(_state == State.unconfirmed){
             if( !_insuredAddress.send(_payment) ) {
                 throw;
             }
             deathEvent(msg.sender , "death", 0, 0, _nowTime);
             _state = State.ending;
         }
-        else if(!_isGuarantee) {
+        //沒有保證or給付保費前死亡
+        else if(!_isGuarantee || _state == State.waitingForPayment) {
             _state = State.ending;
             deathEvent(msg.sender , "death", 0, 0, _nowTime);
         }
+        //有保證
         else {
             deathEvent(msg.sender , "death", _payment - _annuity*_payTime, _payTime+1, _nowTime);
             _state = State.guarantee;
