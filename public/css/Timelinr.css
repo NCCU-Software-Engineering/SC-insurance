@@ -12,7 +12,7 @@ a.selected {
     overflow: hidden;
 	position: relative;
 	margin-bottom: 10px;
-	background: url('../images/dot.gif') left 45px repeat-x;
+	background: url('../imgs/dot.gif') left 45px repeat-x;
 }
 
 #dates {
@@ -27,7 +27,7 @@ a.selected {
     height: 50px;
     font-size: 24px;
     text-align: center;
-    background: url('../images/biggerdot.png') center bottom no-repeat;
+    background: url('../imgs/biggerdot.png') center bottom no-repeat;
 }
 
 #dates a {
@@ -55,7 +55,6 @@ a.selected {
 #issues li h1 {
     color: #ffcc00;
     font-size: 48px;
-    text-shadow: #000 1px 1px 2px;
 }
 
 #issues li p {
@@ -63,5 +62,4 @@ a.selected {
     margin-right: 70px;
     font-weight: normal;
     line-height: 22px;
-    text-shadow: #000 1px 1px 2px;
 }

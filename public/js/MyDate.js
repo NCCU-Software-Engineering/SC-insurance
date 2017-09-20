@@ -17,7 +17,10 @@ class MyDate {
 				return padLeft("0" + str, len);
 			}
 		}
-		return this.year + '-' + padLeft(this.month, 2) + '-' + padLeft(this.day, 2)
+		return padLeft(this.year, 4) + '-' + padLeft(this.month, 2) + '-' + padLeft(this.day, 2)
+	}
+	getDateArr() {
+		return [this.year, this.month, this.day]
 	}
 	satDate(val) {
 		function run(select, val) {
