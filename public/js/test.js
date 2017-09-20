@@ -13,23 +13,16 @@ let timeServer = '0x90353894b5edddcf49978b029f16bbed8e7e9355'
 
 $(document).ready(function () {
 
-    $('#money_company').text(web3.fromWei(web3.eth.getBalance(company)).toFixed(3))
-    $('#money_your').text(web3.fromWei(web3.eth.getBalance(nidhogg5)).toFixed(3))
-    $('#money_dead').text(web3.fromWei(web3.eth.getBalance(deathBeneficiary)).toFixed(3))
+    updateMoney()
 
+    initTimeLine()
+    
     //選擇合約
     $("#radio_group :radio").change(function () {
         console.log(data.interface)
         testContract = web3.eth.contract(data.interface).at($(this).val());
         update()
-    });
-
-    $("#email, #letter").change(function () {
-        email = document.getElementById("email").checked;
-        letter = document.getElementById("letter").checked;
-        console.log('email :　' + email);
-        console.log('letter : ' + letter);
-    });
+    })
 
     $('button').click(function () {
 
@@ -109,12 +102,48 @@ $(document).ready(function () {
     })
 })
 
+function initTimeLine(){
+    $().timelinr({
+        orientation: 'horizontal',
+        // value: horizontal | vertical, default to horizontal
+        containerDiv: '#timeline',
+        // value: any HTML tag or #id, default to #timeline
+        datesDiv: '#dates',
+        // value: any HTML tag or #id, default to #dates
+        datesSelectedClass: 'selected',
+        // value: any class, default to selected
+        datesSpeed: 'normal',
+        // value: integer between 100 and 1000 (recommended) or 'slow', 'normal' or 'fast'; default to normal
+        issuesDiv : '#issues',
+        // value: any HTML tag or #id, default to #issues
+        issuesSelectedClass: 'selected',
+        // value: any class, default to selected
+        issuesSpeed: 'fast',
+        // value: integer between 100 and 1000 (recommended) or 'slow', 'normal' or 'fast'; default to fast
+        issuesTransparency: 0.2,
+        // value: integer between 0 and 1 (recommended), default to 0.2
+        issuesTransparencySpeed: 500,
+        // value: integer between 100 and 1000 (recommended), default to 500 (normal)
+        prevButton: '#prev',
+        // value: any HTML tag or #id, default to #prev
+        nextButton: '#next',
+        // value: any HTML tag or #id, default to #next
+        arrowKeys: 'false',
+        // value: true/false, default to false
+        startAt: 1,
+        // value: integer, default to 1 (first)
+        autoPlay: 'false',
+        // value: true | false, default to false
+        autoPlayDirection: 'forward',
+        // value: forward | backward, default to forward
+        autoPlayPause: 2000
+        // value: integer (1000 = 1 seg), default to 2000 (2segs)< });
+     })
+}
+
 function update() {
 
-    $('#money_company').text(web3.fromWei(web3.eth.getBalance(company)).toFixed(3))
-    $('#money_your').text(web3.fromWei(web3.eth.getBalance(nidhogg5)).toFixed(3))
-    $('#money_dead').text(web3.fromWei(web3.eth.getBalance(deathBeneficiary)).toFixed(3))
-
+    updateMoney()
     setState(testContract.getState().toString())
     myDate1.satDate(testContract.getNowTime())
 
@@ -216,6 +245,12 @@ function update() {
             }
         })
     });
+}
+
+function updateMoney() {
+    $('#money_company').text(web3.fromWei(web3.eth.getBalance(company)).toFixed(3))
+    $('#money_your').text(web3.fromWei(web3.eth.getBalance(nidhogg5)).toFixed(3))
+    $('#money_dead').text(web3.fromWei(web3.eth.getBalance(deathBeneficiary)).toFixed(3))
 }
 
 function setState(state) {

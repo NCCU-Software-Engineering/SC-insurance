@@ -11,6 +11,15 @@ var router = express.Router()
 
 mysql.connect()
 
+var sign = async function (req, res, next) {
+    if (req.session.user_ID && req.session.user_name) {
+        next()
+    }
+    else {
+        res.redirect('users/sign_in')
+    }
+}
+
 //get
 router.get('/', function (req, res, next) {
     res.render('index', { user_name: req.session.user_name })
@@ -20,55 +29,26 @@ router.get('/trial', function (req, res, next) {
     res.render('trial', { user_name: req.session.user_name })
 })
 
-router.get('/buy', function (req, res, next) {
-    if (req.session.user_ID && req.session.user_name) {
-        res.render('buy', { user_name: req.session.user_name })
-    }
-    else {
-        res.redirect('users/sign_in')
-    }
+router.get('/buy', sign, function (req, res, next) {
+    res.render('buy', { user_name: req.session.user_name })
 })
 
-router.get('/agreement', function (req, res, next) {
-    if (req.session.user_ID && req.session.user_name) {
-        res.render('agreement', { user_name: req.session.user_name })
-    }
-    else {
-        res.redirect('users/sign_in')
-    }
+router.get('/agreement', sign, function (req, res, next) {
+    res.render('agreement', { user_name: req.session.user_name })
 })
 
-router.get('/template', function (req, res, next) {
-    res.render('template', {
-        user_name: req.session.user_name,
-        paymentDate: req.cookies.paymentDate,
-        payment: req.cookies.payment,
-        beneficiarie: req.cookies.beneficiarie
-    })
+router.get('/test', sign, async function (req, res, next) {
+    let contract = await mysql.getContractByID(req.session.user_ID)
+    let li = ''
+    for (var i = 0; i < contract.length; i++) {
+        li += format('<li><input name="smart" type="radio" value="{}">{}({}年，{}以太幣，{})</li>', contract[i].address, contract[i].alias, contract[i].paymentDate, contract[i].payment, contract[i].isGuarantee ? '有保證' : '無保證')
+    }
+    res.render('test', { user_name: req.session.user_name, radio: li })
 })
 
-router.get('/test', async function (req, res, next) {
-    if (req.session.user_ID && req.session.user_name) {
-        let contract = await mysql.getContractByID(req.session.user_ID)
-        let li = ''
-        for (var i = 0; i < contract.length; i++) {
-            li += format('<li><input name="smart" type="radio" value="{}">{}({}年，{}以太幣)</li>', contract[i].address, contract[i].alias, contract[i].paymentDate, contract[i].payment)
-        }
-        res.render('test', { user_name: req.session.user_name, radio: li })
-    }
-    else {
-        res.redirect('users/sign_in')
-    }
-})
-
-router.get('/pay', async function (req, res, next) {
-    if (req.session.user_ID && req.session.user_name) {
-        let user = await mysql.getUserByID(req.session.user_ID)
-        res.render('pay', { user_name: req.session.user_name, account: user.account })
-    }
-    else {
-        res.redirect('users/sign_in')
-    }
+router.get('/pay', sign, async function (req, res, next) {
+    let user = await mysql.getUserByID(req.session.user_ID)
+    res.render('pay', { user_name: req.session.user_name, account: user.account })
 })
 
 router.get('/verify', function (req, res, next) {
@@ -109,15 +89,15 @@ router.get('/payeth', async function (req, res, next) {
     content += '親愛的會員您好\n'
     content += '感謝您購買本公司利率變動型年金保險\n\n'
     content += '您的保單內容如下：\n'
-    content += '保險名稱：' + policy.alias  + '\n'
-    content += '保險金額：' + policy.payment  + '以太幣\n'
-    content += '保險時間：' + policy.paymentDate  + '年\n'
-    content += '身故受益人：' + policy.deathBeneficiary  + '\n'
-    content += '身故受益人關係：' + policy.deathBeneficiaryRelationship  + '\n'
-    content += '身故受益人身分證：' + policy.deathBeneficiaryIdentity  + '\n'
+    content += '保險名稱：' + policy.alias + '\n'
+    content += '保險金額：' + policy.payment + '以太幣\n'
+    content += '保險時間：' + policy.paymentDate + '年\n'
+    content += '身故受益人：' + policy.deathBeneficiary + '\n'
+    content += '身故受益人關係：' + policy.deathBeneficiaryRelationship + '\n'
+    content += '身故受益人身分證：' + policy.deathBeneficiaryIdentity + '\n'
     content += '保單對應智能合約地址：' + req.query.address + '\n'
     content += '如需查看JSON介面，請前往 http://localhost:50000/data/json' + '\n'
-    content += '請前往  http://localhost:50000/confirm?address=' + req.query.address +'&id='+req.session.user_ID+ '  正式啟用合約\n'
+    content += '請前往  http://localhost:50000/confirm?address=' + req.query.address + '&id=' + req.session.user_ID + '  正式啟用合約\n'
     content += '啟用合約後您將享有10天無條件契約撤銷權利'
     send.email(user.email, '正大人壽網路投保電子保單付款成功通知', content)
     res.send('done')
@@ -137,14 +117,14 @@ router.get('/confirm', async function (req, res, next) {
     content += '親愛的會員您好\n'
     content += '感謝您購買本公司利率變動型年金保險\n\n'
     content += '您的保單內容如下：\n'
-    content += '保險名稱：' + policy.alias  + '\n'
-    content += '保險金額：' + policy.payment  + '以太幣\n'
-    content += '保險時間：' + policy.paymentDate  + '年\n'
-    content += '身故受益人：' + policy.deathBeneficiary  + '\n'
-    content += '身故受益人關係：' + policy.deathBeneficiaryRelationship  + '\n'
-    content += '身故受益人身分證：' + policy.deathBeneficiaryIdentity  + '\n'
-    content += '根據本契約，於簽收保單後十日內得撤銷本契約，本公司將無息返還保險費。如於'+myDate.getFullYear()+'年'+(myDate.getMonth()+1)+'月'+myDate.getDate()+'日時前，要執行本權利，請點擊以下\n'
-    content += 'http://localhost:50000/revoke?address=' + req.query.address +'&id='+req.query.id
+    content += '保險名稱：' + policy.alias + '\n'
+    content += '保險金額：' + policy.payment + '以太幣\n'
+    content += '保險時間：' + policy.paymentDate + '年\n'
+    content += '身故受益人：' + policy.deathBeneficiary + '\n'
+    content += '身故受益人關係：' + policy.deathBeneficiaryRelationship + '\n'
+    content += '身故受益人身分證：' + policy.deathBeneficiaryIdentity + '\n'
+    content += '根據本契約，於簽收保單後十日內得撤銷本契約，本公司將無息返還保險費。如於' + myDate.getFullYear() + '年' + (myDate.getMonth() + 1) + '月' + myDate.getDate() + '日時前，要執行本權利，請點擊以下\n'
+    content += 'http://localhost:50000/revoke?address=' + req.query.address + '&id=' + req.query.id
     send.email(user.email, '正大人壽網路投保電子保單契約撤銷期通知', content)
     res.redirect('/')
 })
