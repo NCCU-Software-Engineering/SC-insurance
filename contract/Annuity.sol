@@ -132,9 +132,6 @@ contract Annuity {
         }
         
         if(msg.value >= _payment) {
-            if( !_companyAddress.send(_payment) ) {
-                throw;
-            }
             buyEvent(msg.sender , "success buy", msg.value, _nowTime);
         }
         else {
@@ -183,6 +180,10 @@ contract Annuity {
             revokeEvent(msg.sender , "error state", _nowTime);
         }
         else {
+            //把保費退還給被保人
+            if( !_insuredAddress.send(_payment) ) {
+                throw;
+            }
             //撤銷契約
             _state = State.revocation;
             //通知保險公司進行契約撤銷流程
@@ -195,9 +196,17 @@ contract Annuity {
         //由保險公司取消
         //if(msg.sender != companyAddress) {
         //    throw;
-        //}
-        if(!_isGuarantee) {
+        //}_state == waitingForPayment || 
+        if(_state == State.unconfirmed || _state == State.canBeRevoked){
+            if( !_insuredAddress.send(_payment) ) {
+                throw;
+            }
+            deathEvent(msg.sender , "death", 0, 0, _nowTime);
             _state = State.ending;
+        }
+        else if(!_isGuarantee) {
+            _state = State.ending;
+            deathEvent(msg.sender , "death", 0, 0, _nowTime);
         }
         else {
             deathEvent(msg.sender , "death", _payment - _annuity*_payTime, _payTime+1, _nowTime);
@@ -217,6 +226,9 @@ contract Annuity {
 
         //撤銷期結束
         if(_state == State.canBeRevoked) {
+            if( !_companyAddress.send(_payment) ) {
+                throw;
+            }
             if((year>_revocationPeriod[0]) ||
                 (year==_revocationPeriod[0] && month>_revocationPeriod[1]) ||
                 (year==_revocationPeriod[0] && month==_revocationPeriod[1] && day>=_revocationPeriod[2])){
@@ -253,7 +265,7 @@ contract Annuity {
                 _state = State.ending;
                 
             }
-            companyPayEvent(msg.sender , "company pay success", msg.value, _payTime+1, _nowTime);
+            companyPayEvent(msg.sender , "company pay success", msg.value, _payTime, _nowTime);
         }
         
         else {
