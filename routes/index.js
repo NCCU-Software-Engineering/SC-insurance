@@ -85,7 +85,7 @@ router.get('/payeth', async function (req, res, next) {
         gas: 4444444
     })
     mysql.buyContract(req.query.address)
-    notice.confirmEmail(user.email, policy)
+    notice.confirmEmail(user.email, policy, req.query.address, req.session.user_ID)
     res.send('done')
 })
 
@@ -99,7 +99,7 @@ router.get('/confirm', async function (req, res, next) {
         from: web3.eth.coinbase,
         gas: 4444444
     })
-    notice.revocationPeriodEmail(user.email, policy, myDate)
+    notice.revocationPeriodEmail(user.email, policy, myDate, req.query.address, req.query.id)
     res.redirect('/')
 })
 router.get('/revoke', async function (req, res, next) {

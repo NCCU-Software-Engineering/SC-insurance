@@ -6,6 +6,7 @@ let testContract
 let myDate1 = new MyDate('#myDate1', 2017, 8, 17, '模擬智能合約目前日期(Time Travel)')
 let myDate2 = new MyDate('#myDate2', 0, 0, 0, '契約撤銷期限')
 let autoRun
+let nowBlock
 
 let company = '0x1ad59a6d33002b819fe04bb9c9d0333f990750a4'
 let nidhogg5 = '0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6'
@@ -15,13 +16,13 @@ let timeServer = '0x90353894b5edddcf49978b029f16bbed8e7e9355'
 $(document).ready(function () {
 
     updateMoney()
-
     initTimeLine()
 
     //選擇合約
     $("#radio_group :radio").change(function () {
         console.log(data.interface)
-        testContract = web3.eth.contract(data.interface).at($(this).val());
+        testContract = web3.eth.contract(data.interface).at($(this).val())
+        initTimeLine()
         update()
     })
 
@@ -30,8 +31,9 @@ $(document).ready(function () {
         $('button').attr('disabled', 'true')
         setTimeout(() => { $('button').removeAttr('disabled') }, 1000);
 
-        let contractTime = testContract.getNowTime();
-        let myDate = new Date(contractTime[0], contractTime[1] - 1, contractTime[2]);
+        let contractTime = testContract.getNowTime()
+        let myDate = new Date(contractTime[0], contractTime[1] - 1, contractTime[2])
+        nowBlock = web3.eth.blockNumber
 
         switch ($(this).attr('id')) {
 
@@ -135,8 +137,7 @@ function update() {
     updateMoney()
     setState(testContract.getState().toString())
     myDate1.satDate(testContract.getNowTime())
-
-    $('#timeline #issues #' + testContract.getDeployTime()[0]).text('合約部署：' + slash(testContract.getDeployTime()))
+    $('#timeline #dates #d' + testContract.getNowTime()[0]).click()
 
     $("#company").text('正大人壽')
     $("#insurer").text(testContract.getBeneficiarie())
@@ -151,7 +152,7 @@ function update() {
     $("#revocationPeriod").text(slash(testContract.getRevocationPeriod()))
     $("#paymentDate").text(slash(testContract.getPaymentDate()))
 
-    let events = testContract.allEvents({ fromBlock: 0, toBlock: 'latest' });
+    let events = testContract.allEvents({ fromBlock: nowBlock, toBlock: 'latest' });
     events.get(function (error, logs) {
         //console.log(logs)
         $("#event_body").html('')
@@ -167,6 +168,8 @@ function update() {
                     else
                         $("#event_body").append('資訊 : ' + '購買失敗' + '<br>')
                     $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
+
+                    $('#timeline #issues #' + element.args.timestamp[0]).prepend('購買合約：' + slash(element.args.timestamp) + '<br>')
                     break
                 case 'confirmEvent':
                     $("#event_body").append('確認合約' + '<br>')
@@ -176,6 +179,8 @@ function update() {
                     else
                         $("#event_body").append('資訊 : ' + '確認失敗' + '<br>')
                     $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
+
+                    $('#timeline #issues #' + element.args.timestamp[0]).prepend('確認合約：' + slash(element.args.timestamp) + '<br>')
                     break
                 case 'payEvent':
                     $("#event_body").append('給付年金通知' + '<br>')
@@ -187,6 +192,8 @@ function update() {
                     $("#event_body").append('給付次數 :　第' + element.args.payTime + '次給付年金通知<br>')
                     $("#event_body").append('保險公司應給付金額 : ' + web3.fromWei(element.args.value) + 'eth<br>')
                     $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
+
+                    $('#timeline #issues #' + element.args.timestamp[0]).prepend('給付年金通知：' + slash(element.args.timestamp) + '<br>')
                     if (parseInt(element.args.payTime) > parseInt(testContract.gatPayTime())) {
                         console.log('companyPay')
                         testContract.companyPay({
@@ -207,6 +214,8 @@ function update() {
                     $("#event_body").append('給付次數 : 第' + element.args.payTime + '次給付年金完成<br>')
                     $("#event_body").append('保險公司給付金額 : ' + web3.fromWei(element.args.value) + 'eth<br>')
                     $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
+
+                    $('#timeline #issues #' + element.args.timestamp[0]).prepend('給付年金完成：' + slash(element.args.timestamp) + '<br>')
                     break
                 case 'revokeEvent':
                     $("#event_body").append('合約撤銷' + '<br>')
@@ -216,6 +225,8 @@ function update() {
                     else
                         $("#event_body").append('資訊 : ' + '撤銷失敗' + '<br>')
                     $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
+
+                    $('#timeline #issues #' + element.args.timestamp[0]).prepend('撤銷合約：' + slash(element.args.timestamp) + '<br>')
                     break
                 case 'deathEvent':
                     $("#event_body").append('被保人死亡' + '<br>')
@@ -223,6 +234,8 @@ function update() {
                     if (element.args.inf == 'death')
                         $("#event_body").append('資訊 : ' + '被保人死亡' + '<br>')
                     $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
+
+                    $('#timeline #issues #' + element.args.timestamp[0]).prepend('被保人死亡：' + slash(element.args.timestamp) + '<br>')
                     if (parseInt(element.args.payTime) > parseInt(testContract.gatPayTime())) {
                         console.log('companyPay')
                         testContract.companyPay({
@@ -245,9 +258,10 @@ function updateMoney() {
 }
 
 function initTimeLine() {
-
-    for (var i = 2017; i < 2100; i++) {
-        $('#timeline #dates').append('<li><a href="#' + i + '">' + i + '</a></li>')
+    $('#timeline #dates').empty()
+    $('#timeline #issues').empty()
+    for (var i = 2017; i < 2030; i++) {
+        $('#timeline #dates').append('<li><a href="#' + i + '" id="d' + i + '">' + i + '</a></li>')
         $('#timeline #issues').append('<li id="' + i + '"></li>')
     }
 
@@ -285,46 +299,52 @@ function initTimeLine() {
     })
 }
 
+function emptyTimeLine(){
+    for (var i = 2017; i < 2030; i++) {
+        $('#timeline #issues #' + i).empty()
+    }
+}
+
 function setState(state) {
     $("#state_panel").removeClass();
     switch (state) {
         case '0':
             $("#state_panel").addClass("panel panel-default ");
             $("#state_heading").html("合約狀態：等待付款")
-            break;
+            break
         case '1':
             $("#state_panel").addClass("panel panel-warning");
             $("#state_heading").html("合約狀態：等待被保人確認中");
-            break;
+            break
         case '2':
             $("#state_panel").addClass("panel panel-info");
             $("#state_heading").html("合約狀態：保單可撤銷期內");
             myDate2.setText('契約撤銷期限')
             myDate2.satDate(testContract.getRevocationPeriod())
-            break;
+            break
         case '3':
             $("#state_panel").addClass("panel panel-primary");
             $("#state_heading").html("合約狀態：合約正式生效");
             myDate2.setText('下次年金給付日期')
             myDate2.satDate(testContract.getPaymentDate())
-            break;
+            break
         case '4':
             $("#state_panel").addClass("panel panel-success");
             $("#state_heading").html("合約狀態：合約給付結束");
             myDate2.setText('')
             myDate2.satDate([0, 0, 0])
-            break;
+            break
         case '5':
             $("#state_panel").addClass("panel panel-danger");
             $("#state_heading").html("合約狀態：合約已被撤銷");
             myDate2.setText('')
             myDate2.satDate([0, 0, 0])
-            break;
+            break
         case '6':
             $("#state_panel").addClass("panel panel-danger");
-            $("#state_heading").html("合約狀態：被保人往生 保證期間內<br>受益人轉為死亡受益人");
-            myDate2.setText('下次年金給付日期')
-            myDate2.satDate(testContract.getPaymentDate())
+            $("#state_heading").html("合約狀態：保證型保險 給付死亡受益人");
+            myDate2.setText('')
+            myDate2.satDate([0, 0, 0])
             break
         default:
             $("#state_panel").addClass("panel panel-default");
