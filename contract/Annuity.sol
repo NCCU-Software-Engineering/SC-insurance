@@ -229,13 +229,14 @@ contract Annuity {
 
         //撤銷期結束
         if(_state == State.canBeRevoked) {
-            if( !_companyAddress.send(_payment) ) {
-                throw;
-            }
+
             if((year>_revocationPeriod[0]) ||
                 (year==_revocationPeriod[0] && month>_revocationPeriod[1]) ||
                 (year==_revocationPeriod[0] && month==_revocationPeriod[1] && day>=_revocationPeriod[2])){
                 _state = State.confirmd;
+                if( !_companyAddress.send(_payment) ) {
+                    throw;
+                }
             }
         }
         //開始給付年金

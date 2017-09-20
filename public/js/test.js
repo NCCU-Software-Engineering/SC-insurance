@@ -6,7 +6,7 @@ let testContract
 let myDate1 = new MyDate('#myDate1', 2017, 8, 17, '模擬智能合約目前日期(Time Travel)')
 let myDate2 = new MyDate('#myDate2', 0, 0, 0, '契約撤銷期限')
 let autoRun
-let nowBlock
+//let nowBlock
 
 let company = '0x1ad59a6d33002b819fe04bb9c9d0333f990750a4'
 let nidhogg5 = '0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6'
@@ -33,15 +33,14 @@ $(document).ready(function () {
 
         let contractTime = testContract.getNowTime()
         let myDate = new Date(contractTime[0], contractTime[1] - 1, contractTime[2])
-        nowBlock = web3.eth.blockNumber
+        //nowBlock = web3.eth.blockNumber + 1
 
         switch ($(this).attr('id')) {
 
             case "next_day":
                 console.log("next_day");
-                console.log(myDate.toDateString())
                 myDate.setDate(myDate.getDate() + 1)
-                console.log(myDate.toDateString())
+                console.log(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate())
                 testContract.time(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate(), {
                     from: timeServer,
                     gas: 4444444
@@ -152,7 +151,7 @@ function update() {
     $("#revocationPeriod").text(slash(testContract.getRevocationPeriod()))
     $("#paymentDate").text(slash(testContract.getPaymentDate()))
 
-    let events = testContract.allEvents({ fromBlock: nowBlock, toBlock: 'latest' });
+    let events = testContract.allEvents({ fromBlock: 0, toBlock: 'latest' });
     events.get(function (error, logs) {
         //console.log(logs)
         $("#event_body").html('')
