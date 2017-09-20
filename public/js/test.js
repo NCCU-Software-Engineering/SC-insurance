@@ -19,6 +19,7 @@ $(document).ready(function () {
 
     //選擇合約
     $("#radio_group :radio").change(function () {
+        console.log(data.interface)
         testContract = web3.eth.contract(data.interface).at($(this).val());
         update()
     });
@@ -122,7 +123,7 @@ function update() {
     $("#payment").text(web3.fromWei(testContract.getPayment()) + ' eth')
     $("#payTime").text(testContract.gatPayTime() + '次')
     $("#timeInterval").text(testContract.getTimeInterval() + '年')
-    $("#isGuarantee").text((testContract.getGuarantee()==1?'是':'否'))
+    $("#isGuarantee").text(testContract.getGuarantee()?'是':'否')
     $("#beneficiarie").text(testContract.getBeneficiarie())
     $("#deathBeneficiary").text(testContract.getDeathBeneficiary())
     $("#deployTime").text(slash(testContract.getDeployTime()))
@@ -183,7 +184,7 @@ function update() {
                         $("#event_body").append('資訊 : ' + '給付成功' + '<br>')
                     else
                         $("#event_body").append('資訊 : ' + '給付失敗' + '<br>')
-                    $("#event_body").append('給付次數 :　第' + element.args.payTime + '次給付年金完成<br>')
+                    $("#event_body").append('給付次數 : 第' + element.args.payTime + '次給付年金完成<br>')
                     $("#event_body").append('保險公司給付金額 : ' + web3.fromWei(element.args.value) + 'eth<br>')
                     $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
                     break
@@ -201,6 +202,7 @@ function update() {
                     $("#event_body").append('來自 : ' + ethAddress(element.args.from) + '<br>')
                     if (element.args.inf == 'death')
                         $("#event_body").append('資訊 : ' + '被保人死亡' + '<br>')
+                    $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
                     if (parseInt(element.args.payTime) > parseInt(testContract.gatPayTime())) {
                         console.log('companyPay')
                         testContract.companyPay({

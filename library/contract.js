@@ -26,7 +26,6 @@ function deploy(insuredAddress, deathBeneficiaryAddress, payment, annuity, payme
             data: data.bytecode,
             gas: 0x47E7C4
         }, function (e, contract) {
-            console.log(e, contract);
             if (typeof contract.address !== 'undefined') {
                 //console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
                 callback(contract.address);

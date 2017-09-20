@@ -81,7 +81,9 @@ router.post('/deploy', async function (req, res, next) {
     console.log(req.body)
     if (req.body.payment != undefined && req.body.paymentDate != undefined) {
         let user = await mysql.getUserByID(req.session.user_ID)
-        contract.deploy(user.account, req.body.deathBeneficiaryAddress, req.body.payment, req.body.annuity, req.body.paymentDate, (req.body.isGuarantee==1?true:false), req.body.beneficiary, req.body.deathBeneficiary, async (address) => {
+        let isGuarantee = (req.body.isGuarantee == 1) ? true : false
+        console.log(isGuarantee)
+        contract.deploy(user.account, req.body.deathBeneficiaryAddress, req.body.payment, req.body.annuity, req.body.paymentDate, isGuarantee, req.body.beneficiary, req.body.deathBeneficiary, async (address) => {
             await mysql.addContract(req.session.user_ID, address, req.body.alias, req.body.payment, req.body.paymentDate, req.body.deathBeneficiary, req.body.deathBeneficiaryRelationship, req.body.deathBeneficiaryIdentity)
             let number = (await mysql.getContractByAddress(address)).auto
             res.json({ type: true, address: address, number: number, alias: req.body.alias })
