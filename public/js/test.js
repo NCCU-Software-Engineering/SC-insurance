@@ -36,8 +36,8 @@ $(document).ready(function () {
         setTimeout(() => { $('button').removeAttr('disabled') }, 1000);
 
         let contractTime = testContract.getNowTime();
-        let myDate = new Date(contractTime[0], contractTime[1]-1, contractTime[2]);
-        
+        let myDate = new Date(contractTime[0], contractTime[1] - 1, contractTime[2]);
+
         switch ($(this).attr('id')) {
 
             case "next_day":
@@ -91,7 +91,7 @@ $(document).ready(function () {
                     gas: 4444444
                 })
                 break
-                
+
             case "update":
                 console.log("update");
                 break;
@@ -122,7 +122,7 @@ function update() {
     $("#payment").text(web3.fromWei(testContract.getPayment()) + ' eth')
     $("#payTime").text(testContract.gatPayTime() + '次')
     $("#timeInterval").text(testContract.getTimeInterval() + '年')
-    $("#guaranteePeriod").text(testContract.getGuaranteePeriod() + '年')
+    $("#isGuarantee").text((testContract.getGuarantee()==1?'是':'否'))
     $("#beneficiarie").text(testContract.getBeneficiarie())
     $("#deathBeneficiary").text(testContract.getDeathBeneficiary())
     $("#deployTime").text(slash(testContract.getDeployTime()))
@@ -134,9 +134,9 @@ function update() {
     events.get(function (error, logs) {
         //console.log(logs)
         $("#event_body").html('')
-        
+
         logs.reverse().forEach((element, index) => {
-            $("#event_body").append(logs.length-index + '.')
+            $("#event_body").append(logs.length - index + '.')
             switch (element.event) {
                 case 'buyEvent':
                     $("#event_body").append('購買合約' + '<br>')
@@ -195,6 +195,21 @@ function update() {
                     else
                         $("#event_body").append('資訊 : ' + '撤銷失敗' + '<br>')
                     $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
+                    break
+                case 'deathEvent':
+                    $("#event_body").append('被保人死亡' + '<br>')
+                    $("#event_body").append('來自 : ' + ethAddress(element.args.from) + '<br>')
+                    if (element.args.inf == 'death')
+                        $("#event_body").append('資訊 : ' + '被保人死亡' + '<br>')
+                    if (parseInt(element.args.payTime) > parseInt(testContract.gatPayTime())) {
+                        console.log('companyPay')
+                        testContract.companyPay({
+                            from: company,
+                            value: element.args.value,
+                            gas: 4444444
+                        })
+                        update()
+                    }
                     break
             }
         })

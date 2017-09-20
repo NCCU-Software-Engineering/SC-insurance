@@ -52,6 +52,13 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-sm-3 control-label" for="annuity">年金<br>(以太幣)</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="number" name='annuity' value="10" readonly="readonly">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label" for="contact-name">受益人</label>
                                 <div class="col-sm-8">
                                     <input class="form-control" type="text" name="beneficiary" value="{{user_name}}" readonly="readonly">
@@ -63,6 +70,7 @@
                                 <div class="col-sm-8">
                                     <label class="radio-inline"><input type="radio" name="guarantee-type" class="check" value="y">是</label>
                                     <label class="radio-inline"><input type="radio" name="guarantee-type" class="check" value="n" checked>否</label>
+                                    <input class="form-control" type="text" name="isGuarantee" value="0" readonly="readonly" style="display:none;">
                                 </div>
                             </div>
                             
@@ -72,13 +80,6 @@
                                     <!--<input class="form-control" type="number" name="paymentDate" placeholder="第幾保單年度開始領取年金" value="1" ng-model="time" min="1"
                                         max="66">-->
                                     <input class="form-control" type="number" name="paymentDate" value="1" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="form-group guarantee">
-                                <label class="col-sm-3 control-label">保證期間(年)</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="guaranteePeriod" value="10" readonly="readonly">
                                 </div>
                             </div>
 

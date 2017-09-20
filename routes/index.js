@@ -52,7 +52,7 @@ router.get('/test', async function (req, res, next) {
         let contract = await mysql.getContractByID(req.session.user_ID)
         let li = ''
         for (var i = 0; i < contract.length; i++) {
-            li += format('<li><input name="smart" type="radio" value="{}">{}({}年，{}以太幣)</li>', contract[i].address, contract[i].alias, contract[i].payment, contract[i].paymentDate)
+            li += format('<li><input name="smart" type="radio" value="{}">{}({}年，{}以太幣)</li>', contract[i].address, contract[i].alias, contract[i].paymentDate, contract[i].payment)
         }
         res.render('test', { user_name: req.session.user_name, radio: li })
     }
@@ -81,7 +81,7 @@ router.post('/deploy', async function (req, res, next) {
     console.log(req.body)
     if (req.body.payment != undefined && req.body.paymentDate != undefined) {
         let user = await mysql.getUserByID(req.session.user_ID)
-        contract.deploy(user.account, req.body.deathBeneficiaryAddress, req.body.payment, req.body.paymentDate, req.body.guaranteePeriod, req.body.beneficiary, req.body.deathBeneficiary, async (address) => {
+        contract.deploy(user.account, req.body.deathBeneficiaryAddress, req.body.payment, req.body.annuity, req.body.paymentDate, (req.body.isGuarantee==1?true:false), req.body.beneficiary, req.body.deathBeneficiary, async (address) => {
             await mysql.addContract(req.session.user_ID, address, req.body.alias, req.body.payment, req.body.paymentDate, req.body.deathBeneficiary, req.body.deathBeneficiaryRelationship, req.body.deathBeneficiaryIdentity)
             let number = (await mysql.getContractByAddress(address)).auto
             res.json({ type: true, address: address, number: number, alias: req.body.alias })

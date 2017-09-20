@@ -15,8 +15,8 @@ contract Annuity {
     uint _payment;
     //給付次數
     uint _payTime;
-    //保證期間
-    uint _guaranteePeriod;
+    //是否保證
+    bool _isGuarantee;
     //給付間隔
     uint _timeInterval;
     
@@ -36,6 +36,9 @@ contract Annuity {
     //給付年金日
     uint[3] _paymentDate;
     
+    //年金
+    uint _annuity;
+    
     //合約狀態
     //等待付款未被確認 契撤期 確認並等待給付 結束給付 被撤銷
     enum State{waitingForPayment, unconfirmed, canBeRevoked, confirmd, ending, revocation, guarantee}
@@ -52,9 +55,9 @@ contract Annuity {
     event revokeEvent(address from, string inf, uint[3] timestamp);
     event payEvent(address from, string inf, uint value, uint payTime, uint[3] timestamp);
     event companyPayEvent(address from, string inf, uint value, uint payTime, uint[3] timestamp);
-
-    //建構子
-    function Annuity(address insuredAddress, address deathBeneficiaryAddress, uint[3] date, uint payment, uint paymentDate, uint guaranteePeriod, string company, string beneficiary, string deathBeneficiary) {
+    event deathEvent(address from, string inf, uint value, uint payTime, uint[3] timestamp);
+    //建構子 被保人account, 身故受益人accout, 部署時間, 保費, 年金, 給付年金日, 是否保證, 公司, 受益人, 身故受益人
+    function Annuity(address insuredAddress, address deathBeneficiaryAddress, uint[3] date, uint payment, uint annuity, uint paymentDate, bool isGuarantee, string company, string beneficiary, string deathBeneficiary) {
 
         _companyAddress = msg.sender;
         _insuredAddress = insuredAddress;
@@ -62,7 +65,7 @@ contract Annuity {
 
         _payment = payment;
         _timeInterval = 1;
-        _guaranteePeriod = guaranteePeriod;
+        _isGuarantee = isGuarantee;
         
         _company = company;
         _beneficiary = beneficiary;
@@ -75,6 +78,9 @@ contract Annuity {
         _nowTime = [date[0], date[1], date[2]];
         //給付年金日
         _paymentDate = [date[0]+paymentDate, date[1], date[2]];
+        
+        //年金
+        _annuity = annuity;
     }
 
     function getState() constant returns (uint){
@@ -91,8 +97,8 @@ contract Annuity {
     function getPayment() constant returns (uint) {
         return _payment;
     }    
-    function getGuaranteePeriod() constant returns (uint) {
-        return _guaranteePeriod;
+    function getGuarantee() constant returns (bool) {
+        return _isGuarantee;
     }
     function getTimeInterval() constant returns (uint) {
         return _timeInterval;
@@ -190,10 +196,11 @@ contract Annuity {
         //if(msg.sender != companyAddress) {
         //    throw;
         //}
-        if(_payTime > _guaranteePeriod) {
+        if(!_isGuarantee) {
             _state = State.ending;
         }
         else {
+            deathEvent(msg.sender , "death", _payment - _annuity*_payTime, _payTime+1, _nowTime);
             _state = State.guarantee;
         }
     }
@@ -222,14 +229,14 @@ contract Annuity {
                 (year==_paymentDate[0] && month>_paymentDate[1]) ||
                 (year==_paymentDate[0] && month==_paymentDate[1] && day>=_paymentDate[2])){
 
-                payEvent(msg.sender, "Notify the insurance company to pay", _payment/10, _payTime+1 , _nowTime);
+                payEvent(msg.sender, "Notify the insurance company to pay", _annuity, _payTime+1 , _nowTime);
             }
         }
     }
     
     function companyPay() payable{
         
-        if(msg.value >= _payment/10) {
+        if(msg.value >= _annuity) {
             if(_state != State.guarantee){
                 if( !_insuredAddress.send(msg.value) ) {
                     throw;
@@ -243,12 +250,10 @@ contract Annuity {
                 }
                 _paymentDate[0] += _timeInterval;
                 _payTime += 1;
+                _state = State.ending;
                 
-                if(_payTime >= _guaranteePeriod) {
-                    _state = State.ending;
-                }
             }
-            companyPayEvent(msg.sender , "company pay success", msg.value, _payTime, _nowTime);
+            companyPayEvent(msg.sender , "company pay success", msg.value, _payTime+1, _nowTime);
         }
         
         else {

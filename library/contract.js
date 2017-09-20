@@ -5,7 +5,7 @@ var credentials = require('./credentials.js');
 
 var annuityContract = web3.eth.contract(data.interface);
 
-function deploy(insuredAddress, deathBeneficiaryAddress, payment, paymentDate, guaranteePeriod, beneficiary, deathBeneficiary, callback) {
+function deploy(insuredAddress, deathBeneficiaryAddress, payment, annuity, paymentDate, isGuarantee, beneficiary, deathBeneficiary, callback) {
 
     let date = new Date();
     //web3.personal.unlockAccount(credentials.account.company, '', 300);
@@ -15,8 +15,9 @@ function deploy(insuredAddress, deathBeneficiaryAddress, payment, paymentDate, g
         deathBeneficiaryAddress,
         [date.getFullYear(), date.getMonth() + 1, + date.getDate()],
         payment*1000000000000000000,
+        annuity*1000000000000000000,
         paymentDate,
-        guaranteePeriod,
+        isGuarantee,
         '正大人壽',
         beneficiary,
         deathBeneficiary,
@@ -27,11 +28,11 @@ function deploy(insuredAddress, deathBeneficiaryAddress, payment, paymentDate, g
         }, function (e, contract) {
             console.log(e, contract);
             if (typeof contract.address !== 'undefined') {
-                console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
+                //console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
                 callback(contract.address);
             }
             else {
-                console.log('contract.address undefined')
+                //console.log('contract.address undefined')
             }
         })
 }

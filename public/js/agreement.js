@@ -58,7 +58,7 @@ $(function () {
 	function check(){
 		if ($('input[name="guarantee-type"]:checked').val() == 'n') {
 			$('.guarantee').hide()
-			$('input[name="guaranteePeriod"]').val(0)
+			$('input[name="isGuarantee"]').val(0)
 			$('input[name="deathBeneficiary"]').val('')
 			//$('input[name="deathBeneficiaryRelationship"]').val('')
 			$('input[name="deathBeneficiaryIdentity"]').val('')
@@ -66,7 +66,7 @@ $(function () {
 		}
 		else if ($('input[name="guarantee-type"]:checked').val() == 'y') {
 			$('.guarantee').show()
-			$('input[name="guaranteePeriod"]').val(10)
+			$('input[name="isGuarantee"]').val(1)
 			$('input[name="deathBeneficiary"]').val('')
 			//$('input[name="deathBeneficiaryRelationship"]').val('')
 			$('input[name="deathBeneficiaryIdentity"]').val('A000000000')
