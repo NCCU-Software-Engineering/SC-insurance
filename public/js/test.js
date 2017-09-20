@@ -6,7 +6,6 @@ let testContract
 let myDate1 = new MyDate('#myDate1', 2017, 8, 17, '模擬智能合約目前日期(Time Travel)')
 let myDate2 = new MyDate('#myDate2', 0, 0, 0, '契約撤銷期限')
 let autoRun
-//let nowBlock
 
 let company = '0x1ad59a6d33002b819fe04bb9c9d0333f990750a4'
 let nidhogg5 = '0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6'
@@ -33,7 +32,7 @@ $(document).ready(function () {
 
         let contractTime = testContract.getNowTime()
         let myDate = new Date(contractTime[0], contractTime[1] - 1, contractTime[2])
-        //nowBlock = web3.eth.blockNumber + 1
+        nowBlock = web3.eth.blockNumber
 
         switch ($(this).attr('id')) {
 
@@ -90,9 +89,11 @@ $(document).ready(function () {
 
             case 'auto':
                 console.log('auto')
-                $('#auto').hide()
-                $('#stop').show()
-                auto()
+                if(myDate2.getDateArr()[0]) {
+                    $('#auto').hide()
+                    $('#stop').show()
+                    auto()
+                }
                 break
 
             case 'stop':
@@ -155,6 +156,7 @@ function update() {
     events.get(function (error, logs) {
         //console.log(logs)
         $("#event_body").html('')
+        reTimeLine()
 
         logs.reverse().forEach((element, index) => {
             $("#event_body").append(logs.length - index + '.')
@@ -254,6 +256,13 @@ function updateMoney() {
     $('#money_company').text(web3.fromWei(web3.eth.getBalance(company)).toFixed(3))
     $('#money_your').text(web3.fromWei(web3.eth.getBalance(nidhogg5)).toFixed(3))
     $('#money_dead').text(web3.fromWei(web3.eth.getBalance(deathBeneficiary)).toFixed(3))
+}
+
+function reTimeLine() {
+    $('#timeline #issues').empty()
+    for (var i = 2017; i < 2030; i++) {
+        $('#timeline #issues').append('<li id="' + i + '"></li>')
+    }
 }
 
 function initTimeLine() {
