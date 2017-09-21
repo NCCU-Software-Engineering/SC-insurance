@@ -37,6 +37,13 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">年齡</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="age" value="{{user_age}}" readonly="readonly">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label" for="contact-name">保險公司</label>
                                 <div class="col-sm-8">
                                     <input class="form-control" type="text" name="company" value="正大人壽" readonly="readonly">
@@ -46,8 +53,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="contact-name">保費<br>(以太幣)</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="number" name='payment' placeholder='1到10' value="10" ng-model="money" value="1" min="1"
-                                        max="10">
+                                    <input class="form-control" type="number" name='payment' readonly="readonly">
                                 </div>
                             </div>
 
@@ -96,7 +102,6 @@
                                 <label class="col-sm-3 control-label" for="deathBeneficiaryRelationship">身故受益人關係</label>
                                 <div class="col-sm-8">
                                     <select class="form-control" name="deathBeneficiaryRelationship">
-                                        <option value=""></option>
                                         <option value="直系血親：父子" selected>直系血親：父子</option>
                                         <option value="直系血親：父女">直系血親：父女</option>
                                         <option value="直系血親：母子">直系血親：母子</option>
@@ -297,4 +302,5 @@
 
 {{#section 'script'}}
 <script src="js/agreement.js"></script>
+<script src="data/trialdata.js"></script>
 {{/section}}

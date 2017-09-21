@@ -17,7 +17,6 @@ $(function () {
 			})
 		});
 	})
-
 	check();
 	$('.check').click(function () {
 		check();
@@ -63,6 +62,8 @@ $(function () {
 			$('[name="deathBeneficiaryRelationship"]').val('')
 			$('input[name="deathBeneficiaryIdentity"]').val('')
 			$('input[name="deathBeneficiaryAddress"]').val('')
+			$('input[name="payment"]').val(trial[$('input[name="age"]').val()].premium_not_guarantee/10)
+			$('input[name="annuity"]').val(trial[$('input[name="age"]').val()].annuity/10)
 		}
 		else if ($('input[name="guarantee-type"]:checked').val() == 'y') {
 			$('.guarantee').show()
@@ -71,6 +72,8 @@ $(function () {
 			$('[name="deathBeneficiaryRelationship"]').val('直系血親：父子')
 			$('input[name="deathBeneficiaryIdentity"]').val('A000000000')
 			$('input[name="deathBeneficiaryAddress"]').val('0x68a874f2e8d20718af2ebb48dc10940ede50c080')
+			$('input[name="payment"]').val(trial[$('input[name="age"]').val()].premium_guarantee/10)
+			$('input[name="annuity"]').val(trial[$('input[name="age"]').val()].annuity/10)
 		}
 	}
 })

@@ -33,15 +33,18 @@ router.get('/buy', sign, function (req, res, next) {
     res.render('buy', { user_name: req.session.user_name })
 })
 
-router.get('/agreement', sign, function (req, res, next) {
-    res.render('agreement', { user_name: req.session.user_name })
+router.get('/agreement', sign, async function (req, res, next) {
+    let user = await mysql.getUserByID(req.session.user_ID)
+    let myDate = new Date()
+    let age = myDate.getFullYear() - user.birthday.getFullYear() + (((myDate.getMonth() - user.birthday.getMonth()) > 0) ? 1 : ((myDate.getMonth() - user.birthday.getMonth()) == 0) ? ((myDate.getDate() - user.birthday.getDate()) ? 1 : 0) : 0)
+    res.render('agreement', { user_name: req.session.user_name, user_age: age })
 })
 
 router.get('/test', sign, async function (req, res, next) {
     let contract = await mysql.getContractByID(req.session.user_ID)
     let li = ''
     for (var i = 0; i < contract.length; i++) {
-        li += format('<li><input name="smart" type="radio" value="{}">{}({}年，{}以太幣，{})</li>', contract[i].address, contract[i].alias, contract[i].paymentDate, contract[i].payment, contract[i].isGuarantee ? '有保證' : '無保證')
+        li += format('<li><input name="smart" type="radio" value="{}">{}({}以太幣，{})</li>', contract[i].address, contract[i].alias, contract[i].payment, contract[i].isGuarantee ? '有保證' : '無保證')
     }
     res.render('test', { user_name: req.session.user_name, radio: li })
 })
