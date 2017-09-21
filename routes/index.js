@@ -36,7 +36,7 @@ router.get('/buy', sign, function (req, res, next) {
 router.get('/agreement', sign, async function (req, res, next) {
     let user = await mysql.getUserByID(req.session.user_ID)
     let myDate = new Date()
-    let age = myDate.getFullYear() - user.birthday.getFullYear() + (((myDate.getMonth() - user.birthday.getMonth()) > 0) ? 1 : ((myDate.getMonth() - user.birthday.getMonth()) == 0) ? ((myDate.getDate() - user.birthday.getDate()) ? 1 : 0) : 0)
+    let age = myDate.getFullYear() - user.birthday.getFullYear() - 1 + (((myDate.getMonth() - user.birthday.getMonth()) > 0) ? 1 : ((myDate.getMonth() - user.birthday.getMonth()) == 0) ? ((myDate.getDate() - user.birthday.getDate()) ? 1 : 0) : 0)
     res.render('agreement', { user_name: req.session.user_name, user_age: age })
 })
 
