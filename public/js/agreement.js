@@ -60,7 +60,7 @@ $(function () {
 			$('.guarantee').hide()
 			$('input[name="isGuarantee"]').val(0)
 			$('input[name="deathBeneficiary"]').val('')
-			//$('input[name="deathBeneficiaryRelationship"]').val('')
+			$('[name="deathBeneficiaryRelationship"]').val('')
 			$('input[name="deathBeneficiaryIdentity"]').val('')
 			$('input[name="deathBeneficiaryAddress"]').val('')
 		}
@@ -68,7 +68,7 @@ $(function () {
 			$('.guarantee').show()
 			$('input[name="isGuarantee"]').val(1)
 			$('input[name="deathBeneficiary"]').val('')
-			//$('input[name="deathBeneficiaryRelationship"]').val('')
+			$('[name="deathBeneficiaryRelationship"]').val('直系血親：父子')
 			$('input[name="deathBeneficiaryIdentity"]').val('A000000000')
 			$('input[name="deathBeneficiaryAddress"]').val('0x68a874f2e8d20718af2ebb48dc10940ede50c080')
 		}
