@@ -205,6 +205,15 @@ contract Annuity {
             deathEvent(msg.sender , "death", 0, 0, _nowTime);
             _state = State.ending;
         }
+        //契約撤銷期內死亡
+        else if(_state == State.canBeRevoked){
+            if( !_companyAddress.send(_payment) ) {
+                throw;
+            }
+            deathEvent(msg.sender , "death", 0, 0, _nowTime);
+            _state = State.ending;
+        }
+        
         //沒有保證or給付保費前死亡
         else if(!_isGuarantee || _state == State.waitingForPayment) {
             _state = State.ending;
