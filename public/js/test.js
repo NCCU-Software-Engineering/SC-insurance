@@ -379,6 +379,7 @@ function setState(state) {
             $("#state_heading").html("合約狀態：合約給付結束");
             myDate2.setText('')
             myDate2.satDate([0, 0, 0])
+            $('#dead').prop('disabled', true);
             break
         case '5':
             $("#state_panel").addClass("panel panel-danger");
