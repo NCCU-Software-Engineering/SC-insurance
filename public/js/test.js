@@ -258,9 +258,9 @@ function update() {
 
 function updateMoney() {
 
-    let money_company_dif = Math.round(web3.fromWei(web3.eth.getBalance(company)) - money_company)
-    let money_your_dif = Math.round(web3.fromWei(web3.eth.getBalance(nidhogg5)) - money_your)
-    let money_dead_dif = Math.round(web3.fromWei(web3.eth.getBalance(deathBeneficiary)) - money_dead)
+    let money_company_dif = (web3.fromWei(web3.eth.getBalance(company)) - money_company).toFixed(3)
+    let money_your_dif = (web3.fromWei(web3.eth.getBalance(nidhogg5)) - money_your).toFixed(3)
+    let money_dead_dif = (web3.fromWei(web3.eth.getBalance(deathBeneficiary)) - money_dead).toFixed(3)
 
     if (money_company_dif >= 0) {
         $('#money_company-dif').text('(+' + money_company_dif + ')')
