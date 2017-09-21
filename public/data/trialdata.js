@@ -1,4 +1,4 @@
-{
+var trial = {
     "20":{
         "premium_guarantee":600,
         "premiun_not_guarantee":300,

@@ -1,54 +1,23 @@
 {{#section 'css'}}
 <link rel="stylesheet" href="css/trial.css"> {{/section}}
-
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+</style>
 <section id="main">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <table id="parameter" border="1">
-                    <tr style="font-size:3rem; margin-left:2rem;">
-                        <th colspan="2">保費試算</th>
-                    </tr>
-                    <tr>
-                        <th style="width:20%; font-size:2rem;">繳費方式</th>
-                        <td style="font-size:1.5rem;">
-                            預計繳 <input id="pay"> 元(限1萬元~10萬元)
-                        </td>
-                    </tr>
-                    <tr>
-                        <th style="width:20%; font-size:2rem;">投保年度</th>
-                        <td style="font-size:1.5rem;">
-                            <p>第<input id="year">年保單年度末的保單狀況累計可領回多少金額?(投保年度：限6~66年)</p>
-                        </td>
-                    </tr>
-                </table>
-                <button type="button" class="btn">試算</button>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="result">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>第6保單年度末的年金保單價值準備金為$<a id="money">____元</a>(附加費用率：1.30%)</h2>
-                <h3></h3>
-
-                <table border="1" id='target'>
-                    <tr style="font-size:2rem;" >
-                        <th colspan="2" style="text-align: center;">假設宣告利率之累積年度末保單價值準備金 單位:新臺幣(元)</th>
-                    </tr>
-                    <tr style="font-size:2rem;">
-                        <th>保單年度（末）</th>
-                        <th>假設宣告利率為2.55%</th>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
+    <table style="width:50%" id='myTable'>
+        <tr>
+            <th>年齡</th>
+            <th>保費(保證)</th>
+            <th>保費(不保證)</th>
+            <th>年金</th>
+        </tr>
+    </table>
 </section>
 
 {{#section 'script'}}
 <script src="js/trial.js"></script>
+<script src="data/trialdata.js"></script>
 {{/section}}

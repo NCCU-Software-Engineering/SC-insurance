@@ -1,23 +1,11 @@
 $(function () {
-    $('#main button').click(() => {
-
-        let pay = $('#pay').val() * 10000
-        let year = $('#year').val()
-
-        $('.cont').remove()
-
-        pay = Math.round(pay * 1.0125) - 33
-        
-        for (let i = 2; i <= year; i++) {
-            let cont = ''
-            cont += '<tr style="font-size:1.7rem;" class="cont">'
-            cont += '<td>' + i + '</td>'
-            cont += '<td>' + pay + '</td>'
-            cont += '</tr>'
-            $('#target').append(cont)
-            pay = Math.round(pay * 1.0255)
-        }
-
-        $('#money').text(pay)
-    })
+    for (var i = 20; i < 76; i++) {
+        col = '<tr>' +
+            '<th>'+i+'</th>' +
+            '<th>'+trial[i].premium_guarantee+'</th>' +
+            '<th>'+trial[i].premiun_not_guarantee+'</th>' +
+            '<th>'+trial[i].annuity+'</th>' +
+            '</tr>'
+        $('#myTable').append(col);
+    }
 })
