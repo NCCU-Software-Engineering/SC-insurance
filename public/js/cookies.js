@@ -14,6 +14,3 @@ function getCookie(cname) {
     return "";
 }
 
-$(function () {
-
-})
