@@ -1,11 +1,11 @@
 {{#section 'css'}}
-<link rel="stylesheet" href="css/agreement.css">
+<link rel="stylesheet" href="css/solidity.css">
 <link rel="stylesheet" href="css/helptip.css"> {{/section}}
 
 <section>
     <div class="container">
         <div class="row">
-            <h1 class="text-center">年金內容</h1>
+            <h1 class="text-center">智能合約預覽</h1>
         </div>
     </div>
 </section>
@@ -15,149 +15,18 @@
         <div class="row">
 
             <!--左視窗-->
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="panel panel-success" id="parameter">
                     <div class="panel-heading">
-                        請填入參數
+                        智能合約
                     </div>
-                    <div class="panel-body">
-                        <form class="form-horizontal" style="margin-top: 1rem">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">保單名稱</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="alias" value="我的第一張保單">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">姓名</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="name" value="{{user_name}}" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">年齡</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="age" value="{{user_age}}" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" for="contact-name">保險公司</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="company" value="正大人壽" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" for="contact-name">保費<br>(以太幣)</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="number" name='payment' readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" for="annuity">年金<br>(以太幣)</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="number" name='annuity' value="1" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" for="contact-name">受益人</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="beneficiary" value="{{user_name}}" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <hr>
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" for="guarantee-type">是否保證</label>
-                                <div class="col-sm-8">
-                                    <label class="radio-inline"><input type="radio" name="guarantee-type" class="check" value="y" checked="checked">是</label>
-                                    <label class="radio-inline"><input type="radio" name="guarantee-type" class="check" value="n">否</label>
-                                    <input class="form-control" type="text" name="isGuarantee" value="0" readonly="readonly" style="display:none;">
-                                </div>
-                            </div>
-                            
-                            <div class="form-group" style="display:none;">
-                                <label class="col-sm-3 control-label" for="contact-name">投保年度</label>
-                                <div class="col-sm-8">
-                                    <!--<input class="form-control" type="number" name="paymentDate" placeholder="第幾保單年度開始領取年金" value="1" ng-model="time" min="1"
-                                        max="66">-->
-                                    <input class="form-control" type="number" name="paymentDate" value="1" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="form-group guarantee">
-                                <label class="col-sm-3 control-label" for="contact-name">身故受益人</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="deathBeneficiary" placeholder="身故受益人姓名">
-                                </div>
-                            </div>
-
-                            <div class="form-group guarantee">
-                                <label class="col-sm-3 control-label" for="deathBeneficiaryRelationship">身故受益人關係</label>
-                                <div class="col-sm-8">
-                                    <select class="form-control" name="deathBeneficiaryRelationship">
-                                        <option value="直系血親：父子" selected>直系血親：父子</option>
-                                        <option value="直系血親：父女">直系血親：父女</option>
-                                        <option value="直系血親：母子">直系血親：母子</option>
-                                        <option value="直系血親：母女">直系血親：母女</option>
-                                        <option value="直系血親：(外)祖孫">直系血親：(外)祖孫</option>
-                                        <option value="配偶">配偶</option>
-                                        <option value="法定繼承人">法定繼承人</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group guarantee">
-                                <label class="col-sm-3 control-label" for="contact-name">身故受益人身分證</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="deathBeneficiaryIdentity" placeholder="請輸入身分證" value="AOOOOOOOOO">
-                                </div>
-                            </div>
-
-                            <div class="form-group guarantee">
-                                <label class="col-sm-3 control-label" for="contact-name">身故受益人<br>以太坊帳戶</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="deathBeneficiaryAddress" placeholder="請輸入以太坊帳戶" value="0x68a874f2e8d20718af2ebb48dc10940ede50c080">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-7">
-                                    <button class="btn btn-success btn-lg" id="deploy" style="margin-right:3rem">送出</button>
-                                    <button class="btn btn-success btn-lg" type="reset">重設</button>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="help-tip">
-                                        <p>
-                                            <iframe id='widget-ticker-preview' src='//www.coingecko.com/zh-tw/%E5%B7%A5%E5%85%B7%E7%B5%84%E4%BB%B6/%E6%94%B6%E5%A0%B1%E6%A9%9F/%E4%BB%A5%E5%A4%AA%E5%B9%A3/twd?id=%E4%BB%A5%E5%A4%AA%E5%B9%A3'
-                                                style='border:none; height:125px; width: 275px;' scrolling='no' frameborder='0'
-                                                allowTransparency='true'></iframe>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-
-                        <div class="col-sm-12">
-                            <div class="progress">
-                                <div id="progress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100"
-                                    style="width: 0%;">
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+                    <pre class="panel-body prettyprint">{{solidity}}
+                    </pre>
                 </div>
             </div>
 
             <!--右視窗-->
-            <div class="col-md-7">
+            <div class="col-md-6">
                 <div class="panel panel-info" id="traditional-contract">
                     <div class="panel-heading">
                         傳統合約
@@ -167,9 +36,7 @@
                             【保險契約的構成】<br>第一條
                         </h2>
                         <p>
-                            本保險單條款、附著之要保書、批註及其他約定書，均為本保險契約（以下簡稱本契約）的構成部分。 本契約的解釋，應探求契約當事人
-                            <font color="black" style="background-color: yellow">[ {{user_name}} ]</font>的真意不得拘泥於所用文字；如有疑義時以作利被 本契約的解釋，應探求當事人
-                            <font color="black" style="background-color: yellow">[ {{user_name}} ]</font>真意不得拘泥於所用文字；如有疑義時以作利於被保險人的解釋為原則。
+                            本保險單條款、附著之要保書、批註及其他約定書，均為本保險契約（以下簡稱本契約）的構成部分。 本契約的解釋，應探求契約當事人的真意不得拘泥於所用文字；如有疑義時以作利被 本契約的解釋，應探求當事人真意不得拘泥於所用文字；如有疑義時以作利於被保險人的解釋為原則。
                         </p>
 
                         <h2 id="2">
@@ -301,6 +168,6 @@
 </section>
 
 {{#section 'script'}}
-<script src="js/agreement.js"></script>
-<script src="data/trialdata.js"></script>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+<script src="js/solidity.js"></script>
 {{/section}}

@@ -1,6 +1,8 @@
 var express = require('express')
 var crypto = require('crypto')
 var format = require('string-format')
+var fs = require("fs")
+var path = require('path')
 
 var web3 = require('../library/web3.js')
 var contract = require('../library/contract.js')
@@ -38,6 +40,13 @@ router.get('/agreement', sign, async function (req, res, next) {
     let myDate = new Date()
     let age = myDate.getFullYear() - user.birthday.getFullYear() - 1 + (((myDate.getMonth() - user.birthday.getMonth()) > 0) ? 1 : ((myDate.getMonth() - user.birthday.getMonth()) == 0) ? ((myDate.getDate() - user.birthday.getDate()) ? 1 : 0) : 0)
     res.render('agreement', { user_name: req.session.user_name, user_age: age })
+})
+
+router.get('/solidity', sign, function (req, res, next) {
+    let fileName = path.join('contract', 'Annuity.sol')
+    fs.readFile(fileName, 'utf8', function (error, data) {
+        res.render('solidity', { user_name: req.session.user_name, solidity: data })
+    })
 })
 
 router.get('/test', sign, async function (req, res, next) {
