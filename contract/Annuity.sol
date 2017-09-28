@@ -45,7 +45,7 @@ contract Annuity {
     State public _state;
 
     modifier inState(State state) {
-        if (_state != state) throw;
+        require(_state == state);
         _;
     }
 
@@ -127,19 +127,15 @@ contract Annuity {
     }
     
     function buy() payable {
-        if (_state != State.waitingForPayment) {
-            throw;
-        }
+        require(_state == State.waitingForPayment);
         
         if(msg.value >= _payment) {
             buyEvent(msg.sender , "success buy", msg.value, _nowTime);
+            _state = State.unconfirmed;
         }
         else {
             buyEvent(msg.sender , "not enough", msg.value, _nowTime);
-            throw;
         }
-        
-        _state = State.unconfirmed;
     }
 
     //確認合約
@@ -181,9 +177,7 @@ contract Annuity {
         }
         else {
             //把保費退還給被保人
-            if( !_insuredAddress.send(_payment) ) {
-                throw;
-            }
+            _insuredAddress.transfer(_payment);
             //撤銷契約
             _state = State.revocation;
             //通知保險公司進行契約撤銷流程
@@ -199,30 +193,33 @@ contract Annuity {
         //}
         //確認前死亡
         if(_state == State.unconfirmed){
-            if( !_insuredAddress.send(_payment) ) {
-                throw;
-            }
+            _insuredAddress.transfer(_payment);
             deathEvent(msg.sender , "death", 0, 0, _nowTime);
             _state = State.ending;
         }
         //契約撤銷期內死亡
         else if(_state == State.canBeRevoked){
-            if( !_companyAddress.send(_payment) ) {
-                throw;
-            }
+            _companyAddress.transfer(_payment);
             deathEvent(msg.sender , "death", 0, 0, _nowTime);
             _state = State.ending;
         }
         
         //沒有保證or給付保費前死亡
         else if(!_isGuarantee || _state == State.waitingForPayment) {
-            _state = State.ending;
             deathEvent(msg.sender , "death", 0, 0, _nowTime);
+            _state = State.ending;
         }
         //有保證
         else {
-            deathEvent(msg.sender , "death", _payment - _annuity*_payTime, _payTime+1, _nowTime);
-            _state = State.guarantee;
+            //已給付年金>保費
+            if((_payment - _annuity*_payTime) > 0){
+                deathEvent(msg.sender , "death", _payment - _annuity*_payTime, _payTime+1, _nowTime);
+                _state = State.guarantee;
+            }
+            //已給付年金<=保費
+            else{
+                deathEvent(msg.sender , "death", 0, 0, _nowTime);
+            }
         }
     }
 
@@ -243,9 +240,7 @@ contract Annuity {
                 (year==_revocationPeriod[0] && month>_revocationPeriod[1]) ||
                 (year==_revocationPeriod[0] && month==_revocationPeriod[1] && day>=_revocationPeriod[2])){
                 _state = State.confirmd;
-                if( !_companyAddress.send(_payment) ) {
-                    throw;
-                }
+                _companyAddress.transfer(_payment);
             }
         }
         //開始給付年金
@@ -263,16 +258,12 @@ contract Annuity {
         
         if(msg.value >= _annuity) {
             if(_state != State.guarantee){
-                if( !_insuredAddress.send(msg.value) ) {
-                    throw;
-                }
+                _insuredAddress.transfer(msg.value);
                 _paymentDate[0] += _timeInterval;
                 _payTime += 1;
             }
             else {
-                if( !_deathBeneficiaryAddress.send(msg.value) ) {
-                    throw;
-                }
+                _deathBeneficiaryAddress.transfer(msg.value);
                 _paymentDate[0] += _timeInterval;
                 _payTime += 1;
                 _state = State.ending;
@@ -280,16 +271,25 @@ contract Annuity {
             }
             companyPayEvent(msg.sender , "company pay success", msg.value, _payTime, _nowTime);
         }
-        
-        else {
-            throw;
+        else{
+            companyPayEvent(msg.sender , "company pay error", 0, 0, _nowTime);
         }
     }    
-
+    
+    //設定被保人帳戶
+    function setInsurerAddress(address insurerAddress){
+        _insurerAddress = insurerAddress;
+    }
+    
+    //設定身故受益人帳戶
+    function setDeathBeneficiaryAddress(address deathBeneficiaryAddress){
+        _deathBeneficiaryAddress = deathBeneficiaryAddress;
+    }
+    
     //摧毀合約
     function destroy() {
          if (msg.sender == _companyAddress) {
-             suicide(_companyAddress);
+             selfdestruct(_companyAddress);
         }
     }
 
