@@ -1,0 +1,64 @@
+@import url(https://fonts.googleapis.com/css?family=Kelly+Slab);
+.jcountTimer {
+    font-weight: 100;
+    font-size: 45px;
+    margin: 0;
+}
+
+.jcountTimer p{
+	text-align: center;
+    font-weight: 100;
+    font-size: 20px;
+}
+
+.jcountTimer span {
+    display: block;
+    height: 116px;
+    width: 30%;
+	float: left;
+    margin-right: 10px;
+    padding: 15px 20px 20px 20px;
+    text-align: center;
+    border-radius: 3px;
+}
+
+#myDate1 span {
+    background: rgb(218, 218, 218);
+}
+#myDate2 span {
+    background: rgb(197, 220, 253);
+}
+
+.jcountTimer small {
+	display: block;
+	margin-top: 10px;
+    font-size: 20px;
+}
+
+.jcountTimer .year {
+    color: #65ada2;
+}
+
+.jcountTimer .month {
+    color: #da6665;
+}
+
+.jcountTimer .day {
+    color: #adb87a;
+}
+
+.run-animation {
+    animation: removeText 1s forwards;
+}
+
+@keyframes removeText {
+    0% {
+        margin-top: 0;
+    }
+    50% {
+        margin-top: -20px;
+    }
+    100% {
+        margin-top: 0;
+    }
+}

@@ -1,15 +1,22 @@
-var web3 = require('../library/web3.js');
-var contract = require('../library/contract.js');
-let personal = '0x4ed1098bBD3D742F311682782f823d66bCa0Be87';
+var web3 = require('../library/web3.js')
+var contract = require('../library/contract.js')
 
-let testContract = new contract.getContract('0x6b0dfce68e13fc2bc9d9f1d404c1e97e8692983d');
+let company = '0x1ad59a6d33002b819fe04bb9c9d0333f990750a4'
+let nidhogg5 = '0xA4716ae2279E6e18cF830Da2A72E60FB9d9B51C6'
+
+let testContract = new contract.getContract('0x399cdecbfecf68927ff79107446e5c5c4a5594f3')
 
 testContract.buy({
-    from: personal,
-    value: 10000000000000000000,
+    from: nidhogg5,
+    value: 7000000000000000000,
     gas: 4444444
-});
+})
 
+testContract.companyPay({
+    from: company,
+    value: 500000000000000000,
+    gas: 4444444
+})
 
 web3.eth.sendTransaction({ from: main, to: contract1, value: 100000000000000000000 })
 

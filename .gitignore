@@ -1,11 +1,7 @@
-library/credentials.js
-
 .vscode
-
 node_modules
 bower_components
-
 desktop.ini
 package-lock.json
 .node-xmlhttprequest-sync-*
-
+library/credentials.js

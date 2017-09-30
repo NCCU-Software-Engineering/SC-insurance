@@ -1,0 +1,24 @@
+.container {
+    width: 80%;
+}
+
+#template {
+    margin-top: 1em;
+}
+
+.panel-heading {
+    font-size: 2rem;
+}
+
+.panel-body {
+    height: 62rem;
+    overflow: auto;
+}
+
+#parameter .panel-body {
+    margin: 0;
+    padding: 1rem;
+    overflow-x: scroll;
+    background-color: white;
+    border-style: none;
+}

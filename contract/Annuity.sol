@@ -2,23 +2,26 @@ pragma solidity ^0.4.7;
 
 contract Annuity {
 
-    //保險商adress
+    //保險公司adress
     address private _companyAddress;
     //被保人adress
     address private _insuredAddress;
+    //死亡受益人adress
+    address private _deathBeneficiaryAddress;
     //時間伺服器address
     address private _timerAddress;
 
-    //保險金額-新台幣
-    uint _payment_TWD;
     //保險金額-以太幣
-    uint _payment_wei;
+    uint _payment;
     //給付次數
     uint _payTime;
-    //保證期間
-    uint _guaranteePeriod;
+    //是否保證
+    bool _isGuarantee;
     //給付間隔
     uint _timeInterval;
+    
+    //保險公司
+    string _company;
     //受益人
     string _beneficiary;
     //身故受益人
@@ -33,13 +36,16 @@ contract Annuity {
     //給付年金日
     uint[3] _paymentDate;
     
+    //年金
+    uint _annuity;
+    
     //合約狀態
     //等待付款未被確認 契撤期 確認並等待給付 結束給付 被撤銷
-    enum State{waitingForPayment, unconfirmed, canBeRevoked, confirmd, ending, revocation}
+    enum State{waitingForPayment, unconfirmed, canBeRevoked, confirmd, ending, revocation, guarantee}
     State public _state;
 
     modifier inState(State state) {
-        if (_state != state) throw;
+        require(_state == state);
         _;
     }
 
@@ -49,17 +55,19 @@ contract Annuity {
     event revokeEvent(address from, string inf, uint[3] timestamp);
     event payEvent(address from, string inf, uint value, uint payTime, uint[3] timestamp);
     event companyPayEvent(address from, string inf, uint value, uint payTime, uint[3] timestamp);
-
-    //建構子
-    function Annuity(address insuredAddress, uint[3] date, uint payment_TWD, uint payment_wei, uint paymentDate, uint guaranteePeriod, string beneficiary, string deathBeneficiary) {
+    event deathEvent(address from, string inf, uint value, uint payTime, uint[3] timestamp);
+    //建構子 被保人account, 身故受益人accout, 部署時間, 保費, 年金, 給付年金日, 是否保證, 公司, 受益人, 身故受益人
+    function Annuity(address insuredAddress, address deathBeneficiaryAddress, uint[3] date, uint payment, uint annuity, uint paymentDate, bool isGuarantee, string company, string beneficiary, string deathBeneficiary) {
 
         _companyAddress = msg.sender;
         _insuredAddress = insuredAddress;
+        _deathBeneficiaryAddress = deathBeneficiaryAddress;
 
-        _payment_TWD = payment_TWD;
-        _payment_wei = payment_wei;
+        _payment = payment;
         _timeInterval = 1;
-        _guaranteePeriod = guaranteePeriod;
+        _isGuarantee = isGuarantee;
+        
+        _company = company;
         _beneficiary = beneficiary;
         _deathBeneficiary = deathBeneficiary;
         _payTime = 0;
@@ -70,6 +78,9 @@ contract Annuity {
         _nowTime = [date[0], date[1], date[2]];
         //給付年金日
         _paymentDate = [date[0]+paymentDate, date[1], date[2]];
+        
+        //年金
+        _annuity = annuity;
     }
 
     function getState() constant returns (uint){
@@ -83,14 +94,11 @@ contract Annuity {
         return _insuredAddress;
     }
 
-    function getPayment_TWD() constant returns (uint) {
-        return _payment_TWD;
-    }
-    function getPayment_wei() constant returns (uint) {
-        return _payment_wei;
+    function getPayment() constant returns (uint) {
+        return _payment;
     }    
-    function getGuaranteePeriod() constant returns (uint) {
-        return _guaranteePeriod;
+    function getGuarantee() constant returns (bool) {
+        return _isGuarantee;
     }
     function getTimeInterval() constant returns (uint) {
         return _timeInterval;
@@ -119,22 +127,15 @@ contract Annuity {
     }
     
     function buy() payable {
-        if (_state != State.waitingForPayment) {
-            throw;
-        }
+        require(_state == State.waitingForPayment);
         
-        if(msg.value >= _payment_wei) {
-            if( !_companyAddress.send(_payment_wei) ) {
-                throw;
-            }
+        if(msg.value >= _payment) {
             buyEvent(msg.sender , "success buy", msg.value, _nowTime);
+            _state = State.unconfirmed;
         }
         else {
             buyEvent(msg.sender , "not enough", msg.value, _nowTime);
-            throw;
         }
-        
-        _state = State.unconfirmed;
     }
 
     //確認合約
@@ -175,6 +176,8 @@ contract Annuity {
             revokeEvent(msg.sender , "error state", _nowTime);
         }
         else {
+            //把保費退還給被保人
+            _insuredAddress.transfer(_payment);
             //撤銷契約
             _state = State.revocation;
             //通知保險公司進行契約撤銷流程
@@ -188,7 +191,36 @@ contract Annuity {
         //if(msg.sender != companyAddress) {
         //    throw;
         //}
-        _state = State.ending;
+        //確認前死亡
+        if(_state == State.unconfirmed){
+            _insuredAddress.transfer(_payment);
+            deathEvent(msg.sender , "death", 0, 0, _nowTime);
+            _state = State.ending;
+        }
+        //契約撤銷期內死亡
+        else if(_state == State.canBeRevoked){
+            _companyAddress.transfer(_payment);
+            deathEvent(msg.sender , "death", 0, 0, _nowTime);
+            _state = State.ending;
+        }
+        
+        //沒有保證or給付保費前死亡
+        else if(!_isGuarantee || _state == State.waitingForPayment) {
+            deathEvent(msg.sender , "death", 0, 0, _nowTime);
+            _state = State.ending;
+        }
+        //有保證
+        else {
+            //已給付年金>保費
+            if((_payment - _annuity*_payTime) > 0){
+                deathEvent(msg.sender , "death", _payment - _annuity*_payTime, _payTime+1, _nowTime);
+                _state = State.guarantee;
+            }
+            //已給付年金<=保費
+            else{
+                deathEvent(msg.sender , "death", 0, 0, _nowTime);
+            }
+        }
     }
 
     function time(uint year, uint month, uint day) {
@@ -203,45 +235,63 @@ contract Annuity {
 
         //撤銷期結束
         if(_state == State.canBeRevoked) {
+
             if((year>_revocationPeriod[0]) ||
                 (year==_revocationPeriod[0] && month>_revocationPeriod[1]) ||
                 (year==_revocationPeriod[0] && month==_revocationPeriod[1] && day>=_revocationPeriod[2])){
                 _state = State.confirmd;
+                _companyAddress.transfer(_payment);
             }
         }
         //開始給付年金
-        else if(_state == State.confirmd) {
+        else if(_state == State.confirmd || _state == State.guarantee) {
             if((year>_paymentDate[0]) ||
                 (year==_paymentDate[0] && month>_paymentDate[1]) ||
                 (year==_paymentDate[0] && month==_paymentDate[1] && day>=_paymentDate[2])){
 
-                payEvent(msg.sender, "Notify the insurance company to pay", _payment_wei/10, _payTime+1 , _nowTime);
+                payEvent(msg.sender, "Notify the insurance company to pay", _annuity, _payTime+1 , _nowTime);
             }
         }
     }
     
     function companyPay() payable{
         
-        if(msg.value >= _payment_wei/10) {
-            if( !_insuredAddress.send(msg.value) ) {
-                throw;
+        if(msg.value >= _annuity) {
+            if(_state != State.guarantee){
+                _insuredAddress.transfer(msg.value);
+                _paymentDate[0] += _timeInterval;
+                _payTime += 1;
             }
-            _paymentDate[0] += _timeInterval;
-            _payTime += 1;
+            else {
+                _deathBeneficiaryAddress.transfer(msg.value);
+                _paymentDate[0] += _timeInterval;
+                _payTime += 1;
+                _state = State.ending;
+                
+            }
             companyPayEvent(msg.sender , "company pay success", msg.value, _payTime, _nowTime);
         }
-        
-        else {
-            throw;
+        else{
+            companyPayEvent(msg.sender , "company pay error", 0, 0, _nowTime);
         }
     }    
-
-
+    
+    //設定被保人帳戶
+    function setInsurerAddress(address insurerAddress){
+        _insurerAddress = insurerAddress;
+    }
+    
+    //設定身故受益人帳戶
+    function setDeathBeneficiaryAddress(address deathBeneficiaryAddress){
+        _deathBeneficiaryAddress = deathBeneficiaryAddress;
+    }
+    
     //摧毀合約
     function destroy() {
          if (msg.sender == _companyAddress) {
-             suicide(_companyAddress);
+             selfdestruct(_companyAddress);
         }
     }
 
 }
+

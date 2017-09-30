@@ -1,0 +1,28 @@
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h1>驗證</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="payment">
+    <div class="container">
+       
+        <div class="row">
+            <div class="col-md-4">
+                <h4 for="verifycode">請輸入驗證碼:</h4>
+                <input type="text" class="form-control" id="verifycode">
+                <br>
+            </div>
+        </div>
+        <button class="btn btn-primary" id="create">產生驗證碼</button>
+        <button class="btn btn-primary" id="verify">確認</button>
+    </div>
+</section>
+
+{{#section 'script'}}
+<script src="js/verify.js"></script>
+{{/section}}

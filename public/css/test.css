@@ -1,29 +1,43 @@
-#statusBar {
-    font-size: 2rem;
-}
-
-#a, #b {
-    height: 40rem;
+.container-fluid {
+    width: 90vw;
 }
 
 button {
-    width: 15rem;
+    width: 32%;
 }
+
 .panel-heading {
     font-size: 3rem;
 }
+
 .panel-body {
+    height: 40rem;
     font-size: 2rem;
+    overflow: auto;
+}
+
+#state_body dt {
+    width: 16rem;
 }
 
 #face {
     display: none;
 }
 
-#event_button {
-    display: none;
+#email,
+letter {
+    margin-bottom: 1rem;
 }
 
-#email, letter{
-    margin-bottom: 1rem;
+#datePicker {
+    height: 100%;
+    width: 65%;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid rgb(62, 62, 62);
+    padding: 0; 
 }

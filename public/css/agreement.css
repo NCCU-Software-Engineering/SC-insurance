@@ -6,12 +6,11 @@
     margin-top: 1em;
 }
 
-#parameter .panel-body {
-    height: 80vh;
+.panel-body {
+    height: 62rem;
 }
 
 #traditional-contract .panel-body {
-    height: 80vh;
     overflow: auto;
 }
 

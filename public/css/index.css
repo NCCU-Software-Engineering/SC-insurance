@@ -1,0 +1,57 @@
+/*
+ *product
+*/
+
+#product {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    background-image: url("/imgs/bg.jpg");
+}
+
+#product h1 {
+    font-size: 5vw;
+}
+
+#product hr {
+    width: 40vw;
+    color: white;
+    
+}
+
+#product h2 {
+    font-size: 5rem;
+    margin-bottom: 15px;
+}
+
+#product p {
+    font-size: 2rem;
+}
+
+/*
+ *trial
+*/
+#trial dl {
+    font-size: 2rem;
+}
+
+/*
+ *rule
+*/
+#rule dl {
+    font-size: 2rem;
+}
+
+/*
+ *question
+*/
+#question dl {
+    font-size: 2rem;
+}
+/*
+ *notice
+*/
+
+#notice ul {
+    font-size: 2rem;
+    font-weight:bold;
+}

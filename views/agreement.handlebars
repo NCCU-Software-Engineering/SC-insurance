@@ -1,10 +1,11 @@
 {{#section 'css'}}
-<link rel="stylesheet" href="css/agreement.css"> {{/section}}
+<link rel="stylesheet" href="css/agreement.css">
+<link rel="stylesheet" href="css/helptip.css"> {{/section}}
 
 <section>
     <div class="container">
         <div class="row">
-            <h1 class="text-center">產生合約</h1>
+            <h1 class="text-center">年金內容</h1>
         </div>
     </div>
 </section>
@@ -20,11 +21,25 @@
                         請填入參數
                     </div>
                     <div class="panel-body">
-                        <form class="form-horizontal" action="agreement" method="post" style="margin-top: 1rem">
+                        <form class="form-horizontal" style="margin-top: 1rem">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">保單名稱</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="alias" value="我的第一張保單">
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">姓名</label>
                                 <div class="col-sm-8">
                                     <input class="form-control" type="text" name="name" value="{{user_name}}" readonly="readonly">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">年齡</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="age" value="{{user_age}}" readonly="readonly">
                                 </div>
                             </div>
 
@@ -36,24 +51,16 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" for="contact-name">保費(萬)</label>
+                                <label class="col-sm-3 control-label" for="contact-name">保費<br>(以太幣)</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="number" name='payment' placeholder='一到十萬' value="10" ng-model="money" value="1" min="1"
-                                        max="10" oninput={go( '8')}>
+                                    <input class="form-control" type="number" name='payment' readonly="readonly">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" for="contact-name">年金給付日(n年後)</label>
+                                <label class="col-sm-3 control-label" for="annuity">年金<br>(以太幣)</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="number" name="paymentDate" placeholder="幾年後" value="1" ng-model="time" min="1" max="40" oninput={go('8')}>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">保證期間(年)</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="guaranteePeriod" value="十年" readonly="readonly">
+                                    <input class="form-control" type="number" name='annuity' value="1" readonly="readonly">
                                 </div>
                             </div>
 
@@ -64,29 +71,91 @@
                                 </div>
                             </div>
 
+                            <hr>
+
                             <div class="form-group">
+                                <label class="col-sm-3 control-label" for="guarantee-type">是否保證</label>
+                                <div class="col-sm-8">
+                                    <label class="radio-inline"><input type="radio" name="guarantee-type" class="check" value="y" checked="checked">是</label>
+                                    <label class="radio-inline"><input type="radio" name="guarantee-type" class="check" value="n">否</label>
+                                    <input class="form-control" type="text" name="isGuarantee" value="0" readonly="readonly" style="display:none;">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group" style="display:none;">
+                                <label class="col-sm-3 control-label" for="contact-name">投保年度</label>
+                                <div class="col-sm-8">
+                                    <!--<input class="form-control" type="number" name="paymentDate" placeholder="第幾保單年度開始領取年金" value="1" ng-model="time" min="1"
+                                        max="66">-->
+                                    <input class="form-control" type="number" name="paymentDate" value="1" readonly="readonly">
+                                </div>
+                            </div>
+
+                            <div class="form-group guarantee">
                                 <label class="col-sm-3 control-label" for="contact-name">身故受益人</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="deathBeneficiary" value="被保險人之法定繼承人" placeholder="身故受益人">
+                                    <input class="form-control" type="text" name="deathBeneficiary" placeholder="身故受益人姓名">
+                                </div>
+                            </div>
+
+                            <div class="form-group guarantee">
+                                <label class="col-sm-3 control-label" for="deathBeneficiaryRelationship">身故受益人關係</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" name="deathBeneficiaryRelationship">
+                                        <option value="直系血親：父子" selected>直系血親：父子</option>
+                                        <option value="直系血親：父女">直系血親：父女</option>
+                                        <option value="直系血親：母子">直系血親：母子</option>
+                                        <option value="直系血親：母女">直系血親：母女</option>
+                                        <option value="直系血親：(外)祖孫">直系血親：(外)祖孫</option>
+                                        <option value="配偶">配偶</option>
+                                        <option value="法定繼承人">法定繼承人</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group guarantee">
+                                <label class="col-sm-3 control-label" for="contact-name">身故受益人身分證</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="deathBeneficiaryIdentity" placeholder="請輸入身分證" value="AOOOOOOOOO">
+                                </div>
+                            </div>
+
+                            <div class="form-group guarantee">
+                                <label class="col-sm-3 control-label" for="contact-name">身故受益人<br>以太坊帳戶</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="deathBeneficiaryAddress" placeholder="請輸入以太坊帳戶" value="0x68a874f2e8d20718af2ebb48dc10940ede50c080">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-9">
-                                    <button class="btn btn-success btn-lg" type="submit" style="margin-right:3rem">送出</a>
-                                    <button class="btn btn-success btn-lg" type="reset">重設</a>
+                                <div class="col-sm-offset-3 col-sm-7">
+                                    <button class="btn btn-success btn-lg" id="deploy" style="margin-right:3rem">送出</button>
+                                    <button class="btn btn-success btn-lg" type="reset">重設</button>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="help-tip">
+                                        <p>
+                                            <iframe id='widget-ticker-preview' src='//www.coingecko.com/zh-tw/%E5%B7%A5%E5%85%B7%E7%B5%84%E4%BB%B6/%E6%94%B6%E5%A0%B1%E6%A9%9F/%E4%BB%A5%E5%A4%AA%E5%B9%A3/twd?id=%E4%BB%A5%E5%A4%AA%E5%B9%A3'
+                                                style='border:none; height:125px; width: 275px;' scrolling='no' frameborder='0'
+                                                allowTransparency='true'></iframe>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </form>
 
-                        <div class="col-sm-offset-3 col-sm-9" id="ps">
-                            <p>匯率: 1元 乙太幣ETH = : 5,985.72元 新台幣</p>
+                        <div class="col-sm-12">
+                            <div class="progress">
+                                <div id="progress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                                    style="width: 0%;">
+                                </div>
+                            </div>
                         </div>
 
                     </div>
                 </div>
             </div>
-            
+
             <!--右視窗-->
             <div class="col-md-7">
                 <div class="panel panel-info" id="traditional-contract">
@@ -98,7 +167,9 @@
                             【保險契約的構成】<br>第一條
                         </h2>
                         <p>
-                            本保險單條款、附著之要保書、批註及其他約定書，均為本保險契約（以下簡稱本契約）的構成部分。 本契約的解釋，應探求契約當事人<font color="red">[ {{user_name}} ]</font>的真意不得拘泥於所用文字；如有疑義時以作利被 本契約的解釋，應探求當事人<font color="red">[ {{user_name}} ]</font>真意不得拘泥於所用文字；如有疑義時以作利於被保險人的解釋為原則。
+                            本保險單條款、附著之要保書、批註及其他約定書，均為本保險契約（以下簡稱本契約）的構成部分。 本契約的解釋，應探求契約當事人
+                            <font color="black" style="background-color: yellow">[ {{user_name}} ]</font>的真意不得拘泥於所用文字；如有疑義時以作利被 本契約的解釋，應探求當事人
+                            <font color="black" style="background-color: yellow">[ {{user_name}} ]</font>真意不得拘泥於所用文字；如有疑義時以作利於被保險人的解釋為原則。
                         </p>
 
                         <h2 id="2">
@@ -106,10 +177,11 @@
                         </h2>
                         <p>
                             本契約所稱名詞定義如下：
-                            <bt> 一、本契約所稱「保證期間」係指依本契約約定，不論被保險人生存與否，本公司保證給付年金之期間。要保人於投保時在要保書上選擇十年、二十年或三十年<font color="red">[ 三十年 ]</font>為保證期間。
-                            <br> 二、本契約所稱「年金金額」係指依本契約約定之條件及期間，本公司分期給付之金額。
-                            <br> 三、本契約所稱「未支領之年金餘額」係指被保險人於本契約年金保證期間內尚未領取之年金金額。
-                            <br> 四、本契約所稱「保險年齡」係指按投保時被保險人之足歲計算，但未滿一歲的零數超過六個月者加算一歲，以後每經過一個保險單年度加算一歲，且同一保險單年度內保險年齡不變。 五、本契約所稱「預定利率」係指本公司於年金給付開始日用以計算年金金額之利率，本契約之預定利率為年利率百分之二點三。
+                            <bt> 
+                                <br> 一、本契約所稱「保證」係指依本契約約定，不論被保險人生存與否，本公司保證給付等同於保費之年金。
+                                <br> 二、本契約所稱「年金金額」係指依本契約約定之條件及期間，本公司分期給付之金額。
+                                <br> 三、本契約所稱「未支領之年金餘額」係指被保險人於本契約年金保證應領取之年金金額。
+                                <br> 四、本契約所稱「保險年齡」係指按投保時被保險人之足歲計算，但未滿一歲的零數超過六個月者加算一歲，以後每經過一個保險單年度加算一歲，且同一保險單年度內保險年齡不變。 五、本契約所稱「預定利率」係指本公司於年金給付開始日用以計算年金金額之利率，本契約之預定利率為年利率百分之二點三。
                         </p>
 
                         <h2 id="3">
@@ -151,13 +223,9 @@
                             【年金金額的給付】<br>第八條
                         </h2>
                         <p>
-                            本契約有效期間內，本公司依要保人於投保時所選擇下列方式之一，給付年金金額至保證期間屆滿。
-                            <br>一、年給付型：自第一保單週年日及之後每年之相當日（無相當日者，為該月之末日）給付年金金額。
-                            <br> 二、月給付型：自本契約生效日次月起之每月相當日（無相當日者，為該月之末日）給付，其給付金額為年金金額依本契約預定利率換算每月給付之金額。
-                            <br> 被保險人於保證期間內身故後仍有未支領之年金餘額時，本公司依要保人於身故當時之年金給付型態，給付年金金額予身故受益人或其他應得之人，至保證期間屆滿。 第一項情形，如被保險人於保證期間屆滿後仍生存者，本公司依要保人所選擇下列方式之一，給付年金金額至被保險人身故或被保險人保險年齡達一百十歲之當年度最後一個年金給付日，二者中較早發生者為止，本契約即行終止。
-                            <br>一、年給付型：自保證期間屆滿之第一個保單週年日及之後每年之相當日（無相當日者，為該月之末日）給付年金金額之百分之二。
-                            <br> 二、月給付型：自保證期間屆滿之第一個保單週年日及之後每月之相當日（無相當日者，為該月之末日）給付，其給付金額為年金金額之百分之二依本契約預定利率換算每月給付之金額。若換算後每月給付之金額低於新臺幣三千元時，本公司將改依年給付型給付之。前項若選擇月給付型，且被保險人於保證期間屆滿後身故者，其身故日至下一個保單週年日前之未給付年金餘額，依本契約之預定利率計算其現值給付之。
-                            <br> 本條年金金額給付方式若未選擇者，則依年給付型給付，要保人得於本契約有效期間內，以書面通知本公司變更年金金額給付方式，並於申請日起之下一個保單週年日生效。
+                            本契約有效期間內，本公司依要保人於投保時所選擇類型給付年金金額。
+                            <br> 自第一保單週年日及之後每年之相當日（無相當日者，為該月之末日）給付年金金額。
+                            <br> 若為保證行合約被保險人身故後仍有未支領之年金餘額時，本公司給付年金金額予身故受益人或其他應得之人。
                         </p>
                         <h2 id="9">
                             【年金的申領】<br>第九條
@@ -224,11 +292,12 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </section>
 
 {{#section 'script'}}
 <script src="js/agreement.js"></script>
+<script src="data/trialdata.js"></script>
 {{/section}}

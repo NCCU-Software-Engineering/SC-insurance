@@ -1,87 +1,177 @@
 {{#section 'css'}}
-<link rel="stylesheet" href="css/test.css"> {{/section}}
+<link rel="stylesheet" href="css/test.css">
+<link rel="stylesheet" href="css/MyDate.css">
+<link rel="stylesheet" href="css/Timelinr.css"> {{/section}}
 
 <section id="main">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <h1>智能合約模擬</h1>
-            <hr>
-            <!--
-            <div class="alert alert-info" role="alert">本功能僅供測試</div>
-            -->
-            <input type="checkbox" id="email">電子郵件</input>
-            <input type="checkbox" id="letter">簡訊</input>
-
-            <ul class="list-unstyled" id="radio_group">
-                {{{radio}}}
-            </ul>
-            <hr>
+            <div class="col-md-12">
+                <h1>智能合約模擬</h1>
+                <hr>
+                <!--
+                <input type="checkbox" id="email">電子郵件</input>
+                <input type="checkbox" id="letter">簡訊</input>
+                -->
+                <ul class="list-unstyled" id="radio_group">
+                    {{{radio}}}
+                </ul>
+            </div>
+            <div class="col-md-12">
+                <hr>
+            </div>
         </div>
     </div>
 </section>
 
-<section id="event_button">
-    <div class="container">
-        <div class="row">
-            <div class="btn-group.btn-group-justified" role="group">
-                <button class="btn btn-success btn-lg" id="next_day">下一天</button>
-                <button class="btn btn-success btn-lg" id="next_month">下一月</button>
-                <button class="btn btn-success btn-lg" id="next_year">下一年</button>
+<section id="money">
+    <div class="container-fluid">
+        <div class="row" style='text-align: center;'>
+            <div class="col-md-4" style="font-size: 2rem;">
+                <div style="display: inline-block;">保險公司帳戶餘額：</div>
+                <div style="display: inline-block;" id="money_company"></div>
+                <div style="display: inline-block;" id="money_company-dif"></div>
             </div>
-            <br>
-            <div class="btn-group.btn-group-justified" role="group">
-                <button class="btn btn-success btn-lg" id="update">更新</button>
-                <button class="btn btn-success btn-lg" id="dead">被保人往生</button>
-                <button class="btn btn-success btn-lg" id="confirm">確認合約</button>
-                <button class="btn btn-success btn-lg" id="revoke">撤銷合約</button>
+            <div class="col-md-4" style="font-size: 2rem;">
+                <div style="display: inline-block;">您的帳戶餘額：</div>
+                <div style="display: inline-block;" id="money_your"></div>
+                <div style="display: inline-block;" id="money_your-dif"></div>
             </div>
-            <br>
-            <!--
-            <div class="btn-group.btn-group-justified" role="group" id="face">
-                <button class="btn btn-success btn-lg" id="success">人臉辨識成功</button>
-                <button class="btn btn-success btn-lg" id="failure">人臉辨識失敗</button>
+            <div class="col-md-4" style="font-size: 2rem; ">
+                <div style="display: inline-block;">身故受益人帳戶餘額：</div>
+                <div style="display: inline-block;" id="money_dead"></div>
+                <div style="display: inline-block;" id="money_dead-dif"></div>
             </div>
-            -->
+        </div>
+        <div class="col-md-12">
             <hr>
+        </div>
+    </div>
+    </div>
+</section>
+
+<section id="event_button">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="jcountTimer" id="myDate1">
+                    <p></p>
+                    <span class="year"><div></div><small>year</small></span>
+                    <span class="month"><div></div><small>month</small></span>
+                    <span class="day"><div></div><small>day</small></span>
+                </h3>
+            </div>
+            <div class="col-md-4">
+                <h3 class="jcountTimer" id="myDate2">
+                    <p></p>
+                    <span class="year"><div></div><small>year</small></span>
+                    <span class="month"><div></div><small>month</small></span>
+                    <span class="day"><div></div><small>day</small></span>
+                </h3>
+            </div>
+            <div class="col-md-4">
+                <div class="btn-group.btn-group-justified" role="group" style="margin-bottom: 10px;">
+                    <button class="btn btn-success btn-lg" id="next_day">下一天</button>
+                    <button class="btn btn-success btn-lg" id="next_month">下一月</button>
+                    <button class="btn btn-success btn-lg" id="next_year">下一年</button>
+                </div>
+                <div class="btn-group.btn-group-justified" role="group" style="margin-bottom: 10px;">
+                    <button class="btn btn-success btn-lg" id="go">指定日期</button>
+                    <input id="datePicker" type="date" name="user_date">
+                </div>
+                <div class="btn-group.btn-group-justified" role="group">
+                    <button class="btn btn-primary btn-lg" id="auto">自動執行</button>
+                    <button class="btn btn-primary btn-lg" id="stop" style="display:none;">停止自動</button>
+                    <button class="btn btn-primary btn-lg" id="revoke">撤銷合約</button>
+                    <button class="btn btn-primary btn-lg" id="dead">被保人往生</button>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="timeline">
+                    <ul id="dates">
+                    </ul>
+                    <ul id="issues">
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
 <section id="out">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-6">
-                <div class="panel panel-default" id="state">
+                <div class="panel panel-default" id="state_panel">
                     <div class="panel-heading" id="state_heading">合約狀態</div>
-                    <div class="panel-body" id="state_body">請先選擇合約</div>
+                    <div class="panel-body" id="state_body">
+                        <dl class="dl-horizontal">
+
+                            <dt class="text-success">保費(以太幣)：</dt>
+                            <dd id="payment" class="text-success"></dd>
+
+                            <dt class="text-success">保費給付次數：</dt>
+                            <dd id="payTime" class="text-success"></dd>
+
+                            <dt class="text-success">目前合約日期：</dt>
+                            <dd id="nowTime" class="text-success"></dd>
+
+                            <dt class="text-success">下次年金給付日：</dt>
+                            <dd id="paymentDate" class="text-success"></dd>
+                            <hr>
+
+                            <dt class="text-info">保險公司：</dt>
+                            <dd id="company" class="text-info"></dd>
+
+                            <dt class="text-info">被保人：</dt>
+                            <dd id="insurer" class="text-info"></dd>
+
+                            <dt class="text-info">給付間格：</dt>
+                            <dd id="timeInterval" class="text-info"></dd>
+
+                            <dt class="text-info">是否保證：</dt>
+                            <dd id="isGuarantee" class="text-info"></dd>
+
+                            <dt class="text-info">受益人：</dt>
+                            <dd id="beneficiarie" class="text-info"></dd>
+
+                            <dt class="text-info">死亡受益人：</dt>
+                            <dd id="deathBeneficiary" class="text-info"></dd>
+
+                            <dt class="text-info">合約部署時間：</dt>
+                            <dd id="deployTime" class="text-info"></dd>
+
+                            <dt class="text-info">契約撤銷期限：</dt>
+                            <dd id="revocationPeriod" class="text-info"></dd>
+
+                        </dl>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="panel panel-default" id="event">
-                    <div class="panel-heading" id="event_heading">合約狀態</div>
+                <div class="panel panel-default" id="event_panel">
+                    <div class="panel-heading" id="event_heading">合約狀態異動紀錄</div>
                     <div class="panel-body" id="event_body">請先選擇合約</div>
                 </div>
             </div>
-            <!--
-            <div class="col-md-6">
-                <div class="panel panel-success">
-                    <div class="panel-heading">被保人事件</div>
-                    <div class="panel-body" id="a"></div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="panel panel-warning">
-                    <div class="panel-heading">保險公司事件</div>
-                    <div class="panel-body" id="b"></div>
-                </div>
-            </div>
-            -->
         </div>
     </div>
 </section>
 
 {{#section 'script'}}
+<script src="js/jquery.timelinr-0.9.6.js"></script>
 <script src="js/web3.min.js"></script>
 <script src="js/data.js"></script>
+<script src="js/MyDate.js"></script>
 <script src="js/test.js"></script>
 {{/section}}

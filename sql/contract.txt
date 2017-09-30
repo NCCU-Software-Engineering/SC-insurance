@@ -1,0 +1,16 @@
+CREATE TABLE `contract` (
+  `auto` int(11) NOT NULL AUTO_INCREMENT,
+  `ID` varchar(45) NOT NULL,
+  `address` char(45) NOT NULL,
+  `alias` varchar(45) DEFAULT NULL,
+  `payment` int(11) NOT NULL,
+  `paymentDate` int(11) NOT NULL,
+  `isBuy` tinyint(1) DEFAULT '0',
+  `isGuarantee` tinyint(1) NOT NULL,
+  `deathBeneficiary` char(10) DEFAULT NULL,
+  `deathBeneficiaryRelationship` char(10) DEFAULT NULL,
+  `deathBeneficiaryIdentity` char(10) DEFAULT NULL,
+  PRIMARY KEY (`auto`),
+  UNIQUE KEY `aderss_UNIQUE` (`address`),
+  UNIQUE KEY `自動序號_UNIQUE` (`auto`)
+) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8
