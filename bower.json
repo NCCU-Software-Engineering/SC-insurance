@@ -1,0 +1,23 @@
+{
+  "name": "app",
+  "description": "",
+  "main": "app.js",
+  "authors": [
+    "autumn"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "smart_contract",
+    "ethereum",
+    "blockchain",
+    "annuity"
+  ],
+  "homepage": "https://github.com/NCCU-Software-Engineering/SC-insurance",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
