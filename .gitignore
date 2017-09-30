@@ -1,5 +1,6 @@
 .vscode
 node_modules
+bower_components
 desktop.ini
 package-lock.json
 .node-xmlhttprequest-sync-*
