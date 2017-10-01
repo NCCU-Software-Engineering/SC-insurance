@@ -90,12 +90,12 @@ dd {
 }
 .overobj{
     display: inline-block;
-    width:40%;
+    width:30%;
     overflow:hidden;
     margin: 0 auto;
     position: relative;
     top: 25%;
-    left: 30%;
+    left: 35%;
 }
 
 .closebtn{
