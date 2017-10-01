@@ -19,7 +19,9 @@ $("#test").click(function () {
                 text: '即將導向回首頁',
                 type: 'success',
                 closeOnConfirm: false
-            }, () => { window.location = '/' })
+            }).then(() => {
+                window.location = '/'
+            })
         else {
             swal({
                 title: result.inf,

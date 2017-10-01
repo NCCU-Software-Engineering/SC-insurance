@@ -20,7 +20,7 @@
 
 #product p {
     font-size: 2rem;
-    color: 	rgb(83, 83, 121)
+    color: rgb(83, 83, 121)
 }
 
 #product hr {
@@ -35,7 +35,20 @@
 
 .content {
     font-size: 2rem;
-    padding-left: 3rem; 
+    padding-left: 3rem;
+}
+
+h3{
+    font-size: 3rem;
+    color: darkgreen;
+}
+
+dt {
+    color: navy;
+}
+
+dd {
+    margin-bottom: 1rem;
 }
 
 #trial-1 {
@@ -45,11 +58,13 @@
     margin: 10px;
     padding: 20px;
 }
+
 #trial-2 {
     height: 100px;
     background-color: skyblue;
     margin: 10px;
 }
+
 #trial-3 {
     height: 100px;
     border-radius: 0 0 10px 10px;

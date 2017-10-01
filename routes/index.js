@@ -31,6 +31,10 @@ router.get('/trial', function (req, res, next) {
     res.render('trial', { user_name: req.session.user_name })
 })
 
+router.get('/personal', sign, function (req, res, next) {
+    res.render('personal', { user_name: req.session.user_name })
+})
+
 router.get('/buy', sign, function (req, res, next) {
     res.render('buy', { user_name: req.session.user_name })
 })
