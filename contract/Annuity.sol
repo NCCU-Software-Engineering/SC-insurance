@@ -1,4 +1,4 @@
-pragma solidity ^0.4.7;
+pragma solidity ^0.4.10;
 
 contract Annuity {
 
@@ -277,8 +277,8 @@ contract Annuity {
     }    
     
     //設定被保人帳戶
-    function setInsurerAddress(address insurerAddress){
-        _insurerAddress = insurerAddress;
+    function setInsurerdAddress(address insuredAddress){
+        _insuredAddress = insuredAddress;
     }
     
     //設定身故受益人帳戶
