@@ -7,7 +7,9 @@ $("#test").click(function () {
                     text: '即將導向回首頁',
                     type: 'success',
                     closeOnConfirm: false
-                }, () => { window.location = '/' })
+                }).then(() => {
+                    window.location = '/'
+                })
                 break
             }
             case 2: {
@@ -29,10 +31,9 @@ $("#test").click(function () {
                     showCancelButton: true,
                     confirmButtonText: '前往註冊',
                     cancelButtonText: '不，我再試試',
-                }, (isConfirm) => {
-                    if (isConfirm) {
-                        window.location = '/users/sign_up'
-                    }
+                }).then(() => {
+                    window.location = '/users/sign_up'
+                }).catch(() => {
                 })
                 break
             }

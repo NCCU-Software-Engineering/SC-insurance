@@ -30,36 +30,29 @@
 
 
 /*
- *trial
+ *content
 */
 
-#trial dl {
+.content {
     font-size: 2rem;
+    padding-left: 3rem; 
 }
 
-
-/*
- *rule
-*/
-
-#rule dl {
-    font-size: 2rem;
+#trial-1 {
+    height: 100px;
+    border-radius: 10px 10px 0 0;
+    background-color: skyblue;
+    margin: 10px;
+    padding: 20px;
 }
-
-
-/*
- *question
-*/
-
-#question dl {
-    font-size: 2rem;
+#trial-2 {
+    height: 100px;
+    background-color: skyblue;
+    margin: 10px;
 }
-
-
-/*
- *notice
-*/
-
-#notice ul {
-    font-size: 2rem;
+#trial-3 {
+    height: 100px;
+    border-radius: 0 0 10px 10px;
+    background-color: skyblue;
+    margin: 10px;
 }
