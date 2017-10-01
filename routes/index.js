@@ -81,7 +81,7 @@ router.get('/auto', sign, function (req, res, next) {
 
 //測試頁面
 router.get('/test', async function (req, res, next) {
-    res.render('test', { user_name: req.session.user_name })
+    res.render('test', { user_name: req.session.user_name, address: req.query.address })
 })
 
 router.get('/verify', function (req, res, next) {
@@ -106,7 +106,7 @@ router.post('/deploy', async function (req, res, next) {
         console.log('invalid')
         res.json({ type: false, inf: '不能留空' })
     }
-});
+})
 
 //付款
 router.get('/payeth', async function (req, res, next) {
