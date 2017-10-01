@@ -134,7 +134,7 @@ contract Annuity {
             _state = State.unconfirmed;
         }
         else {
-            buyEvent(msg.sender , "not enough", msg.value, _nowTime);
+            buyEvent(msg.sender , "eth not enough", msg.value, _nowTime);
         }
     }
 
@@ -199,11 +199,18 @@ contract Annuity {
         }
         //契約撤銷期內死亡
         else if(_state == State.canBeRevoked){
-            _companyAddress.transfer(_payment);
-            deathEvent(msg.sender , "death", 0, 0, _nowTime);
+            //有保證
+            if(_isGuarantee) {
+                _deathBeneficiaryAddress.transfer(_payment);
+                deathEvent(msg.sender , "death", 0, 0, _nowTime);
+            }
+            //無保證
+            else {
+                _companyAddress.transfer(_payment);
+                deathEvent(msg.sender , "death", 0, 0, _nowTime);
+            }
             _state = State.ending;
         }
-        
         //沒有保證or給付保費前死亡
         else if(!_isGuarantee || _state == State.waitingForPayment) {
             deathEvent(msg.sender , "death", 0, 0, _nowTime);
