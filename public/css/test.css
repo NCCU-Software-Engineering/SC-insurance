@@ -2,6 +2,15 @@
     width: 90vw;
 }
 
+
+/*
+ *select
+*/
+
+select {
+    width: 30rem;
+}
+
 button {
     width: 32%;
 }
@@ -39,5 +48,5 @@ hr {
     height: 1px;
     border: 0;
     border-top: 1px solid rgb(62, 62, 62);
-    padding: 0; 
+    padding: 0;
 }

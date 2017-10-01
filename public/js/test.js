@@ -1,15 +1,13 @@
 let web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
 let adrress
-let email = false
-let letter = false
 let testContract
 let myDate1 = new MyDate('#myDate1', 2017, 8, 17, '模擬智能合約目前日期(Time Travel)')
 let myDate2 = new MyDate('#myDate2', 0, 0, 0, '契約撤銷期限')
 let autoRun
 
-let money_company = 0
-let money_your = 0
-let money_dead = 0
+let money_company = 1000
+let money_your = 1000
+let money_dead = 1000
 
 let company = '0x1ad59a6d33002b819fe04bb9c9d0333f990750a4'
 let nidhogg5 = '0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6'
@@ -18,12 +16,34 @@ let timeServer = '0x90353894b5edddcf49978b029f16bbed8e7e9355'
 
 $(document).ready(function () {
 
+    $(".auto").click(function () {
+        let date = {
+            alias: '我的第一張保單',
+            name: '賴晨禾',
+            age: '28(27歲 7個月 0天)',
+            company: '正大人壽',
+            payment: '26',
+            annuity: '1',
+            beneficiary: '賴晨禾',
+            'guarantee-type': 'y',
+            isGuarantee: '0',
+            paymentDate: '1',
+            deathBeneficiary: '123213123',
+            deathBeneficiaryRelationship: '直系血親：父子',
+            deathBeneficiaryIdentity: 'AOOOOOOOOO',
+            deathBeneficiaryAddress: '0x68a874f2e8d20718af2ebb48dc10940ede50c080'
+        }
+        console.log(date)
+        $.post("deploy", date, (result) => {
+            console.log(result)
+        })
+    })
+
     updateMoney()
     initTimeLine()
 
     //選擇合約
-    $("#radio_group :radio").change(function () {
-        console.log(data.interface)
+    $("select").change(function () {
         testContract = web3.eth.contract(data.interface).at($(this).val())
         initTimeLine()
         update()
@@ -93,7 +113,7 @@ $(document).ready(function () {
 
             case 'auto':
                 console.log('auto')
-                if(myDate2.getDateArr()[0]) {
+                if (myDate2.getDateArr()[0]) {
                     $('#auto').hide()
                     $('#stop').show()
                     auto()

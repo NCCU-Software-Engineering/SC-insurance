@@ -27,6 +27,10 @@ router.get('/', function (req, res, next) {
     res.render('index', { user_name: req.session.user_name })
 })
 
+router.get('/auto', function (req, res, next) {
+    res.render('auto', { user_name: req.session.user_name, flexbox: li })
+})
+
 router.get('/trial', function (req, res, next) {
     res.render('trial', { user_name: req.session.user_name })
 })
@@ -39,11 +43,16 @@ router.get('/buy', sign, function (req, res, next) {
     res.render('buy', { user_name: req.session.user_name })
 })
 
+router.get('/template', sign, function (req, res, next) {
+    res.render('template', { user_name: req.session.user_name })
+})
+
 router.get('/agreement', sign, async function (req, res, next) {
     let user = await mysql.getUserByID(req.session.user_ID)
     let age = getAge(user.birthday)
     res.render('agreement', { user_name: req.session.user_name, user_age: age.string, user_payment:(80-age.iage)/2})
 })
+
 
 function getAge(birthday) {
     let today = new Date();
@@ -78,13 +87,13 @@ router.get('/solidity', sign, function (req, res, next) {
     })
 })
 
-router.get('/test', sign, async function (req, res, next) {
-    let contract = await mysql.getContractByID(req.session.user_ID)
+router.get('/test', async function (req, res, next) {
+    let contract = await mysql.getContract()
     let li = ''
     for (var i = 0; i < contract.length; i++) {
-        li += format('<li><input name="smart" type="radio" value="{}">{}({}以太幣，{})</li>', contract[i].address, contract[i].alias, contract[i].payment, contract[i].isGuarantee ? '有保證' : '無保證')
+        li += format('<div class="item col-md-4" value={}><h3>{}</h3><p>保費{}以太幣</p><p>{}</p></div>', contract[i].address, contract[i].alias, contract[i].payment, contract[i].isGuarantee ? '保證型智能保單' : '不保證型智能保單')
     }
-    res.render('test', { user_name: req.session.user_name, radio: li })
+    res.render('test', { user_name: req.session.user_name, flexbox: li })
 })
 
 router.get('/pay', sign, async function (req, res, next) {

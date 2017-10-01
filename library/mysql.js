@@ -45,7 +45,7 @@ async function sing_up(ID, password, name, identity, email, phone, birthday, add
         let user = await getUserByID(ID)
         if (!user) {
             let result = await addUser(ID, password, name, identity, email, phone, birthday, address, account)
-            return { type: true, inf: '註冊成功'}
+            return { type: true, inf: '註冊成功' }
         }
         else {
             return { type: false, inf: '此帳號已有人註冊過' }
@@ -117,7 +117,20 @@ function getContractByID(ID) {
             } else {
                 reject(err)
             }
-        });
+        })
+    })
+}
+
+function getContract() {
+    let cmd = "SELECT * FROM contract";
+    return new Promise(function (resolve, reject) {
+        connection.query(cmd, (err, result) => {
+            if (!err) {
+                resolve(result)
+            } else {
+                reject(err)
+            }
+        })
     })
 }
 
@@ -150,7 +163,7 @@ function buyContract(address) {
 function getContractCount(ID) {
     let cmd = "SELECT auto FROM contract where ID = ?";
     return new Promise(function (resolve, reject) {
-        connection.query(cmd,[ID], (err, result) => {
+        connection.query(cmd, [ID], (err, result) => {
             if (!err) {
                 resolve(result[0]['count(auto)'])
             } else {
@@ -190,15 +203,21 @@ function getVerification(ID, callback) {
 module.exports = {
     connection: connection,
     connect, connect,
+
     sing_in: sing_in,
     sing_up: sing_up,
+
     getUserByID: getUserByID,
+
     addContract: addContract,
     getContractByID: getContractByID,
+    getContract: getContract,
     getContractByAddress: getContractByAddress,
     getContractCount: getContractCount,
     getAccountByID: getAccountByID,
+
     setVerification: setVerification,
     getVerification: getVerification,
+
     buyContract: buyContract
 }

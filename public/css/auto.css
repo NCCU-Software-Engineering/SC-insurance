@@ -1,0 +1,36 @@
+.title {
+    font-size: 2rem;
+    text-align: center;
+}
+
+.auto {
+    height: 22rem;
+    border-radius: 1rem;
+    margin: 0.5rem;
+    padding: 0.5rem;
+}
+.auto h3{
+    text-align: center;
+}
+
+.auto h4{
+    padding-left: 2rem;
+    font-size: 25px;
+}
+
+.auto p{
+    padding-left: 3rem;
+    font-size: 20px;
+}
+
+.blue {
+    background-color: skyblue;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.green{
+    background-color: green;
+}

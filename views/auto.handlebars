@@ -1,0 +1,114 @@
+{{#section 'css'}}
+<link rel="stylesheet" href="css/auto.css"></link>
+{{/section}} 
+
+<section id="select">
+    <div class="container">
+        <div class="row">
+            <h2>快速智能保單測試情境</h2>
+            <div class="col-md-3 title">1.付款前往生</div>
+            <div class="col-md-3 title">2.付款後、確認前往生</div>
+            <div class="col-md-3 title">3.確認後、契約撤銷期內往生</div>
+            <div class="col-md-3 title">4.給付年金未達保證金額</div>
+            <!--保證型保單-->
+            <div class="col-md-3">
+                <div id="y1" class="auto blue">
+                    <h3>保證型智能保單</h3>
+                    <h4>情境:</h4>
+                    <p>付款前往生</p>
+                    <h4>預計結果:</h4>
+                    <p>合約直接結束</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div id="y2" class="auto blue">
+                    <h3>保證型智能保單</h3>
+                    <h4>情境:</h4>
+                    <p>付款後、確認前往生</p>
+                    <h4>預計結果:</h4>
+                    <p>返還保費給被保人</p>
+                </div>
+            </div>
+            <div id="y3" class="col-md-3">
+                <div class="auto blue">
+                    <h3>保證型智能保單</h3>
+                    <h4>情境:</h4>
+                    <p>確認後、契約撤銷期內往生</p>
+                    <h4>預計結果:</h4>
+                    <p>因為是保證型合約<br>全部返還生故受益人</p>
+                </div>
+            </div>
+            <div id="y4" class="col-md-3">
+                <div class="auto blue">
+                    <h3>保證型智能保單</h3>
+                    <h4>情境:</h4>
+                    <p>給付年金未達保證金額</p>
+                    <h4>預計結果:</h4>
+                    <p>未達保證金額返還給身故受益人</p>
+                </div>
+            </div>
+            <!--不保證型智能保單-->
+            <div id="n1" class="col-md-3">
+                <div class="auto yellow">
+                    <h3>不保證型智能保單</h3>
+                    <h4>情境:</h4>
+                    <p>付款前往生</p>
+                    <h4>預計結果:</h4>
+                    <p>合約直接結束</p>
+                </div>
+            </div>
+            <div id="n2" class="col-md-3">
+                <div class="auto yellow">
+                    <h3>不保證型智能保單</h3>
+                    <h4>情境:</h4>
+                    <p>付款後、確認前往生</p>
+                    <h4>預計結果:</h4>
+                    <p>返還保費給被保人</p>
+                </div>
+            </div>
+            <div id="n3" class="col-md-3">
+                <div class="auto yellow">
+                    <h3>不保證型智能保單</h3>
+                    <h4>情境:</h4>
+                    <p>確認後、契約撤銷期內往生</p>
+                    <h4>預計結果:</h4>
+                    <p>合約直接結束<br>不返還保費</p>
+                </div>
+            </div>
+            <div id="n4" class="col-md-3">
+                <div class="auto yellow">
+                    <h3>不保證型智能保單</h3>
+                    <h4>情境:</h4>
+                    <p>給付年金未達保證金額</p>
+                    <h4>預計結果:</h4>
+                    <p>因為未保證 直接結束合約</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="select">
+    <div class="container">
+        <div class="row">
+            <h2>自行購買的智能保單</h2>
+            <div class="col-md-3">
+                <div class="auto green"></div>
+            </div>
+            <div class="col-md-3">
+                <div class="auto green"></div>
+            </div>
+            <div class="col-md-3">
+                <div class="auto green"></div>
+            </div>
+            <div class="col-md-3">
+                <div class="auto green"></div>
+            </div>
+            {{{flexbox}}}
+        </div>
+    </div>
+</section>
+
+{{#section 'script'}}
+<script src="js/auto.js"></script>
+{{/section}}
