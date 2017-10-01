@@ -5,6 +5,11 @@ let timeServer = '0x90353894b5edddcf49978b029f16bbed8e7e9355'
 
 $(document).ready(function () {
 
+    $(".manual").click(function () {
+        console.log()
+        window.location = '/test?address=' + $(this).attr('value') + '&alias=' + $(this).children('h3').text()
+    })
+
     $("#y1").click(function () {
         let date = {
             alias: '保證型 付款前往生',
@@ -21,9 +26,9 @@ $(document).ready(function () {
             deathBeneficiaryIdentity: 'AOOOOOOOOO',
             deathBeneficiaryAddress: '0x68a874f2e8d20718af2ebb48dc10940ede50c080'
         }
-        $.post("deploy", date, (result) => {
-            if(result.type){
-                window.location = '/test?address=' +　result.address
+        $.post("auto_deploy", date, (result) => {
+            if (result.type) {
+                window.location = '/test?address=' + result.address + '&alias=' + result.alias
             }
         })
     })
@@ -44,16 +49,18 @@ $(document).ready(function () {
             deathBeneficiaryIdentity: 'AOOOOOOOOO',
             deathBeneficiaryAddress: '0x68a874f2e8d20718af2ebb48dc10940ede50c080'
         }
-        $.post("deploy", date, (result) => {
-            if(result.type){
-                window.location = '/test?address=' +　result.address
+        $.post("auto_deploy", date, (result) => {
+            if (result.type) {
+                $.get("payeth?address=" + result.address, function (result) {
+                    window.location = '/test?address=' + result.address + '&alias=' + result.alias
+                })
             }
         })
     })
 
     $("#y3").click(function () {
         let date = {
-            alias: '保證型 認後、契約撤銷期內往生',
+            alias: '保證型 付款且卻認後、契約撤銷期內往生',
             name: '王小明',
             age: '28(27歲 7個月 0天)',
             company: '正大人壽',
@@ -67,9 +74,9 @@ $(document).ready(function () {
             deathBeneficiaryIdentity: 'AOOOOOOOOO',
             deathBeneficiaryAddress: '0x68a874f2e8d20718af2ebb48dc10940ede50c080'
         }
-        $.post("deploy", date, (result) => {
-            if(result.type){
-                window.location = '/test?address=' +　result.address
+        $.post("auto_deploy", date, (result) => {
+            if (result.type) {
+                window.location = '/test?address=' + result.address + '&alias=' + result.alias
             }
         })
     })
@@ -90,9 +97,9 @@ $(document).ready(function () {
             deathBeneficiaryIdentity: 'AOOOOOOOOO',
             deathBeneficiaryAddress: '0x68a874f2e8d20718af2ebb48dc10940ede50c080'
         }
-        $.post("deploy", date, (result) => {
-            if(result.type){
-                window.location = '/test?address=' +　result.address
+        $.post("auto_deploy", date, (result) => {
+            if (result.type) {
+                window.location = '/test?address=' + result.address + '&alias=' + result.alias
             }
         })
     })
@@ -113,9 +120,9 @@ $(document).ready(function () {
             deathBeneficiaryIdentity: '',
             deathBeneficiaryAddress: ''
         }
-        $.post("deploy", date, (result) => {
-            if(result.type){
-                window.location = '/test?address=' +　result.address
+        $.post("auto_deploy", date, (result) => {
+            if (result.type) {
+                window.location = '/test?address=' + result.address + '&alias=' + result.alias
             }
         })
     })
@@ -136,16 +143,16 @@ $(document).ready(function () {
             deathBeneficiaryIdentity: '',
             deathBeneficiaryAddress: ''
         }
-        $.post("deploy", date, (result) => {
-            if(result.type){
-                window.location = '/test?address=' +　result.address
+        $.post("auto_deploy", date, (result) => {
+            if (result.type) {
+                window.location = '/test?address=' + result.address + '&alias=' + result.alias
             }
         })
     })
 
     $("#n3").click(function () {
         let date = {
-            alias: '不保證型 確認後、契約撤銷期內往生',
+            alias: '不保證型 付款且卻認後、契約撤銷期內往生',
             name: '王小明',
             age: '28(27歲 7個月 0天)',
             company: '正大人壽',
@@ -159,9 +166,9 @@ $(document).ready(function () {
             deathBeneficiaryIdentity: '',
             deathBeneficiaryAddress: ''
         }
-        $.post("deploy", date, (result) => {
-            if(result.type){
-                window.location = '/test?address=' +　result.address
+        $.post("auto_deploy", date, (result) => {
+            if (result.type) {
+                window.location = '/test?address=' + result.address + '&alias=' + result.alias
             }
         })
     })
@@ -182,9 +189,9 @@ $(document).ready(function () {
             deathBeneficiaryIdentity: '',
             deathBeneficiaryAddress: ''
         }
-        $.post("deploy", date, (result) => {
-            if(result.type){
-                window.location = '/test?address=' +　result.address
+        $.post("auto_deploy", date, (result) => {
+            if (result.type) {
+                window.location = '/test?address=' + result.address + '&alias=' + result.alias
             }
         })
     })

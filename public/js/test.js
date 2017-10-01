@@ -16,9 +16,12 @@ let timeServer = '0x90353894b5edddcf49978b029f16bbed8e7e9355'
 
 $(document).ready(function () {
 
-    updateMoney()
-    initTimeLine()
+    testContract =  web3.eth.contract(data.interface).at($('#address').text())
 
+    initTimeLine()
+    update()
+    updateMoney()
+    
     $('button').click(function () {
 
         $('button').attr('disabled', 'true')

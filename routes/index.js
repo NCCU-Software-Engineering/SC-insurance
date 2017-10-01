@@ -69,19 +69,18 @@ router.get('/solidity', sign, function (req, res, next) {
 })
 
 //自動環境
-router.get('/auto', sign, function (req, res, next) {
-    /*
+router.get('/auto', sign, async function (req, res, next) {
     let contract = await mysql.getContract()
+    let li = ''
     for (var i = 0; i < contract.length; i++) {
-        li += format('<div class="item col-md-4" value={}><h3>{}</h3><p>保費{}以太幣</p><p>{}</p></div>', contract[i].address, contract[i].alias, contract[i].payment, contract[i].isGuarantee ? '保證型智能保單' : '不保證型智能保單')
+        li += format('<div class="col-md-3"><div class="manual green" value={}><h3>{}</h3><p>保費{}以太幣</p><p>{}</p></div></div>', contract[i].address, contract[i].alias, contract[i].payment, contract[i].isGuarantee ? '保證型智能保單' : '不保證型智能保單')
     }
-    */
-    res.render('auto', { user_name: req.session.user_name })
+    res.render('auto', { user_name: req.session.user_name, li: li })
 })
 
 //測試頁面
 router.get('/test', async function (req, res, next) {
-    res.render('test', { user_name: req.session.user_name, address: req.query.address })
+    res.render('test', { user_name: req.session.user_name, address: req.query.address, alias: req.query.alias })
 })
 
 router.get('/verify', function (req, res, next) {
@@ -115,7 +114,7 @@ router.get('/payeth', async function (req, res, next) {
     let policy = await mysql.getContractByAddress(req.query.address)
     testContract.buy({
         from: user.account,
-        value: web3.toWei(req.query.amount, "ether"),
+        value: web3.toWei(policy.payment, "ether"),
         gas: 4444444
     })
     mysql.buyContract(req.query.address)
@@ -177,6 +176,13 @@ router.post('/verify', function (req, res, next) {
         else {
             res.send('error')
         }
+    })
+})
+
+//自動部署
+router.post('/auto_deploy', async function (req, res, next) {
+    contract.deploy('0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6', req.body.deathBeneficiaryAddress, req.body.payment, req.body.annuity, req.body.paymentDate, req.body.isGuarantee, req.body.beneficiary, req.body.deathBeneficiary, async (address) => {
+        res.json({ type: true, address: address, alias: req.body.alias })
     })
 })
 

@@ -9,18 +9,26 @@
     margin: 0.5rem;
     padding: 0.5rem;
 }
-.auto h3{
+
+.auto h3 {
     text-align: center;
 }
 
-.auto h4{
+.auto h4 {
     padding-left: 2rem;
     font-size: 25px;
 }
 
-.auto p{
+.auto p {
     padding-left: 3rem;
     font-size: 20px;
+}
+
+.manual {
+    height: 22rem;
+    border-radius: 1rem;
+    margin: 0.5rem;
+    padding: 0.5rem;
 }
 
 .blue {
@@ -31,6 +39,6 @@
     background-color: yellow;
 }
 
-.green{
+.green {
     background-color: green;
 }
