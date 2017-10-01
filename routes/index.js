@@ -41,7 +41,7 @@ router.get('/personal', sign, function (req, res, next) {
 router.get('/agreement', sign, async function (req, res, next) {
     let user = await mysql.getUserByID(req.session.user_ID)
     let age = getAge(user.birthday)
-    res.render('agreement', { user_name: req.session.user_name, user_age: age.string, user_payment: (80 - age.iage) / 2 })
+    res.render('agreement', { user_name: req.session.user_name, user_age: age.string, user_payment: (80 - age.iage) })
 })
 
 //選擇付款方式

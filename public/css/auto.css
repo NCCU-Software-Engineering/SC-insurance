@@ -3,11 +3,11 @@
     text-align: center;
 }
 
-.auto {
+.auto,
+.manual {
     height: 22rem;
     border-radius: 1rem;
     margin: 0.5rem;
-    padding: 0.5rem;
 }
 
 .auto h3 {
@@ -16,29 +16,37 @@
 
 .auto h4 {
     padding-left: 2rem;
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .auto p {
     padding-left: 3rem;
+    font-size: 18px;
+}
+
+.manual h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.manual h4 {
+    padding-left: 2rem;
     font-size: 20px;
 }
 
-.manual {
-    height: 22rem;
-    border-radius: 1rem;
-    margin: 0.5rem;
-    padding: 0.5rem;
+.manual p {
+    padding-left: 3rem;
+    font-size: 18px;
 }
 
 .blue {
-    background-color: skyblue;
+    border: groove 11px #7678ED;
 }
 
 .yellow {
-    background-color: yellow;
+    border: groove 11px #FEFFA5;
 }
 
 .green {
-    background-color: green;
+    border: groove 11px #B4DC7F;
 }
