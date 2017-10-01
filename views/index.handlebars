@@ -14,7 +14,7 @@
                 <p>服務專線：02-2222-2222</p>
                 <ul class="list-inline list-unstyled">
                     <li><a href="agreement" role="button" class="btn btn-success btn-lg">立即購買</a></li>
-                    <li><a href="trial" role="button" class="btn btn-info btn-lg">保費試算</a></li>
+                    <li><button class="btn btn-info btn-lg trial">保費試算</button></li>
                 </ul>
             </div>
         </div>
@@ -116,8 +116,46 @@
         <div class="col-md-12">
             <ul class="list-inline list-unstyled">
                 <li><a href="agreement" role="button" class="btn btn-success btn-lg">立即購買</a></li>
-                <li><a href="trial" role="button" class="btn btn-info btn-lg">保費試算</a></li>
+                <li><button class="btn btn-info btn-lg trial">保費試算</button></li>
             </ul>
         </div>
     </div>
 </section>
+<!--測算block-->
+<section class="overlay">
+    <div class="overobj">
+        <div class="panel panel-success" style="color:black;">
+            <div class="panel-heading" style="text-align:center;">
+                保費測算
+                <a href="javascript:void(0)" class="closebtn" onclick="closeOverlay()">&times;</a>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3"></div>
+                        <label class="col-sm-3 control-label">年齡：</label>
+                        <select class="20-75"></select>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3"></div>
+                        <label class="col-sm-3 control-label">是否保證：</label>
+                        <select id="isGuarantee">
+                            <option value="y">是</option>
+                            <option value="n">否</option>
+                        </select>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="btn btn-primary" id="getResult">查詢</button>
+                    </div>
+                    <div id="result" style="text-align: center;">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{#section 'script'}}
+<script src="js/index.js"></script>
+<script src="data/trialdata.js"></script>
+{{/section}}
