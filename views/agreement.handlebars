@@ -37,7 +37,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">年齡</label>
+                                <label class="col-sm-3 control-label">保險年齡</label>
                                 <div class="col-sm-8">
                                     <input class="form-control" type="text" name="age" value="{{user_age}}" readonly="readonly">
                                 </div>
@@ -53,7 +53,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="contact-name">保費<br>(以太幣)</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="number" name='payment' readonly="readonly">
+                                    <input class="form-control" type="number" name='payment' value="{{user_payment}}" readonly="readonly">
                                 </div>
                             </div>
 
@@ -81,27 +81,28 @@
                                     <input class="form-control" type="text" name="isGuarantee" value="0" readonly="readonly" style="display:none;">
                                 </div>
                             </div>
-                            
-                            <div class="form-group" style="display:none;">
-                                <label class="col-sm-3 control-label" for="contact-name">投保年度</label>
-                                <div class="col-sm-8">
-                                    <!--<input class="form-control" type="number" name="paymentDate" placeholder="第幾保單年度開始領取年金" value="1" ng-model="time" min="1"
+
+                            <div id="guarantee">
+                                <div class="form-group" style="display:none;">
+                                    <label class="col-sm-3 control-label" for="contact-name">投保年度</label>
+                                    <div class="col-sm-8">
+                                        <!--<input class="form-control" type="number" name="paymentDate" placeholder="第幾保單年度開始領取年金" value="1" ng-model="time" min="1"
                                         max="66">-->
-                                    <input class="form-control" type="number" name="paymentDate" value="1" readonly="readonly">
+                                        <input class="form-control" type="number" name="paymentDate" value="1" readonly="readonly">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group guarantee">
-                                <label class="col-sm-3 control-label" for="contact-name">身故受益人</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="deathBeneficiary" placeholder="身故受益人姓名">
+                                <div class="form-group guarantee">
+                                    <label class="col-sm-3 control-label" for="contact-name">身故受益人</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" type="text" name="deathBeneficiary" placeholder="身故受益人姓名">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group guarantee">
-                                <label class="col-sm-3 control-label" for="deathBeneficiaryRelationship">身故受益人關係</label>
-                                <div class="col-sm-8">
-                                    <select class="form-control" name="deathBeneficiaryRelationship">
+                                <div class="form-group guarantee">
+                                    <label class="col-sm-3 control-label" for="deathBeneficiaryRelationship">身故受益人關係</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" name="deathBeneficiaryRelationship">
                                         <option value="直系血親：父子" selected>直系血親：父子</option>
                                         <option value="直系血親：父女">直系血親：父女</option>
                                         <option value="直系血親：母子">直系血親：母子</option>
@@ -110,26 +111,27 @@
                                         <option value="配偶">配偶</option>
                                         <option value="法定繼承人">法定繼承人</option>
                                     </select>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group guarantee">
-                                <label class="col-sm-3 control-label" for="contact-name">身故受益人身分證</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="deathBeneficiaryIdentity" placeholder="請輸入身分證" value="AOOOOOOOOO">
+                                <div class="form-group guarantee">
+                                    <label class="col-sm-3 control-label" for="contact-name">身故受益人身分證</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" type="text" name="deathBeneficiaryIdentity" placeholder="請輸入身分證" value="AOOOOOOOOO">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group guarantee">
-                                <label class="col-sm-3 control-label" for="contact-name">身故受益人<br>以太坊帳戶</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="deathBeneficiaryAddress" placeholder="請輸入以太坊帳戶" value="0x68a874f2e8d20718af2ebb48dc10940ede50c080">
+                                <div class="form-group guarantee">
+                                    <label class="col-sm-3 control-label" for="contact-name">身故受益人<br>以太坊帳戶</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" type="text" name="deathBeneficiaryAddress" placeholder="請輸入以太坊帳戶" value="0x68a874f2e8d20718af2ebb48dc10940ede50c080">
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-sm-offset-3 col-sm-7">
-                                    <button class="btn btn-success btn-lg" id="deploy" style="margin-right:3rem">送出</button>
+                                    <div class="btn btn-success btn-lg" id="deploy" style="margin-right:3rem">送出</div>
                                     <button class="btn btn-success btn-lg" type="reset">重設</button>
                                 </div>
                                 <div class="col-sm-2">
@@ -177,7 +179,7 @@
                         </h2>
                         <p>
                             本契約所稱名詞定義如下：
-                            <bt> 
+                            <bt>
                                 <br> 一、本契約所稱「保證」係指依本契約約定，不論被保險人生存與否，本公司保證給付等同於保費之年金。
                                 <br> 二、本契約所稱「年金金額」係指依本契約約定之條件及期間，本公司分期給付之金額。
                                 <br> 三、本契約所稱「未支領之年金餘額」係指被保險人於本契約年金保證應領取之年金金額。

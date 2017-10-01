@@ -41,10 +41,35 @@ router.get('/buy', sign, function (req, res, next) {
 
 router.get('/agreement', sign, async function (req, res, next) {
     let user = await mysql.getUserByID(req.session.user_ID)
-    let myDate = new Date()
-    let age = myDate.getFullYear() - user.birthday.getFullYear() - 1 + (((myDate.getMonth() - user.birthday.getMonth()) > 0) ? 1 : ((myDate.getMonth() - user.birthday.getMonth()) == 0) ? ((myDate.getDate() - user.birthday.getDate()) ? 1 : 0) : 0)
-    res.render('agreement', { user_name: req.session.user_name, user_age: age })
+    let age = getAge(user.birthday)
+    res.render('agreement', { user_name: req.session.user_name, user_age: age.string, user_payment:(80-age.iage)/2})
 })
+
+function getAge(birthday) {
+    let today = new Date();
+    let result = {}
+    let age = today.getFullYear() - birthday.getFullYear()
+    let month = today.getMonth() - birthday.getMonth()
+    let day = today.getDate() - birthday.getDate()
+
+    if (day < 0) {
+        day += 30
+        month--
+    }
+    if (month < 0) {
+        age--
+    }
+
+    if (month > 6 || (month == 6 && day > 0)) {
+        result.iage = age + 1
+    }
+    else {
+        result.iage = age
+    }
+    result.string = result.iage + '(' + age + '歲 ' + month + '個月 ' + day + '天)'
+    return (result)
+}
+
 
 router.get('/solidity', sign, function (req, res, next) {
     let fileName = path.join('contract', 'Annuity.sol')
