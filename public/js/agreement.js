@@ -5,7 +5,7 @@ $(function () {
 
 	$('.check').change(function () {
 		$('#guarantee').toggle()
-		if ($('.check:checked').val() == 'n') {
+		if ($('.check:checked').val() == '0') {
 			$('input[name=payment]').val($('input[name=payment]').val() / 2)
 		}
 		else {

@@ -34,7 +34,9 @@ $(function () {
             swal({
                 title: '付款成功',
                 type: 'success',
-            }, () => { window.location = '/' })
+            }).then(() => {
+                window.location = '/'
+            })
         })
     })
     function addZero(n) {

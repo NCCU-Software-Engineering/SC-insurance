@@ -229,8 +229,7 @@ function update() {
                 case 'deathEvent':
                     $("#event_body").append('被保人死亡' + '<br>')
                     $("#event_body").append('來自 : ' + ethAddress(element.args.from) + '<br>')
-                    if (element.args.inf == 'death')
-                        $("#event_body").append('資訊 : ' + '被保人死亡' + '<br>')
+                    $("#event_body").append('資訊 : ' + element.args.inf + '<br>')
                     $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
 
                     $('#timeline #issues #' + element.args.timestamp[0]).prepend('被保人死亡：' + slash(element.args.timestamp) + '<br>')
