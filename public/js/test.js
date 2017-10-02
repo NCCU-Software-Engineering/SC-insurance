@@ -125,7 +125,7 @@ function auto() {
             gas: 4444444
         })
         update()
-        autoRun = setTimeout(auto, 5000)
+        autoRun = setTimeout(auto, 3000)
     }
 }
 
@@ -214,11 +214,17 @@ function update() {
 
                 case 'deathEvent':
 
-                    $('#timeline #issues #' + element.args.timestamp[0]).append('被保人死亡：')
-                    if (element.args.inf == 'death(thansfer to deathBeneficiary)')
-                        $('#timeline #issues #' + element.args.timestamp[0]).append('保證型保單 退還保費給身故受益人')
-                    else if (element.args.inf == 'death(thansfer to _companyAddress)')
-                        $('#timeline #issues #' + element.args.timestamp[0]).append('不保證型保單 不在可撤銷期間內')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('被保人去世：')
+                    if (element.args.inf == 'death in waitingForPayment')
+                        $('#timeline #issues #' + element.args.timestamp[0]).append('付款前去世')
+                    else if (element.args.inf == 'death in unconfirmed')
+                        $('#timeline #issues #' + element.args.timestamp[0]).append('確認前去世 保費返還被保人')
+                    else if (element.args.inf == 'death in canBeRevoked(guarantee)')
+                        $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷期間內去世 退還保費給身故受益人')
+                    else if (element.args.inf == 'death in canBeRevoked(no guarantee)')
+                        $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷期間內去世 結束保單')
+                    else if (element.args.inf == 'death in confirmd')
+                        $('#timeline #issues #' + element.args.timestamp[0]).append('結束保單')
                     $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
 
                     if (parseInt(element.args.payTime) > parseInt(testContract.gatPayTime())) {
