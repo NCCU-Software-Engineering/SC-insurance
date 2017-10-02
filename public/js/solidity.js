@@ -10,6 +10,8 @@ $(function () {
             }, 1000);
         }, function () {
             $(".revoke").css('background-color', '')
+            $('#traditional-contract-body').stop()
+            $('#parameter-body').stop()
         })
     $(".death").hover(
         function () {
@@ -22,6 +24,8 @@ $(function () {
             }, 1000);
         }, function () {
             $(".death").css('background-color', '')
+            $('#traditional-contract-body').stop()
+            $('#parameter-body').stop()
         })
     $(".pay").hover(
         function () {
@@ -34,5 +38,7 @@ $(function () {
             }, 1000);
         }, function () {
             $(".pay").css('background-color', '')
+            $('#traditional-contract-body').stop()
+            $('#parameter-body').stop()
         })
 })
