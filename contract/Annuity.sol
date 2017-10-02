@@ -191,14 +191,19 @@ contract Annuity {
         //if(msg.sender != companyAddress) {
         //    throw;
         //}
+
+        //付款前死亡
+        if(_state == State.waitingForPayment) {
+             _state = State.ending;
+        }
         //確認前死亡
-        if(_state == State.unconfirmed){
+        else if(_state == State.unconfirmed) {
+            _state = State.ending;
             _insuredAddress.transfer(_payment);
             deathEvent(msg.sender , "death", 0, 0, _nowTime);
-            _state = State.ending;
         }
         //契約撤銷期內死亡
-        else if(_state == State.canBeRevoked){
+        else if(_state == State.canBeRevoked) {
             //有保證
             if(_isGuarantee) {
                 _deathBeneficiaryAddress.transfer(_payment);
@@ -209,24 +214,22 @@ contract Annuity {
                 _companyAddress.transfer(_payment);
                 deathEvent(msg.sender , "death(thansfer to _companyAddress)", 0, 0, _nowTime);
             }
-            _state = State.ending;
         }
-        //沒有保證or給付保費前死亡
-        else if(!_isGuarantee || _state == State.waitingForPayment) {
-            deathEvent(msg.sender , "death", 0, 0, _nowTime);
-            _state = State.ending;
-        }
-        //有保證
-        else {
-            //已給付年金<=保費
-            if((_payment - _annuity*_payTime) > 0){
-                deathEvent(msg.sender , "death", _payment - _annuity*_payTime, _payTime+1, _nowTime);
+        //合約正式生效後死亡
+        else if(_state == State.confirmd) {
+            //有保證且有剩餘保費
+            if(_isGuarantee &&　(_payment - _annuity*_payTime) > 0) {
                 _state = State.guarantee;
+                deathEvent(msg.sender , "death", _payment - _annuity*_payTime, _payTime+1, _nowTime);
             }
-            //已給付年金>保費
-            else{
+            //無保證或無剩餘保費
+            else {
+                _state = State.ending;
                 deathEvent(msg.sender , "death", 0, 0, _nowTime);
-            }
+            }    
+        }
+        else {
+            deathEvent(msg.sender , "error", 0, 0, _nowTime);
         }
     }
 
