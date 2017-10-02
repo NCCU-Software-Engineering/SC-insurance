@@ -80,7 +80,7 @@ router.get('/auto', sign, async function (req, res, next) {
 
 //測試頁面
 router.get('/test', async function (req, res, next) {
-    res.render('test', { user_name: req.session.user_name, address: req.query.address, alias: req.query.alias })
+    res.render('test', { user_name: req.session.user_name, address: req.query.address, alias: req.query.alias, predict: req.query.predict })
 })
 
 router.get('/verify', function (req, res, next) {
@@ -180,8 +180,33 @@ router.post('/verify', function (req, res, next) {
 //自動部署
 router.post('/auto_deploy', async function (req, res, next) {
     contract.deploy('0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6', req.body.deathBeneficiaryAddress, req.body.payment, req.body.annuity, req.body.paymentDate, req.body.isGuarantee, req.body.beneficiary, req.body.deathBeneficiary, async (address) => {
-        res.json({ type: true, address: address, alias: req.body.alias })
+        res.json({ type: true, address: address, alias: '測試情境：' + req.body.alias})
     })
+})
+
+//自動付款
+router.get('/auto_payeth', async function (req, res, next) {
+    let testContract = new contract.getContract(req.query.address)
+    let user = await mysql.getUserByID(req.session.user_ID)
+    testContract.buy({
+        from: user.account,
+        value: web3.toWei(26, "ether"),
+        gas: 4444444
+    })
+    res.send('done')
+})
+
+//自動確認合約
+router.get('/auto_confirm', async function (req, res, next) {
+    let testContract = new contract.getContract(req.query.address)
+    let user = await mysql.getUserByID(req.query.id)
+    let myDate = new Date()
+    myDate.setDate(myDate.getDate() + 11)
+    testContract.confirm(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate(), {
+        from: web3.eth.coinbase,
+        gas: 4444444
+    })
+    res.redirect('/')
 })
 
 function getAge(birthday) {

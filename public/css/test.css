@@ -20,9 +20,8 @@ button {
 }
 
 .panel-body {
-    height: 40rem;
+    height: 200px;
     font-size: 2rem;
-    overflow: auto;
 }
 
 #state_body dt {
@@ -33,10 +32,6 @@ button {
     display: none;
 }
 
-#email,
-letter {
-    margin-bottom: 1rem;
-}
 
 #datePicker {
     height: 100%;

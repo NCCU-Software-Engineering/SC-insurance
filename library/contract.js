@@ -7,6 +7,8 @@ var annuityContract = web3.eth.contract(data.interface);
 
 function deploy(insuredAddress, deathBeneficiaryAddress, payment, annuity, paymentDate, isGuarantee, beneficiary, deathBeneficiary, callback) {
 
+    console.log("isGuarantee", isGuarantee)
+
     let date = new Date();
     //web3.personal.unlockAccount(credentials.account.company, '', 300);
 
@@ -17,7 +19,7 @@ function deploy(insuredAddress, deathBeneficiaryAddress, payment, annuity, payme
         payment*1000000000000000000,
         annuity*1000000000000000000,
         paymentDate,
-        isGuarantee,
+        (isGuarantee == 1),
         '正大人壽',
         beneficiary,
         deathBeneficiary,

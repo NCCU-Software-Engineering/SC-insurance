@@ -16,16 +16,16 @@ let timeServer = '0x90353894b5edddcf49978b029f16bbed8e7e9355'
 
 $(document).ready(function () {
 
-    testContract =  web3.eth.contract(data.interface).at($('#address').text())
+    testContract = web3.eth.contract(data.interface).at($('#address').text())
 
     initTimeLine()
-    update()
     updateMoney()
-    
+    update()
+
     $('button').click(function () {
 
         $('button').attr('disabled', 'true')
-        setTimeout(() => { $('button').removeAttr('disabled') }, 1000);
+        setTimeout(() => { $('button').removeAttr('disabled') }, 1000)
 
         let contractTime = testContract.getNowTime()
         let myDate = new Date(contractTime[0], contractTime[1] - 1, contractTime[2])
@@ -155,43 +155,43 @@ function update() {
         $("#event_body").html('')
         reTimeLine()
 
-        logs.reverse().forEach((element, index) => {
+        logs.forEach((element, index) => {
             $("#event_body").append(logs.length - index + '.')
             switch (element.event) {
+
                 case 'buyEvent':
-                    $("#event_body").append('購買合約' + '<br>')
-                    $("#event_body").append('來自 : ' + ethAddress(element.args.from) + '<br>')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('購買合約：')
                     if (element.args.inf == 'success buy')
-                        $("#event_body").append('資訊 : ' + '購買成功' + '<br>')
+                        $('#timeline #issues #' + element.args.timestamp[0]).append('購買成功')
                     else
-                        $("#event_body").append('資訊 : ' + '購買失敗' + '<br>')
-                    $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
+                        $('#timeline #issues #' + element.args.timestamp[0]).append('付款金額不足')
 
-                    $('#timeline #issues #' + element.args.timestamp[0]).prepend('購買合約：' + slash(element.args.timestamp) + '<br>')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
                     break
+
                 case 'confirmEvent':
-                    $("#event_body").append('確認合約' + '<br>')
-                    $("#event_body").append('來自 : ' + ethAddress(element.args.from) + '<br>')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('確認合約：')
                     if (element.args.inf == 'success confirm')
-                        $("#event_body").append('資訊 : ' + '確認成功' + '<br>')
+                        $('#timeline #issues #' + element.args.timestamp[0]).append('確認成功')
                     else
-                        $("#event_body").append('資訊 : ' + '確認失敗' + '<br>')
-                    $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
-
-                    $('#timeline #issues #' + element.args.timestamp[0]).prepend('確認合約：' + slash(element.args.timestamp) + '<br>')
+                        $('#timeline #issues #' + element.args.timestamp[0]).append('確認失敗')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
                     break
-                case 'payEvent':
-                    $("#event_body").append('給付年金通知' + '<br>')
-                    $("#event_body").append('來自 : ' + ethAddress(element.args.from) + '<br>')
-                    if (element.args.inf == 'Notify the insurance company to pay')
-                        $("#event_body").append('資訊 : ' + '通知成功' + '<br>')
-                    else
-                        $("#event_body").append('資訊 : ' + '通知失敗' + '<br>')
-                    $("#event_body").append('給付次數 :　第' + element.args.payTime + '次給付年金通知<br>')
-                    $("#event_body").append('保險公司應給付金額 : ' + web3.fromWei(element.args.value) + 'eth<br>')
-                    $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
 
-                    $('#timeline #issues #' + element.args.timestamp[0]).prepend('給付年金通知：' + slash(element.args.timestamp) + '<br>')
+                case 'revokeEvent':
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷合約：')
+                    if (element.args.inf == 'revoke the contract')
+                        $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷成功')
+                    else
+                        $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷失敗 不在可撤銷期間內')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+                    break
+
+                case 'payEvent':
+
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('通知保險公司給付年金：')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('第' + element.args.payTime + '次給付年金通知')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
                     if (parseInt(element.args.payTime) > parseInt(testContract.gatPayTime())) {
                         console.log('companyPay')
                         testContract.companyPay({
@@ -202,37 +202,25 @@ function update() {
                         update()
                     }
                     break
+
                 case 'companyPayEvent':
-                    $("#event_body").append('給付年金完成' + '<br>')
-                    $("#event_body").append('來自 : ' + ethAddress(element.args.from) + '<br>')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('保險公司年金給付：')
                     if (element.args.inf == 'company pay success')
-                        $("#event_body").append('資訊 : ' + '給付成功' + '<br>')
-                    else
-                        $("#event_body").append('資訊 : ' + '給付失敗' + '<br>')
-                    $("#event_body").append('給付次數 : 第' + element.args.payTime + '次給付年金完成<br>')
-                    $("#event_body").append('保險公司給付金額 : ' + web3.fromWei(element.args.value) + 'eth<br>')
-                    $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
-
-                    $('#timeline #issues #' + element.args.timestamp[0]).prepend('給付年金完成：' + slash(element.args.timestamp) + '<br>')
+                        $('#timeline #issues #' + element.args.timestamp[0]).append('給付被保人 ' + web3.fromWei(element.args.value) + '以太幣')
+                    else if (element.args.inf == 'company pay deathBeneficiary success')
+                        $('#timeline #issues #' + element.args.timestamp[0]).append('給付身故受益人 ' + web3.fromWei(element.args.value) + '以太幣')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
                     break
-                case 'revokeEvent':
-                    $("#event_body").append('合約撤銷' + '<br>')
-                    $("#event_body").append('來自 : ' + ethAddress(element.args.from) + '<br>')
-                    if (element.args.inf == 'revoke the contract')
-                        $("#event_body").append('資訊 : ' + '撤銷成功' + '<br>')
-                    else
-                        $("#event_body").append('資訊 : ' + '撤銷失敗' + '<br>')
-                    $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
 
-                    $('#timeline #issues #' + element.args.timestamp[0]).prepend('撤銷合約：' + slash(element.args.timestamp) + '<br>')
-                    break
                 case 'deathEvent':
-                    $("#event_body").append('被保人死亡' + '<br>')
-                    $("#event_body").append('來自 : ' + ethAddress(element.args.from) + '<br>')
-                    $("#event_body").append('資訊 : ' + element.args.inf + '<br>')
-                    $("#event_body").append('時間 : ' + slash(element.args.timestamp) + '<br><hr>')
 
-                    $('#timeline #issues #' + element.args.timestamp[0]).prepend('被保人死亡：' + slash(element.args.timestamp) + '<br>')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('被保人死亡：')
+                    if (element.args.inf == 'death(thansfer to deathBeneficiary)')
+                        $('#timeline #issues #' + element.args.timestamp[0]).append('保證型保單 退還保費給身故受益人')
+                    else if (element.args.inf == 'death(thansfer to _companyAddress)')
+                        $('#timeline #issues #' + element.args.timestamp[0]).append('不保證型保單 不在可撤銷期間內')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+
                     if (parseInt(element.args.payTime) > parseInt(testContract.gatPayTime())) {
                         console.log('companyPay')
                         testContract.companyPay({
@@ -296,9 +284,8 @@ function reTimeLine() {
 }
 
 function initTimeLine() {
-    $('#timeline #dates').empty()
-    $('#timeline #issues').empty()
-    for (var i = 2017; i < 2050; i++) {
+
+    for (var i = 2017; i < 2100; i++) {
         $('#timeline #dates').append('<li><a href="#' + i + '" id="d' + i + '">' + i + '</a></li>')
         $('#timeline #issues').append('<li id="' + i + '"></li>')
     }
@@ -335,12 +322,6 @@ function initTimeLine() {
         autoPlayPause: 2000
         // value: integer (1000 = 1 seg), default to 2000 (2segs)< });
     })
-}
-
-function emptyTimeLine() {
-    for (var i = 2017; i < 2030; i++) {
-        $('#timeline #issues #' + i).empty()
-    }
 }
 
 function setState(state) {

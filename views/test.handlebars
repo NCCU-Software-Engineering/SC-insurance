@@ -7,7 +7,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12"></div>
-            <h1>智能合約模擬(測試情境:{{alias}})</h1>
+            <h1>智能合約模擬</h1>
+            <h3>{{alias}}</h3>
+            <h3>{{predict}}</h3>
             <hr>
         </div>
     </div>
@@ -15,7 +17,7 @@
 
 <div id="address" style="display:none;">{{address}}</div>
 
-<section id="test" >
+<section id="test">
 
     <section id="money">
         <div class="container-fluid">
@@ -106,7 +108,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="panel panel-default" id="state_panel">
-                        <div class="panel-heading" id="state_heading">智能保單狀態</div>
+                        <div class="panel-heading" id="state_heading">智能保單目前狀態</div>
                         <div class="panel-body" id="state_body">
                             <dl class="dl-horizontal">
 
@@ -119,9 +121,21 @@
                                 <dt class="text-success">目前合約日期：</dt>
                                 <dd id="nowTime" class="text-success"></dd>
 
+                                <dt class="text-success">契約撤銷期限：</dt>
+                                <dd id="revocationPeriod" class="text-success"></dd>
+
                                 <dt class="text-success">下次年金給付日：</dt>
                                 <dd id="paymentDate" class="text-success"></dd>
-                                <hr>
+
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-default" id="inf_panel">
+                        <div class="panel-heading" id="inf_heading">智能保單部署資料</div>
+                        <div class="panel-body" id="inf_body">
+                            <dl class="dl-horizontal">
 
                                 <dt class="text-info">保險公司：</dt>
                                 <dd id="company" class="text-info"></dd>
@@ -137,15 +151,12 @@
 
                                 <dt class="text-info">受益人：</dt>
                                 <dd id="beneficiarie" class="text-info"></dd>
-
+                                <!--
                                 <dt class="text-info">死亡受益人：</dt>
                                 <dd id="deathBeneficiary" class="text-info"></dd>
-
+                                -->
                                 <dt class="text-info">合約部署時間：</dt>
                                 <dd id="deployTime" class="text-info"></dd>
-
-                                <dt class="text-info">契約撤銷期限：</dt>
-                                <dd id="revocationPeriod" class="text-info"></dd>
 
                             </dl>
                         </div>

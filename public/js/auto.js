@@ -28,7 +28,7 @@ $(document).ready(function () {
         }
         $.post("auto_deploy", date, (result) => {
             if (result.type) {
-                window.location = '/test?address=' + result.address + '&alias=' + result.alias
+                window.location = '/test?address=' + result.address + '&alias=' + result.alias + '&predict=預計結果：' + '合約直接結束'
             }
         })
     })
@@ -51,8 +51,8 @@ $(document).ready(function () {
         }
         $.post("auto_deploy", date, (result) => {
             if (result.type) {
-                $.get("payeth?address=" + result.address, function (result) {
-                    window.location = '/test?address=' + result.address + '&alias=' + result.alias
+                $.get("auto_payeth?address=" + result.address, function (result2) {
+                    window.location = '/test?address=' + result.address + '&alias=' + result.alias + '&predict=預計結果：' + '返還保費給被保人'
                 })
             }
         })
@@ -76,7 +76,11 @@ $(document).ready(function () {
         }
         $.post("auto_deploy", date, (result) => {
             if (result.type) {
-                window.location = '/test?address=' + result.address + '&alias=' + result.alias
+                $.get("auto_payeth?address=" + result.address, function (result2) {
+                    $.get("auto_confirm?address=" + result.address, function (result3) {     
+                        window.location = '/test?address=' + result.address + '&alias=' + result.alias + '&predict=預計結果：' + '因為是保證型合約 全部返還身故受益人'
+                    })
+                })
             }
         })
     })
@@ -99,7 +103,11 @@ $(document).ready(function () {
         }
         $.post("auto_deploy", date, (result) => {
             if (result.type) {
-                window.location = '/test?address=' + result.address + '&alias=' + result.alias
+                $.get("auto_payeth?address=" + result.address, function (result2) {
+                    $.get("auto_confirm?address=" + result.address, function (result3) {     
+                        window.location = '/test?address=' + result.address + '&alias=' + result.alias + '&predict=預計結果：' + '未達保證金額返還給身故受益人'
+                    })
+                })
             }
         })
     })
@@ -122,7 +130,8 @@ $(document).ready(function () {
         }
         $.post("auto_deploy", date, (result) => {
             if (result.type) {
-                window.location = '/test?address=' + result.address + '&alias=' + result.alias
+                window.location = '/test?address=' + result.address + '&alias=' + result.alias + '&predict=預計結果：' + '合約直接結束'
+                
             }
         })
     })
@@ -145,7 +154,9 @@ $(document).ready(function () {
         }
         $.post("auto_deploy", date, (result) => {
             if (result.type) {
-                window.location = '/test?address=' + result.address + '&alias=' + result.alias
+                $.get("auto_payeth?address=" + result.address, function (result2) {
+                    window.location = '/test?address=' + result.address + '&alias=' + result.alias + '&predict=預計結果：' + '返還保費給被保人'
+                })
             }
         })
     })
@@ -168,7 +179,11 @@ $(document).ready(function () {
         }
         $.post("auto_deploy", date, (result) => {
             if (result.type) {
-                window.location = '/test?address=' + result.address + '&alias=' + result.alias
+                $.get("auto_payeth?address=" + result.address, function (result2) {
+                    $.get("auto_confirm?address=" + result.address, function (result3) {     
+                        window.location = '/test?address=' + result.address + '&alias=' + result.alias + '&predict=預計結果：' + '合約直接結束 不返還保費' 
+                    })
+                })
             }
         })
     })
@@ -191,7 +206,11 @@ $(document).ready(function () {
         }
         $.post("auto_deploy", date, (result) => {
             if (result.type) {
-                window.location = '/test?address=' + result.address + '&alias=' + result.alias
+                $.get("auto_payeth?address=" + result.address, function (result2) {
+                    $.get("auto_confirm?address=" + result.address, function (result3) {     
+                        window.location = '/test?address=' + result.address + '&alias=' + result.alias + '&predict=預計結果：' + '因為未保證 直接結束合約'
+                    })
+                })
             }
         })
     })

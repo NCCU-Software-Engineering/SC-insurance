@@ -83,7 +83,7 @@ contract Annuity {
         _annuity = annuity;
     }
 
-    function getState() constant returns (uint) {
+    function getState() constant returns (uint){
         return uint(_state);
     }
 
@@ -132,7 +132,8 @@ contract Annuity {
         if(msg.value >= _payment) {
             buyEvent(msg.sender , "success buy", msg.value, _nowTime);
             _state = State.unconfirmed;
-        }else {
+        }
+        else {
             buyEvent(msg.sender , "eth not enough", msg.value, _nowTime);
         }
     }
@@ -148,7 +149,8 @@ contract Annuity {
         //保單尚未被確認
         if(_state != State.unconfirmed) {
             confirmEvent(msg.sender , "error state", _nowTime);
-        }else {
+        }
+        else {
             //進入契約撤銷期
             _state = State.canBeRevoked;
 
@@ -172,7 +174,8 @@ contract Annuity {
         if(_state != State.canBeRevoked) {
             //通知保險公司合約不能撤銷
             revokeEvent(msg.sender , "error state", _nowTime);
-        }else {
+        }
+        else {
             //把保費退還給被保人
             _insuredAddress.transfer(_payment);
             //撤銷契約
@@ -189,29 +192,39 @@ contract Annuity {
         //    throw;
         //}
         //確認前死亡
-        if(_state == State.unconfirmed) {
+        if(_state == State.unconfirmed){
             _insuredAddress.transfer(_payment);
             deathEvent(msg.sender , "death", 0, 0, _nowTime);
             _state = State.ending;
-        }else if(_state == State.canBeRevoked) {//契約撤銷期內死亡
-            
-            if(_isGuarantee) {//有保證
+        }
+        //契約撤銷期內死亡
+        else if(_state == State.canBeRevoked){
+            //有保證
+            if(_isGuarantee) {
                 _deathBeneficiaryAddress.transfer(_payment);
-                deathEvent(msg.sender , "death", 0, 0, _nowTime);
-            }else {//無保證
+                deathEvent(msg.sender , "death(thansfer to deathBeneficiary)", 0, 0, _nowTime);
+            }
+            //無保證
+            else {
                 _companyAddress.transfer(_payment);
-                deathEvent(msg.sender , "death", 0, 0, _nowTime);
+                deathEvent(msg.sender , "death(thansfer to _companyAddress)", 0, 0, _nowTime);
             }
             _state = State.ending;
-        }else if(!_isGuarantee || _state == State.waitingForPayment) {//沒有保證or給付保費前死亡
+        }
+        //沒有保證or給付保費前死亡
+        else if(!_isGuarantee || _state == State.waitingForPayment) {
             deathEvent(msg.sender , "death", 0, 0, _nowTime);
             _state = State.ending;
-        }else {//有保證
-            
-            if((_payment - _annuity*_payTime) > 0) {//已給付年金>保費
+        }
+        //有保證
+        else {
+            //已給付年金<=保費
+            if((_payment - _annuity*_payTime) > 0){
                 deathEvent(msg.sender , "death", _payment - _annuity*_payTime, _payTime+1, _nowTime);
                 _state = State.guarantee;
-            }else {//已給付年金<=保費
+            }
+            //已給付年金>保費
+            else{
                 deathEvent(msg.sender , "death", 0, 0, _nowTime);
             }
         }
@@ -230,44 +243,53 @@ contract Annuity {
         //撤銷期結束
         if(_state == State.canBeRevoked) {
 
-            if((year>_revocationPeriod[0]) || (year==_revocationPeriod[0] && month>_revocationPeriod[1]) || (year==_revocationPeriod[0] && month==_revocationPeriod[1] && day>=_revocationPeriod[2])) {
+            if((year>_revocationPeriod[0]) ||
+                (year==_revocationPeriod[0] && month>_revocationPeriod[1]) ||
+                (year==_revocationPeriod[0] && month==_revocationPeriod[1] && day>=_revocationPeriod[2])){
                 _state = State.confirmd;
                 _companyAddress.transfer(_payment);
             }
-        }else if(_state == State.confirmd || _state == State.guarantee) {//開始給付年金
-            if((year>_paymentDate[0]) || (year==_paymentDate[0] && month>_paymentDate[1]) || (year==_paymentDate[0] && month==_paymentDate[1] && day>=_paymentDate[2])) {
+        }
+        //開始給付年金
+        else if(_state == State.confirmd || _state == State.guarantee) {
+            if((year>_paymentDate[0]) ||
+                (year==_paymentDate[0] && month>_paymentDate[1]) ||
+                (year==_paymentDate[0] && month==_paymentDate[1] && day>=_paymentDate[2])){
+
                 payEvent(msg.sender, "Notify the insurance company to pay", _annuity, _payTime+1 , _nowTime);
             }
         }
     }
     
-    function companyPay() payable {
+    function companyPay() payable{
         
         if(msg.value >= _annuity) {
-            if(_state != State.guarantee) {
+            if(_state != State.guarantee){
                 _insuredAddress.transfer(msg.value);
                 _paymentDate[0] += _timeInterval;
                 _payTime += 1;
-            }else {
+                companyPayEvent(msg.sender , "company pay success", msg.value, _payTime, _nowTime);
+            }
+            else {
                 _deathBeneficiaryAddress.transfer(msg.value);
                 _paymentDate[0] += _timeInterval;
                 _payTime += 1;
                 _state = State.ending;
-                
+                companyPayEvent(msg.sender , "company pay deathBeneficiary success", msg.value, _payTime, _nowTime);
             }
-            companyPayEvent(msg.sender , "company pay success", msg.value, _payTime, _nowTime);
-        }else {
+        }
+        else{
             companyPayEvent(msg.sender , "company pay error", 0, 0, _nowTime);
         }
     }    
     
     //設定被保人帳戶
-    function setInsurerdAddress(address insuredAddress) {
+    function setInsurerdAddress(address insuredAddress){
         _insuredAddress = insuredAddress;
     }
     
     //設定身故受益人帳戶
-    function setDeathBeneficiaryAddress(address deathBeneficiaryAddress) {
+    function setDeathBeneficiaryAddress(address deathBeneficiaryAddress){
         _deathBeneficiaryAddress = deathBeneficiaryAddress;
     }
     
@@ -279,3 +301,4 @@ contract Annuity {
     }
 
 }
+
