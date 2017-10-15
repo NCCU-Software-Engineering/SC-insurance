@@ -82,9 +82,13 @@ router.get('/auto', sign, async function (req, res, next) {
 router.get('/test', async function (req, res, next) {
     res.render('test', { user_name: req.session.user_name, address: req.query.address, alias: req.query.alias, predict: req.query.predict })
 })
+
 //測試頁面v2
 router.get('/testv2', sign, async function (req, res, next) {
-    res.render('testv2', { user_name: req.session.user_name})
+    let company_money = await web3.fromWei(web3.eth.getBalance('0x1ad59a6d33002b819fe04bb9c9d0333f990750a4'),"ether").toFixed(3)
+    let user_money = await web3.fromWei(web3.eth.getBalance('0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6'),"ether").toFixed(3)
+    let death_money = await web3.fromWei(web3.eth.getBalance('0x68a874f2e8d20718af2ebb48dc10940ede50c080'),"ether").toFixed(3)
+    res.render('testv2', { user_name: req.session.user_name, company_money: company_money, user_money: user_money, death_money: death_money})
 })
 
 router.get('/verify', function (req, res, next) {

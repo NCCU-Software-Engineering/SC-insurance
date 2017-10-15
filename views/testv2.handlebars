@@ -12,16 +12,36 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <h3>靜態資料</h3>
-                </br>
-                </br>
-                </br>
-                <br>
-                <br>
-                <br>
+            <div class="col-md-6">
+                <h3>帳戶餘額</h3>
+                <div style="font-size: 2rem;">
+                    <h4 style="display: inline-block; width:23rem;">保險公司帳戶餘額：</h4>
+                    <h4 style="display: inline-block;" id="company_money">{{company_money}}</h4>
+                </div>
+                <div style="font-size: 2rem;">
+                    <h4 style="display: inline-block; width:23rem;">您的帳戶餘額：</h4>
+                    <h4 style="display: inline-block;" id="user_money">{{user_money}}</h4>
+                </div>
+                <div style="font-size: 2rem; ">
+                    <h4 style="display: inline-block; width:23rem;">身故受益人帳戶餘額：</h4>
+                    <h4 style="display: inline-block;" id="death_money">{{death_money}}</h4>
+                </div>
             </div>
-
+            <div class="col-md-6">
+                <h3>預期結果</h3>
+                <div style="font-size: 2rem;">
+                    <h4 style="display: inline-block; width:23rem;">保險公司帳戶餘額：</h4>
+                    <h4 style="display: inline-block;" id="predict_company_money"></h4>
+                </div>
+                <div style="font-size: 2rem;">
+                    <h4 style="display: inline-block; width:23rem;">您的帳戶餘額：</h4>
+                    <h4 style="display: inline-block;" id="predict_user_money"></h4>
+                </div>
+                <div style="font-size: 2rem; ">
+                    <h4 style="display: inline-block; width:23rem;">身故受益人帳戶餘額：</h4>
+                    <h4 style="display: inline-block;" id="predict_death_money"></h4>
+                </div>
+            </div>
         </div>
         <hr>
     </div>
@@ -89,9 +109,9 @@
                         <label class="col-sm-3 control-label" for="revokation-type">是否撤銷</label>
                         <div class="col-sm-8">
                             <label class="radio-inline">
-                                <input type="radio" name="isRevokation" class="check2" value="1" checked="checked">是</label>
+                                <input type="radio" name="isRevokation" class="check2" value="1">是</label>
                             <label class="radio-inline">
-                                <input type="radio" name="isRevokation" class="check2" value="0">否</label>
+                                <input type="radio" name="isRevokation" class="check2" value="0" checked="checked">否</label>
                         </div>
                     </div>
 
@@ -106,13 +126,14 @@
                         </div>
                         <div class="col-sm-4">
                             <select class="col-sm-8" name="death-age"></select>
+                            <label>&nbsp&nbsp&nbsp歲</label>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-7">
-                            <div class="btn btn-success btn-lg" id="deploy" style="margin-right:3rem">送出</div>
-                            <button class="btn btn-success btn-lg" type="reset" id="reset">重設</button>
+                            <div class="btn btn-success btn-lg" style="margin-right:3rem" data-toggle="modal" data-target="#checkresult">確認</div>
+                            <button class="btn btn-success btn-lg" type="reset">重設</button>
                         </div>
                         <div class="col-sm-2">
                             <div class="help-tip">
@@ -120,6 +141,50 @@
                                     <iframe id='widget-ticker-preview' src='//www.coingecko.com/zh-tw/%E5%B7%A5%E5%85%B7%E7%B5%84%E4%BB%B6/%E6%94%B6%E5%A0%B1%E6%A9%9F/%E4%BB%A5%E5%A4%AA%E5%B9%A3/twd?id=%E4%BB%A5%E5%A4%AA%E5%B9%A3'
                                         style='border:none; height:125px; width: 275px;' scrolling='no' frameborder='0' allowTransparency='true'></iframe>
                                 </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="checkresult" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">預期結果</h4>
+                                </div>
+                                <div class="modal-body row">
+                                    <div class="col-md-6" style="border-right:1px solid black">
+                                        <div style="font-size: 2rem;">
+                                            <h4 style="display: inline-block; width:23rem;">保單名稱：</h4>
+                                            <h4 style="display: inline-block;" id="alias"></h4>
+                                        </div>
+                                        <div style="font-size: 2rem;">
+                                            <h4 style="display: inline-block; width:23rem;">保費：</h4>
+                                            <h4 style="display: inline-block;" id="payment"></h4>
+                                        </div>
+                                        <div style="font-size: 2rem; ">
+                                            <h4 style="display: inline-block; width:23rem;">年金：</h4>
+                                            <h4 style="display: inline-block;" id="annuity"></h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div style="font-size: 2rem;">
+                                            <h4 style="display: inline-block; width:23rem;">保險公司帳戶餘額：</h4>
+                                            <h4 style="display: inline-block;" id="predict_company_money"></h4>
+                                        </div>
+                                        <div style="font-size: 2rem;">
+                                            <h4 style="display: inline-block; width:23rem;">您的帳戶餘額：</h4>
+                                            <h4 style="display: inline-block;" id="predict_user_money"></h4>
+                                        </div>
+                                        <div style="font-size: 2rem; ">
+                                            <h4 style="display: inline-block; width:23rem;">身故受益人帳戶餘額：</h4>
+                                            <h4 style="display: inline-block;" id="predict_death_money"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-success" data-dismiss="modal" type="submit">送出</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -160,5 +225,5 @@
 <script src="js/web3.min.js"></script>
 <script src="js/data.js"></script>
 <script src="js/MyDate.js"></script>
-<script src="js/testv2.js"></script> 
+<script src="js/testv2.js"></script>
 <script src="data/trialdata.js"></script> {{/section}}

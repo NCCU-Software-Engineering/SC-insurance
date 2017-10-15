@@ -3,6 +3,7 @@ $(function () {
     initTimeLine()
     update()
     setDeathAge()
+    predict()
     change()
 })
 function init() {
@@ -13,13 +14,22 @@ function init() {
 function change() {
     $('.check1').change(function () {
         update()
+        predict()
+    })
+    $('.check2').change(function () {
+        predict()
     })
     $('.20-75').change(function () {
         update()
         setDeathAge()
+        predict()
     })
     $('[name=death-time]').change(function () {
         setDeathAge()
+        predict()
+    })
+    $('[name=death-age]').change(function () {
+        predict()
     })
 }
 function setDeathAge() {
@@ -41,6 +51,43 @@ function update() {
     else {
         $('input[name=payment]').val(trial[$(".20-75 option:selected").val()].premium_not_guarantee / 10)
         $('input[name=annuity]').val(trial[$(".20-75 option:selected").val()].annuity / 10)
+    }
+}
+function predict() {
+    let company = Number($('#company_money').text())
+    let user = Number($('#user_money').text())
+    let death = Number($('#death_money').text())
+    let premium = $('input[name=payment]').val()
+    let annuity = $('input[name=annuity]').val()
+    $('#predict_company_money').text(1)
+    let year = $('[name=death-age] option:selected').val() - $('.20-75 option:selected').val()
+    if ($('.check2:checked').val() == '1') {
+        $('#predict_company_money').text(company)
+        $('#predict_user_money').text(user)
+        $('#predict_death_money').text(death)
+    }
+    else if ($('[name=death-time] option:selected').val() == 'before-buy') {
+        $('#predict_company_money').text(company)
+        $('#predict_user_money').text(user)
+        $('#predict_death_money').text(death)
+    }
+    else if ($('[name=death-time] option:selected').val() == 'before-confirm') {
+        $('#predict_company_money').text(company)
+        $('#predict_user_money').text(user)
+        $('#predict_death_money').text(death)
+    }
+    else if ($('[name=death-time] option:selected').val() == 'after-confirm') {
+        if ($('.check1:checked').val() == '0') {
+            $('#predict_company_money').text(company + premium - annuity * year)
+            $('#predict_user_money').text(user - premium + annuity * year)
+            $('#predict_death_money').text(death)
+        }
+        else {
+            console.log('4.2')
+            $('#predict_company_money').text(company + ((premium - annuity * year)>0?0:(premium - annuity * year)))
+            $('#predict_user_money').text(user - premium + annuity * year)
+            $('#predict_death_money').text(death + ((premium - annuity * year)>0?(premium - annuity * year):0))
+        }
     }
 }
 function initTimeLine() {
