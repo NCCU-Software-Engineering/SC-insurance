@@ -82,6 +82,10 @@ router.get('/auto', sign, async function (req, res, next) {
 router.get('/test', async function (req, res, next) {
     res.render('test', { user_name: req.session.user_name, address: req.query.address, alias: req.query.alias, predict: req.query.predict })
 })
+//測試頁面v2
+router.get('/testv2', async function (req, res, next) {
+    res.render('testv2', { user_name: req.session.user_name})
+})
 
 router.get('/verify', function (req, res, next) {
     res.render('verify', { user_name: req.session.user_name })

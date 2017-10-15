@@ -1,0 +1,164 @@
+{{#section 'css'}}
+<link rel="stylesheet" href="css/test.css">
+<link rel="stylesheet" href="css/MyDate.css">
+<link rel="stylesheet" href="css/Timelinr.css">
+<link rel="stylesheet" href="css/helptip.css"> {{/section}}
+
+<section id="main">
+    <div class="container-fluid">
+        <div class="row">
+            <div>
+                <h1>智能合約模擬</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>靜態資料</h3>
+                </br>
+                </br>
+                </br>
+                <br>
+                <br>
+                <br>
+            </div>
+
+        </div>
+        <hr>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4" style="border-right:1px solid black">
+                <h3>填入參數</h3>
+                <form class="form-horizontal" style="margin-top: 1rem">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">保單名稱</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="text" name="alias" value="我的第一張保單">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">姓名</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="text" name="name" value="{{user_name}}" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">保險年齡</label>
+                        <div class="col-sm-8">
+                            <select class="20-75 col-sm-4" name="age"></select>
+                            <label>&nbsp&nbsp&nbsp歲</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="payment">保費
+                            <br>(以太幣)</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="number" name='payment' value="60" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="annuity">年金
+                            <br>(以太幣)</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="number" name='annuity' value="1" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="beneficiary">受益人</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="text" name="beneficiary" value="{{user_name}}" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="guarantee-type">是否保證</label>
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" name="isGuarantee" class="check1" value="1" checked="checked">是</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="isGuarantee" class="check1" value="0">否</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="revokation-type">是否撤銷</label>
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" name="isRevokation" class="check2" value="1" checked="checked">是</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="isRevokation" class="check2" value="0">否</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="death-time">死亡時間</label>
+                        <div class="col-sm-4">
+                            <select class="col-sm-12" name="death-time">
+                                <option value="before-buy">購買前</option>
+                                <option value="before-confirm">確認前</option>
+                                <option value="after-confirm">確認後</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="col-sm-8" name="death-age"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-7">
+                            <div class="btn btn-success btn-lg" id="deploy" style="margin-right:3rem">送出</div>
+                            <button class="btn btn-success btn-lg" type="reset" id="reset">重設</button>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="help-tip">
+                                <p>
+                                    <iframe id='widget-ticker-preview' src='//www.coingecko.com/zh-tw/%E5%B7%A5%E5%85%B7%E7%B5%84%E4%BB%B6/%E6%94%B6%E5%A0%B1%E6%A9%9F/%E4%BB%A5%E5%A4%AA%E5%B9%A3/twd?id=%E4%BB%A5%E5%A4%AA%E5%B9%A3'
+                                        style='border:none; height:125px; width: 275px;' scrolling='no' frameborder='0' allowTransparency='true'></iframe>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="timeline">
+                            <ul id="dates">
+                            </ul>
+                            <ul id="issues">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" style="background-color:lightgray; margin:10px;">
+                        <h3>合約狀態</h3>
+                        </br>
+                        </br>
+                        </br>
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+{{#section 'script'}}
+<script src="js/jquery.timelinr-0.9.6.js"></script>
+<script src="js/web3.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/MyDate.js"></script>
+<script src="js/testv2.js"></script> 
+<script src="data/trialdata.js"></script> {{/section}}
