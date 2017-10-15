@@ -91,6 +91,12 @@ router.get('/testv2', sign, async function (req, res, next) {
     res.render('testv2', { user_name: req.session.user_name, company_money: company_money, user_money: user_money, death_money: death_money})
 })
 
+//測試頁面v3
+router.get('/testv3', sign, async function (req, res, next) {
+    res.render('testv3', {user_name: req.session.user_name})
+})
+
+
 router.get('/verify', function (req, res, next) {
     res.render('verify', { user_name: req.session.user_name })
 })

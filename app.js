@@ -47,6 +47,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, 'bower_components', 'tether', 'dist')))
 app.use(express.static(path.join(__dirname, 'bower_components', 'bootstrap', 'dist')))
 app.use(express.static(path.join(__dirname, 'bower_components', 'jquery', 'dist')))
+app.use(express.static(path.join(__dirname, 'bower_components', 'jquery-ui')))
 app.use(express.static(path.join(__dirname, 'bower_components', 'sweetalert2', 'dist')))
 
 app.use('/', index)

@@ -1,0 +1,53 @@
+.icon_box {
+    width: 1170px;
+    height: 199px;
+    position: relative;
+}
+
+.drag {
+    position: absolute;
+}
+
+.icon img {
+    width: 140px;
+    height: 180px;
+    left: 15px;
+}
+
+.icon[name='buy'] {
+    left: 15px;
+}
+
+.icon[name='dead'] {
+    left: 155px;
+}
+
+.dot_box {
+    width: 1016px;
+    height: 8px;
+    margin-left: 65px;
+    padding: 0;
+}
+
+.biggerdot {
+    height: 8px;
+    width: 8px;
+    background-image: url("../imgs/biggerdot.png");
+    background-repeat: repeat;
+    display: inline-block;
+}
+
+.dot {
+    height: 8px;
+    width: 152px;
+    background-image: url("../imgs/dot.png");
+    background-repeat: repeat;
+    display: inline-block;
+}
+
+#buy,
+#dead{
+    margin: 0;
+    text-align: center;
+    background-color: white;
+}
