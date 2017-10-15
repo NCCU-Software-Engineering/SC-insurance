@@ -130,6 +130,7 @@
                             <button class="btn btn-success btn-lg" type="reset">重設</button>
                         </div>
                     </div>
+
                     <div class="modal fade" id="checkresult" role="dialog">
                         <div class="modal-dialog">
                             <!-- Modal content-->
@@ -145,7 +146,7 @@
                                         </div>
                                         <div style="font-size: 2rem;">
                                             <h4 style="display: inline-block; width:23rem;">保費：</h4>
-                                            <h4 style="display: inline-block;" id="payment"></h4>
+                                            <h4 style="display: inline-block;" id="premium"></h4>
                                         </div>
                                         <div style="font-size: 2rem; ">
                                             <h4 style="display: inline-block; width:23rem;">年金：</h4>
@@ -155,21 +156,21 @@
                                     <div class="col-md-6">
                                         <div style="font-size: 2rem;">
                                             <h4 style="display: inline-block; width:23rem;">保險公司帳戶餘額：</h4>
-                                            <h4 style="display: inline-block;" id="predict_company_money"></h4>
+                                            <h4 style="display: inline-block;" id="predict_company_money2"></h4>
                                         </div>
                                         <div style="font-size: 2rem;">
                                             <h4 style="display: inline-block; width:23rem;">您的帳戶餘額：</h4>
-                                            <h4 style="display: inline-block;" id="predict_user_money"></h4>
+                                            <h4 style="display: inline-block;" id="predict_user_money2"></h4>
                                         </div>
                                         <div style="font-size: 2rem; ">
                                             <h4 style="display: inline-block; width:23rem;">身故受益人帳戶餘額：</h4>
-                                            <h4 style="display: inline-block;" id="predict_death_money"></h4>
+                                            <h4 style="display: inline-block;" id="predict_death_money2"></h4>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-success" data-dismiss="modal">取消</button>
-                                    <button type="button" class="btn btn-success" data-dismiss="modal" type="submit">送出</button>
+                                    <button type="button" class="btn btn-success" data-dismiss="modal" id="to_test">送出</button>
                                 </div>
                             </div>
                         </div>
@@ -211,7 +212,18 @@
             <div class="dot"></div>
             <div class="biggerdot"></div>
         </div>
-
+        <!--
+        <div class="row icon_box">
+            <div class="drag icon" name="buy">
+                <h4 id="buy">2017年10月</h4>
+                <img src="imgs/buy.png"></img>
+            </div>
+            <div class="drag icon" name="dead">
+                <h4 id="dead">2023年6月</h4>
+                <img src="imgs/dead.png"></img>
+            </div>
+        </div>
+        -->
     </div>
 </section>
 

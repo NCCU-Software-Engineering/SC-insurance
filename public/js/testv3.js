@@ -39,6 +39,33 @@ $(function () {
         predict()
     })
 
+    $('#to_test').click(function () {
+        let date = {
+            alias: $('input[name=alias]').val(),
+            name: '賴晨禾',
+            age: $(".20-75 option:selected").val(),
+            company: '正大人壽',
+            payment: Number($('input[name=payment]').val()),
+            annuity: '1',
+            beneficiary: '王小明',
+            isGuarantee: $('.check1:checked').val(),
+            paymentDate: '1',
+            deathBeneficiary: '王大明',
+            deathBeneficiaryRelationship: '直系血親：父子',
+            deathBeneficiaryIdentity: 'AOOOOOOOOO',
+            deathBeneficiaryAddress: '0x68a874f2e8d20718af2ebb48dc10940ede50c080'
+        }
+        $.post("auto_deploy", date, (result) => {
+            if (result.type) {
+                $.get("auto_payeth?address=" + result.address, function (result2) {
+                    $.get("auto_confirm?address=" + result.address, function (result3) {     
+                        window.location = '/test?address=' + result.address + '&alias=' + result.alias
+                    })
+                })
+            }
+        })
+    })
+
     predict()
 })
 
@@ -78,6 +105,7 @@ function predict() {
     let death = Number($('#death_money').text())
     let payment = Number($('input[name=payment]').val())
     let annuity = Number($('input[name=annuity]').val())
+    let alias = $('input[name=alias]').val()
 
     let life = dead[0] - buy[0]
     if (dead[1] < buy[1])
@@ -88,24 +116,27 @@ function predict() {
     if ($('.check1:checked').val() == '1') {
         if (life < payment) {
             $('#dgain').text(payment - life)
-            $('#predict_company_money').text(company)
-            $('#predict_death_money').text(death + payment - life)
+            $('#predict_company_money, #predict_company_money2').text(company)
+            $('#predict_death_money, #predict_death_money2').text(death + payment - life)
         }
         else {
             $('#dgain').text('給付已超過保證金額')
-            $('#predict_company_money').text(company - life + payment)
-            $('#predict_death_money').text(death)
+            $('#predict_company_money, #predict_company_money2').text(company - life + payment)
+            $('#predict_death_money, #predict_death_money2').text(death)
         }
     }
     //無身故
     else {
         $('#dgain').text('無保證型智能保單')
-        $('#predict_company_money').text(company - life + payment)
-        $('#predict_death_money').text(death)
+        $('#predict_company_money, #predict_company_money2').text(company - life + payment)
+        $('#predict_death_money, #predict_death_money2').text(death)
     }
 
-    $('#predict_user_money').text(user + life - payment)
+    $('#predict_user_money, #predict_user_money2').text(user + life - payment)
 
+    $('#alias').text(alias)
+    $('#premium').text(payment)
+    $('#annuity').text(annuity)
 
     /*
     $('#predict_company_money').text(1)
