@@ -59,39 +59,41 @@ function predict() {
     let death = Number($('#death_money').text())
     let premium = $('input[name=payment]').val()
     let annuity = $('input[name=annuity]').val()
-    $('#predict_company_money').text(1)
     let year = $('[name=death-age] option:selected').val() - $('.20-75 option:selected').val()
+    let alias = $('input[name=alias]').val()
+    $('#alias').text(alias)
+    $('#premium').text(premium)
+    $('#annuity').text(annuity)
     if ($('.check2:checked').val() == '1') {
-        $('#predict_company_money').text(company)
-        $('#predict_user_money').text(user)
-        $('#predict_death_money').text(death)
+        $('[id="predict_company_money"]').text(company)
+        $('[id="predict_user_money"]').text(user)
+        $('[id="predict_death_money"]').text(death)
     }
     else if ($('[name=death-time] option:selected').val() == 'before-buy') {
-        $('#predict_company_money').text(company)
-        $('#predict_user_money').text(user)
-        $('#predict_death_money').text(death)
+        $('[id="predict_company_money"]').text(company)
+        $('[id="predict_user_money"]').text(user)
+        $('[id="predict_death_money"]').text(death)
     }
     else if ($('[name=death-time] option:selected').val() == 'before-confirm') {
-        $('#predict_company_money').text(company)
-        $('#predict_user_money').text(user)
-        $('#predict_death_money').text(death)
+        $('[id="predict_company_money"]').text(company)
+        $('[id="predict_user_money"]').text(user)
+        $('[id="predict_death_money"]').text(death)
     }
     else if ($('[name=death-time] option:selected').val() == 'after-confirm') {
         if ($('.check1:checked').val() == '0') {
-            $('#predict_company_money').text(company + premium - annuity * year)
-            $('#predict_user_money').text(user - premium + annuity * year)
-            $('#predict_death_money').text(death)
+            $('[id="predict_company_money"]').text(company + (premium - annuity * year))
+            $('[id="predict_user_money"]').text(user - premium + annuity * year)
+            $('[id="predict_death_money"]').text(death)
         }
         else {
-            console.log('4.2')
-            $('#predict_company_money').text(company + ((premium - annuity * year)>0?0:(premium - annuity * year)))
-            $('#predict_user_money').text(user - premium + annuity * year)
-            $('#predict_death_money').text(death + ((premium - annuity * year)>0?(premium - annuity * year):0))
+            $('[id="predict_company_money"]').text(company + ((premium - annuity * year)>0?0:(premium - annuity * year)))
+            $('[id="predict_user_money"]').text(user - premium + annuity * year)
+            $('[id="predict_death_money"]').text(death + ((premium - annuity * year)>0?(premium - annuity * year):0))
         }
     }
 }
 function initTimeLine() {
-    for (var i = 2017; i < 2100; i++) {
+    for (var i = 2017; i < 2110; i++) {
         $('#timeline #dates').append('<li><a href="#' + i + '" id="d' + i + '">' + i + '</a></li>')
         $('#timeline #issues').append('<li id="' + i + '"></li>')
     }
