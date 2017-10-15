@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="css/Timelinr.css">
 <link rel="stylesheet" href="css/testv3.css" /> {{/section}}
 
-<section>
+<section id="main">
     <div class="container">
         <div class="row">
             <div>
@@ -11,43 +11,180 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+
+            <div class="col-md-5">
                 <h3>帳戶餘額</h3>
                 <div style="font-size: 2rem;">
-                    <h4 style="display: inline-block; width:23rem;">保險公司帳戶餘額：</h4>
+                    <h4 style="display: inline-block; width:18rem;">保險公司帳戶餘額：</h4>
                     <h4 style="display: inline-block;" id="company_money"></h4>
                 </div>
                 <div style="font-size: 2rem;">
-                    <h4 style="display: inline-block; width:23rem;">您的帳戶餘額：</h4>
+                    <h4 style="display: inline-block; width:18rem;">您的帳戶餘額：</h4>
                     <h4 style="display: inline-block;" id="user_money"></h4>
                 </div>
                 <div style="font-size: 2rem; ">
-                    <h4 style="display: inline-block; width:23rem;">身故受益人帳戶餘額：</h4>
+                    <h4 style="display: inline-block; width:18rem;">身故受益人帳戶餘額：</h4>
                     <h4 style="display: inline-block;" id="death_money"></h4>
                 </div>
-            </div>
-            <div class="col-md-6">
+
                 <h3>預期結果</h3>
                 <div style="font-size: 2rem;">
-                    <h4 style="display: inline-block; width:23rem;">保險公司帳戶餘額：</h4>
+                    <h4 style="display: inline-block; width:18rem;">保險公司帳戶餘額：</h4>
                     <h4 style="display: inline-block;" id="predict_company_money"></h4>
                 </div>
                 <div style="font-size: 2rem;">
-                    <h4 style="display: inline-block; width:23rem;">您的帳戶餘額：</h4>
+                    <h4 style="display: inline-block; width:18rem;">您的帳戶餘額：</h4>
                     <h4 style="display: inline-block;" id="predict_user_money"></h4>
                 </div>
                 <div style="font-size: 2rem; ">
-                    <h4 style="display: inline-block; width:23rem;">身故受益人帳戶餘額：</h4>
+                    <h4 style="display: inline-block; width:18rem;">身故受益人帳戶餘額：</h4>
                     <h4 style="display: inline-block;" id="predict_death_money"></h4>
                 </div>
+
+                <h3>詳細內容</h3>
+                <div style="font-size: 2rem;">
+                    <h4 style="display: inline-block; width:18rem;">存活時間</h4>
+                    <h4 style="display: inline-block;" id="life"></h4>
+                </div>
+                <div style="font-size: 2rem;">
+                    <h4 style="display: inline-block; width:18rem;">賺/賠</h4>
+                    <h4 style="display: inline-block;" id="gain"></h4>
+                </div>
+                <div style="font-size: 2rem; ">
+                    <h4 style="display: inline-block; width:18rem;">身故受益人</h4>
+                    <h4 style="display: inline-block;" id="dgain"></h4>
+                </div>
             </div>
+
+            <div class="col-md-7">
+                <h3>填入參數</h3>
+                <form class="form-horizontal" style="margin-top: 1rem">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">保單名稱</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="text" name="alias" value="我的第一張保單">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">姓名</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="text" name="name" value="{{user_name}}" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">保險年齡</label>
+                        <div class="col-sm-8">
+                            <select class="20-75 col-sm-4" name="age"></select>
+                            <label style="margin-left:1rem;">歲</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="payment">保費
+                            <br>(以太幣)</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="number" name='payment' value="60" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="annuity">年金
+                            <br>(以太幣)</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="number" name='annuity' value="1" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="beneficiary">受益人</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="text" name="beneficiary" value="{{user_name}}" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="guarantee-type">是否保證</label>
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" name="isGuarantee" class="check1" value="1" checked="checked">是</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="isGuarantee" class="check1" value="0">否</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="revokation-type">是否撤銷</label>
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" name="isRevokation" class="check2" value="1">是</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="isRevokation" class="check2" value="0" checked="checked">否</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-7">
+                            <div class="btn btn-success btn-lg" style="margin-right:3rem" data-toggle="modal" data-target="#checkresult">確認</div>
+                            <button class="btn btn-success btn-lg" type="reset">重設</button>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="checkresult" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">預期結果</h4>
+                                </div>
+                                <div class="modal-body row">
+                                    <div class="col-md-6" style="border-right:1px solid black">
+                                        <div style="font-size: 2rem;">
+                                            <h4 style="display: inline-block; width:23rem;">保單名稱：</h4>
+                                            <h4 style="display: inline-block;" id="alias"></h4>
+                                        </div>
+                                        <div style="font-size: 2rem;">
+                                            <h4 style="display: inline-block; width:23rem;">保費：</h4>
+                                            <h4 style="display: inline-block;" id="payment"></h4>
+                                        </div>
+                                        <div style="font-size: 2rem; ">
+                                            <h4 style="display: inline-block; width:23rem;">年金：</h4>
+                                            <h4 style="display: inline-block;" id="annuity"></h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div style="font-size: 2rem;">
+                                            <h4 style="display: inline-block; width:23rem;">保險公司帳戶餘額：</h4>
+                                            <h4 style="display: inline-block;" id="predict_company_money"></h4>
+                                        </div>
+                                        <div style="font-size: 2rem;">
+                                            <h4 style="display: inline-block; width:23rem;">您的帳戶餘額：</h4>
+                                            <h4 style="display: inline-block;" id="predict_user_money"></h4>
+                                        </div>
+                                        <div style="font-size: 2rem; ">
+                                            <h4 style="display: inline-block; width:23rem;">身故受益人帳戶餘額：</h4>
+                                            <h4 style="display: inline-block;" id="predict_death_money"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-success" data-dismiss="modal" type="submit">送出</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
         </div>
         <hr>
     </div>
 </section>
 
-<section>
+<section id="time">
     <div class="container">
+
         <div class="row icon_box">
             <div class="drag icon" name="buy">
                 <h4 id="buy">2017年10月</h4>
@@ -58,11 +195,7 @@
                 <img src="imgs/dead.png"></img>
             </div>
         </div>
-    </div>
-</section>
 
-<section id="time">
-    <div class="container">
         <div class="row dot_box inline">
             <div class="biggerdot"></div>
             <div class="dot"></div>
@@ -78,20 +211,13 @@
             <div class="dot"></div>
             <div class="biggerdot"></div>
         </div>
+
     </div>
 </section>
-
-<section id="pay">
-    <div class="container">
-        <div class="row box">
-        </div>
-    </div>
-</section>
-
 
 {{#section 'script'}}
 <script type="text/javascript" src="/jquery-ui.min.js"></script>
 <script type="text/javascript" src="http://www.pureexample.com/js/lib/jquery.ui.touch-punch.min.js"></script>
-<script type="text/javascript" src="js/jquery.timelinr-0.9.6.js"></script>
 <script type="text/javascript" src="js/web3.min.js"></script>
+<script type="text/javascript" src="data/trialdata.js"></script>
 <script type="text/javascript" src="js/testv3.js"></script> {{/section}}
