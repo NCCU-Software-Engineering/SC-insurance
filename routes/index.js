@@ -237,31 +237,37 @@ router.post('/getResult', async function (req, res, next) {
     let death_time = req.body.death_time
     let death_age = req.body.death_age
     await methods.deploy(payment, annuity, isGuarantee, beneficiary, async (address) => {
-        myContract = methods.getContract(address)
+        myContract = await methods.getContract(address)
         if (isRevokation == '1') {
-            methods.buy(myContract, payment)
-            methods.confirm(myContract)
-            methods.revoke(myContract)
+            await methods.buy(myContract, payment)
+            await methods.confirm(myContract)
+            await methods.revoke(myContract)
         }
         else if (death_time == 'before-buy') {
-            methods.death(myContract)
+            await methods.death(myContract)
         }
         else if (death_time == 'before-confirm') {
-            methods.buy(myContract, payment)
-            methods.death(myContract)
+            await methods.buy(myContract, payment)
+            await methods.death(myContract)
         }
         else {
-            methods.buy(myContract, payment)
-            methods.confirm(myContract)
+            await methods.buy(myContract, payment)
+            await methods.confirm(myContract)
             let myDate = new Date()
-            for (let i = age; i < death_age; i++) {
-                await myDate.setFullYear(myDate.getFullYear() + 1)
-                await methods.setTime(myContract, myDate)
+            async function run() {
+                for (let i = age; i < death_age; i++) {
+                    await myDate.setFullYear(myDate.getFullYear() + 1)
+                    await methods.setTime(myContract, myDate)
+                    await methods.companyPay(myContract)
+                }
             }
+            await run()
             methods.death(myContract)
         }
+        methods.watch(myContract, (logs) => {
+            res.send(logs)
+        })
     })
-    res.send('success')
 })
 
 function getAge(birthday) {

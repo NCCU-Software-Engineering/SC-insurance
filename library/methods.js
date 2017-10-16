@@ -32,51 +32,11 @@ function getContract(address) {
     return web3.eth.contract(data.interface).at(address)
 }
 
-function watch(testContract, type, email, newsletter) {
-    let cont;
-    let evevt;
-    testContract.confirmEvent({ from: web3.coinbase }, { fromBlock: 1, toBlock: 'latest' });
-    switch (type) {
-        case "confirm":
-            evevt = testContract.confirmEvent({ from: web3.coinbase }, { fromBlock: 1, toBlock: 'latest' });
-            evevt.stopWatching();
-            evevt.watch(function (error, result) {
-                if (!error) {
-                    evevt.stopWatching();
-                    if (result.args.inf == "confirm success") {
-                    }
-                    else if (result.args.inf == "not yet been confirmed") {
-                    }
-                }
-            });
-            break;
-        case "revoke":
-            evevt = testContract.revokeEvent({ from: web3.coinbase }, { fromBlock: 1, toBlock: 'latest' });
-            evevt.stopWatching();
-            evevt.watch(function (error, result) {
-                if (!error) {
-                    evevt.stopWatching();
-                    if (result.args.inf == "revoke the contract") {
-                    }
-                    else if (result.args.inf == "Can not be revoked") {
-                    }
-                }
-            });
-            break;
-        case "pay":
-            evevt = testContract.payEvent({ from: web3.coinbase }, { fromBlock: 1, toBlock: 'latest' });
-            evevt.stopWatching();
-            evevt.watch(function (error, result) {
-                if (!error) {
-                    evevt.stopWatching();
-                    if (result.args.inf == "pay annuity") {
-                    }
-                    else {
-                    }
-                }
-            });
-            break;
-    }
+function watch(contract, callback) {
+    let events = contract.allEvents({ fromBlock: 0, toBlock: 'latest' });
+    events.get(function (error, logs) {
+        callback(logs)
+    })
 }
 function confirm(contract) {
     let myDate = new Date()
@@ -99,19 +59,19 @@ function buy(contract, payment) {
         gas: 4444444
     })
 }
-function death(contract){
+function death(contract) {
     contract.endAnnuity({
         from: web3.eth.coinbase,
         gas: 4444444
     })
 }
-function setTime(contract,date){
-    contract.time(date.getFullYear(), date.getMonth() + 1, date.getDate(),{
+function setTime(contract, date) {
+    contract.time(date.getFullYear(), date.getMonth() + 1, date.getDate(), {
         from: '0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6',
         gas: 4444444
     })
 }
-function companyPay(contract){
+function companyPay(contract) {
     contract.companyPay({
         from: '0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6',
         value: 1,
