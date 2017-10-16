@@ -5,6 +5,22 @@ $(function () {
     setDeathAge()
     predict()
     change()
+    $('#submit').click(function(){
+        $.post('/getResult',{
+            alias: $('input[name=alias]').val(),
+            name: $('input[name=name]').val(),
+            age: $('input[name=age]').val(),
+            payment: $('input[name=payment]').val(),
+            annuity: $('input[name=annuity]').val(),
+            beneficiary: $('input[name=beneficiary]').val(),
+            isGuarantee: $('.check1:checked').val(),
+            isRevokation: $('.check2:checked').val(),
+            death_time: $('[name=death-time] option:selected').val(),
+            death_age: $('[name=death-age] option:selected').val()
+        },(result)=>{
+            console.log(result)
+        })
+    })
 })
 function init() {
     for (let i = 20; i <= 75; i++) {

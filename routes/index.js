@@ -85,15 +85,15 @@ router.get('/test', async function (req, res, next) {
 
 //測試頁面v2
 router.get('/testv2', sign, async function (req, res, next) {
-    let company_money = await web3.fromWei(web3.eth.getBalance('0x1ad59a6d33002b819fe04bb9c9d0333f990750a4'),"ether").toFixed(3)
-    let user_money = await web3.fromWei(web3.eth.getBalance('0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6'),"ether").toFixed(3)
-    let death_money = await web3.fromWei(web3.eth.getBalance('0x68a874f2e8d20718af2ebb48dc10940ede50c080'),"ether").toFixed(3)
-    res.render('testv2', { user_name: req.session.user_name, company_money: company_money, user_money: user_money, death_money: death_money})
+    let company_money = await web3.fromWei(web3.eth.getBalance('0x1ad59a6d33002b819fe04bb9c9d0333f990750a4'), "ether").toFixed(3)
+    let user_money = await web3.fromWei(web3.eth.getBalance('0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6'), "ether").toFixed(3)
+    let death_money = await web3.fromWei(web3.eth.getBalance('0x68a874f2e8d20718af2ebb48dc10940ede50c080'), "ether").toFixed(3)
+    res.render('testv2', { user_name: req.session.user_name, company_money: company_money, user_money: user_money, death_money: death_money })
 })
 
 //測試頁面v3
 router.get('/testv3', sign, async function (req, res, next) {
-    res.render('testv3', {user_name: req.session.user_name})
+    res.render('testv3', { user_name: req.session.user_name })
 })
 
 
@@ -194,7 +194,7 @@ router.post('/verify', function (req, res, next) {
 //自動部署
 router.post('/auto_deploy', async function (req, res, next) {
     contract.deploy('0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6', req.body.deathBeneficiaryAddress, req.body.payment, req.body.annuity, req.body.paymentDate, req.body.isGuarantee, req.body.beneficiary, req.body.deathBeneficiary, async (address) => {
-        res.json({ type: true, address: address, alias: '測試情境：' + req.body.alias})
+        res.json({ type: true, address: address, alias: '測試情境：' + req.body.alias })
     })
 })
 
@@ -221,6 +221,47 @@ router.get('/auto_confirm', async function (req, res, next) {
         gas: 4444444
     })
     res.redirect('/')
+})
+
+router.post('/getResult', async function (req, res, next) {
+    const methods = require('../library/methods.js')
+    let myContract
+    let alias = req.body.alias
+    let name = req.body.name
+    let age = req.body.age
+    let payment = req.body.payment
+    let annuity = req.body.annuity
+    let beneficiary = req.body.beneficiary
+    let isGuarantee = req.body.isGuarantee
+    let isRevokation = req.body.isRevokation
+    let death_time = req.body.death_time
+    let death_age = req.body.death_age
+    await methods.deploy(payment, annuity, isGuarantee, beneficiary, async (address) => {
+        myContract = methods.getContract(address)
+        if (isRevokation == '1') {
+            methods.buy(myContract, payment)
+            methods.confirm(myContract)
+            methods.revoke(myContract)
+        }
+        else if (death_time == 'before-buy') {
+            methods.death(myContract)
+        }
+        else if (death_time == 'before-confirm') {
+            methods.buy(myContract, payment)
+            methods.death(myContract)
+        }
+        else {
+            methods.buy(myContract, payment)
+            methods.confirm(myContract)
+            let myDate = new Date()
+            for (let i = age; i < death_age; i++) {
+                await myDate.setFullYear(myDate.getFullYear() + 1)
+                await methods.setTime(myContract, myDate)
+            }
+            methods.death(myContract)
+        }
+    })
+    res.send('success')
 })
 
 function getAge(birthday) {
