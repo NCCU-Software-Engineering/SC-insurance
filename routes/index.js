@@ -255,16 +255,20 @@ router.post('/getResult', async function (req, res, next) {
             await methods.confirm(myContract)
             let myDate = new Date()
             async function run() {
-                for (let i = age; i < death_age; i++) {
+                for (let i = age; i <= death_age; i++) {
+                    if (i == death_age) {
+                        methods.death(myContract)
+                        break;
+                    }
                     await myDate.setFullYear(myDate.getFullYear() + 1)
                     await methods.setTime(myContract, myDate)
                     await methods.companyPay(myContract)
                 }
             }
             await run()
-            methods.death(myContract)
+
         }
-        methods.watch(myContract, (logs) => {
+        await methods.watch(myContract, (logs) => {
             res.send(logs)
         })
     })
