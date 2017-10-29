@@ -5,6 +5,22 @@ $(function () {
     setDeathAge()
     predict()
     change()
+    $('#submit').click(function(){
+        $.post('/getResult',{
+            alias: $('input[name=alias]').val(),
+            name: $('input[name=name]').val(),
+            age: $('input[name=age]').val(),
+            payment: $('input[name=payment]').val(),
+            annuity: $('input[name=annuity]').val(),
+            beneficiary: $('input[name=beneficiary]').val(),
+            isGuarantee: $('.check1:checked').val(),
+            isRevokation: $('.check2:checked').val(),
+            death_time: $('[name=death-time] option:selected').val(),
+            death_age: $('[name=death-age] option:selected').val()
+        },(result)=>{
+            setTimeLine(result)
+        })
+    })
 })
 function init() {
     for (let i = 20; i <= 75; i++) {
@@ -92,6 +108,69 @@ function predict() {
         }
     }
 }
+function setTimeLine(logs){
+    reTimeLine()
+    logs.forEach((element, index) => {
+        switch (element.event) {
+            case 'buyEvent':
+                $('#timeline #issues #' + element.args.timestamp[0]).append('購買合約：')
+                if (element.args.inf == 'success buy')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('購買成功')
+                else
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('付款金額不足')
+                $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+                break
+            case 'confirmEvent':
+                $('#timeline #issues #' + element.args.timestamp[0]).append('確認合約：')
+                if (element.args.inf == 'success confirm')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('確認成功')
+                else
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('確認失敗')
+                $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+                break
+            case 'revokeEvent':
+                $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷合約：')
+                if (element.args.inf == 'revoke the contract')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷成功')
+                else
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷失敗<br>不在可撤銷期間內')
+                $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+                break
+            case 'payEvent':
+                $('#timeline #issues #' + element.args.timestamp[0]).append('通知保險公司給付年金：')
+                $('#timeline #issues #' + element.args.timestamp[0]).append('第' + element.args.payTime + '次給付年金通知')
+                $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+                break
+            case 'companyPayEvent':
+                $('#timeline #issues #' + element.args.timestamp[0]).append('保險公司年金給付：')
+                if (element.args.inf == 'company pay success')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('給付被保人 ' + web3.fromWei(element.args.value) + '以太幣')
+                else if (element.args.inf == 'company pay deathBeneficiary success')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('給付身故受益人 ' + web3.fromWei(element.args.value) + '以太幣')
+                $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+                break
+            case 'deathEvent':
+                $('#timeline #issues #' + element.args.timestamp[0]).append('被保人去世：')
+                if (element.args.inf == 'death in waitingForPayment')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('付款前去世')
+                else if (element.args.inf == 'death in unconfirmed')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('確認前去世<br>保費返還被保人')
+                else if (element.args.inf == 'death in canBeRevoked(guarantee)')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷期間內去世<br>退還保費給身故受益人')
+                else if (element.args.inf == 'death in canBeRevoked(no guarantee)')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷期間內去世<br>結束保單')
+                else if (element.args.inf == 'death in confirmd')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('結束保單')
+                $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+                break
+        }
+    })
+}
+function reTimeLine() {
+    $('#timeline #issues li').each(function (index) {
+        $(this).empty()
+    })
+}
 function initTimeLine() {
     for (var i = 2017; i < 2110; i++) {
         $('#timeline #dates').append('<li><a href="#' + i + '" id="d' + i + '">' + i + '</a></li>')
@@ -129,4 +208,12 @@ function initTimeLine() {
         autoPlayPause: 2000
         // value: integer (1000 = 1 seg), default to 2000 (2segs)< });
     })
+}
+function slash(date) {
+    if (date[0] == 0 && date[1] == 0 && date[2] == 0) {
+        return '未訂'
+    }
+    else {
+        return date[0] + '年' + date[1] + '月' + date[2] + '日'
+    }
 }

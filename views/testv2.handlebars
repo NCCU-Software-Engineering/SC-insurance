@@ -8,11 +8,11 @@
     <div class="container-fluid">
         <div class="row">
             <div>
-                <h1>智能合約模擬</h1>
+                <h1>智能保單模擬</h1>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6" style="background-color:lightblue;border-right:5px solid white">
                 <h3>帳戶餘額</h3>
                 <div style="font-size: 2rem;">
                     <h4 style="display: inline-block; width:23rem;">保險公司帳戶餘額：</h4>
@@ -27,7 +27,7 @@
                     <h4 style="display: inline-block;" id="death_money">{{death_money}}</h4>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" style="background-color:lightgoldenrodyellow;">
                 <h3>預期結果</h3>
                 <div style="font-size: 2rem;">
                     <h4 style="display: inline-block; width:23rem;">保險公司帳戶餘額：</h4>
@@ -183,7 +183,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-success" data-dismiss="modal">取消</button>
-                                    <button type="button" class="btn btn-success" data-dismiss="modal" type="submit">送出</button>
+                                    <button type="button" class="btn btn-success" data-dismiss="modal" id="submit">送出</button>
                                 </div>
                             </div>
                         </div>
@@ -193,23 +193,17 @@
             <div class="col-md-8">
                 <div class="row">
                     <div class="col-md-12">
+                        <h3>保單情形</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
                         <div id="timeline">
                             <ul id="dates">
                             </ul>
                             <ul id="issues">
                             </ul>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12" style="background-color:lightgray; margin:10px;">
-                        <h3>合約狀態</h3>
-                        </br>
-                        </br>
-                        </br>
-                        <br>
-                        <br>
-                        <br>
                     </div>
                 </div>
             </div>
