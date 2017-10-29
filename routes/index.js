@@ -248,6 +248,4 @@ function getAge(birthday) {
     return (result)
 }
 
-
-
 module.exports = router;
