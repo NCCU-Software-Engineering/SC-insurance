@@ -19,6 +19,7 @@ $(function () {
             death_age: $('[name=death-age] option:selected').val()
         },(result)=>{
             setTimeLine(result)
+            resetBalane()
         })
     })
 })
@@ -68,6 +69,13 @@ function update() {
         $('input[name=payment]').val(trial[$(".20-75 option:selected").val()].premium_not_guarantee / 10)
         $('input[name=annuity]').val(trial[$(".20-75 option:selected").val()].annuity / 10)
     }
+}
+function resetBalane() {
+    $.post('/getBalance',(result)=>{
+        $('[id="company_money"]').text(result.company_money)
+        $('[id="user_money"]').text(result.user_money)
+        $('[id="death_money"]').text(result.death_money)
+    })
 }
 function predict() {
     let company = Number($('#company_money').text())
@@ -142,13 +150,16 @@ function setTimeLine(logs){
                 $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
                 break
             case 'companyPayEvent':
-            console.log(element.args.inf)
-                $('#timeline #issues #' + element.args.timestamp[0]).append('保險公司年金給付：<br>')
-                if (element.args.inf == 'company pay success')
-                    $('#timeline #issues #' + element.args.timestamp[0]).append('給付被保人 ' + element.args.value/1000000000000000000 + '以太幣')
-                else if (element.args.inf == 'company pay deathBeneficiary success')
+                if (element.args.inf == 'company pay success') {
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('保險公司年金給付：<br>')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('給付被保人 ' + element.args.value / 1000000000000000000 + '以太幣')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+                }
+                else if (element.args.inf == 'company pay deathBeneficiary success'){
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('保險公司年金給付：<br>')
                     $('#timeline #issues #' + element.args.timestamp[0]).append('給付身故受益人 ' + element.args.value/1000000000000000000 + '以太幣')
-                $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+                }
                 break
             case 'deathEvent':
                 $('#timeline #issues #' + element.args.timestamp[0]).append('被保人去世：')

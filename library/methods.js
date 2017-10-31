@@ -59,21 +59,28 @@ function buy(contract, payment) {
         gas: 4444444
     })
 }
-function death(contract) {
+async function death(contract,isGuarantee,money) {
     contract.endAnnuity({
         from: web3.eth.coinbase,
         gas: 4444444
     })
+    if(isGuarantee == 1 && money > 0){
+        contract.companyPay({
+            from: '0x1ad59a6d33002b819fe04bb9c9d0333f990750a4',
+            value: web3.toWei(money),
+            gas: 4444444
+        })
+    }
 }
 function setTime(contract, date) {
     contract.time(date.getFullYear(), date.getMonth() + 1, date.getDate(), {
-        from: '0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6',
+        from: '0x1ad59a6d33002b819fe04bb9c9d0333f990750a4',
         gas: 4444444
     })
 }
 function companyPay(contract) {
     contract.companyPay({
-        from: '0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6',
+        from: '0x1ad59a6d33002b819fe04bb9c9d0333f990750a4',
         value: web3.toWei(1),
         gas: 4444444
     })

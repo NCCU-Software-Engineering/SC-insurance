@@ -222,7 +222,14 @@ router.get('/auto_confirm', async function (req, res, next) {
     })
     res.redirect('/')
 })
-
+//取得帳戶餘額
+router.post('/getBalance', sign, async function (req, res, next) {
+    let company_money = await web3.fromWei(web3.eth.getBalance('0x1ad59a6d33002b819fe04bb9c9d0333f990750a4'), "ether").toFixed(3)
+    let user_money = await web3.fromWei(web3.eth.getBalance('0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6'), "ether").toFixed(3)
+    let death_money = await web3.fromWei(web3.eth.getBalance('0x68a874f2e8d20718af2ebb48dc10940ede50c080'), "ether").toFixed(3)
+    res.json({company_money: company_money, user_money: user_money, death_money: death_money })
+})
+//取得v2結果
 router.post('/getResult', async function (req, res, next) {
     const methods = require('../library/methods.js')
     let myContract
@@ -268,7 +275,7 @@ router.post('/getResult', async function (req, res, next) {
                 await methods.setTime(myContract, myDate)
                 await methods.companyPay(myContract)
                 if (i == death_age - 1) {
-                    await methods.death(myContract)
+                    await methods.death(myContract,isGuarantee,(payment - annuity * (death_age - age))>0?(payment - annuity * (death_age - age)):0)
                     await methods.watch(myContract, (logs) => {
                         res.send(logs)
                     })
