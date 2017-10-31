@@ -9,7 +9,7 @@ $(function () {
         $.post('/getResult',{
             alias: $('input[name=alias]').val(),
             name: $('input[name=name]').val(),
-            age: $('input[name=age]').val(),
+            age: $('[name=age] option:selected').val(),
             payment: $('input[name=payment]').val(),
             annuity: $('input[name=annuity]').val(),
             beneficiary: $('input[name=beneficiary]').val(),
@@ -137,16 +137,17 @@ function setTimeLine(logs){
                 $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
                 break
             case 'payEvent':
-                $('#timeline #issues #' + element.args.timestamp[0]).append('通知保險公司給付年金：')
+                $('#timeline #issues #' + element.args.timestamp[0]).append('通知保險公司給付年金：<br>')
                 $('#timeline #issues #' + element.args.timestamp[0]).append('第' + element.args.payTime + '次給付年金通知')
                 $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
                 break
             case 'companyPayEvent':
-                $('#timeline #issues #' + element.args.timestamp[0]).append('保險公司年金給付：')
+            console.log(element.args.inf)
+                $('#timeline #issues #' + element.args.timestamp[0]).append('保險公司年金給付：<br>')
                 if (element.args.inf == 'company pay success')
-                    $('#timeline #issues #' + element.args.timestamp[0]).append('給付被保人 ' + web3.fromWei(element.args.value) + '以太幣')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('給付被保人 ' + element.args.value/1000000000000000000 + '以太幣')
                 else if (element.args.inf == 'company pay deathBeneficiary success')
-                    $('#timeline #issues #' + element.args.timestamp[0]).append('給付身故受益人 ' + web3.fromWei(element.args.value) + '以太幣')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('給付身故受益人 ' + element.args.value/1000000000000000000 + '以太幣')
                 $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
                 break
             case 'deathEvent':

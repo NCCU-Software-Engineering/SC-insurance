@@ -74,7 +74,7 @@ function setTime(contract, date) {
 function companyPay(contract) {
     contract.companyPay({
         from: '0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6',
-        value: 1,
+        value: web3.toWei(1),
         gas: 4444444
     })
 }

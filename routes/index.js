@@ -242,35 +242,39 @@ router.post('/getResult', async function (req, res, next) {
             await methods.buy(myContract, payment)
             await methods.confirm(myContract)
             await methods.revoke(myContract)
+            await methods.watch(myContract, (logs) => {
+                res.send(logs)
+            })
         }
         else if (death_time == 'before-buy') {
             await methods.death(myContract)
+            await methods.watch(myContract, (logs) => {
+                res.send(logs)
+            })
         }
         else if (death_time == 'before-confirm') {
             await methods.buy(myContract, payment)
             await methods.death(myContract)
+            await methods.watch(myContract, (logs) => {
+                res.send(logs)
+            })
         }
         else {
             await methods.buy(myContract, payment)
             await methods.confirm(myContract)
             let myDate = new Date()
-            async function run() {
-                for (let i = age; i <= death_age; i++) {
-                    if (i == death_age) {
-                        methods.death(myContract)
-                        break;
-                    }
-                    await myDate.setFullYear(myDate.getFullYear() + 1)
-                    await methods.setTime(myContract, myDate)
-                    await methods.companyPay(myContract)
+            for (let i = age; i < death_age; i++) {
+                await myDate.setFullYear(myDate.getFullYear() + 1)
+                await methods.setTime(myContract, myDate)
+                await methods.companyPay(myContract)
+                if (i == death_age - 1) {
+                    await methods.death(myContract)
+                    await methods.watch(myContract, (logs) => {
+                        res.send(logs)
+                    })
                 }
             }
-            await run()
-
         }
-        await methods.watch(myContract, (logs) => {
-            res.send(logs)
-        })
     })
 })
 
