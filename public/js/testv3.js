@@ -1,5 +1,5 @@
 let web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
-let buy = [2017, 10]
+let buy = [2017, 11]
 let dead = [2023, 6]
 
 $(function () {
@@ -47,19 +47,19 @@ $(function () {
             company: '正大人壽',
             payment: Number($('input[name=payment]').val()),
             annuity: '1',
-            beneficiary: '王小明',
+            beneficiary: '賴晨禾',
             isGuarantee: $('.check1:checked').val(),
             paymentDate: '1',
-            deathBeneficiary: '王大明',
+            deathBeneficiary: '賴爸爸',
             deathBeneficiaryRelationship: '直系血親：父子',
             deathBeneficiaryIdentity: 'AOOOOOOOOO',
             deathBeneficiaryAddress: '0x68a874f2e8d20718af2ebb48dc10940ede50c080'
         }
-        $.post("auto_deploy", date, (result) => {
+        $.post('auto_deploy', date, (result) => {
             if (result.type) {
-                $.get("auto_payeth?address=" + result.address, function (result2) {
-                    $.get("auto_confirm?address=" + result.address, function (result3) {     
-                        window.location = '/test?address=' + result.address + '&alias=' + result.alias
+                $.get('auto_payeth?address=' + result.address + '&ether=' + date.payment, function (result2) {
+                    $.get('auto_confirm?address=' + result.address, function (result3) {
+                        window.location = '/test-go?address=' + result.address + '&buy=' + buy.toString() + '&dead=' + dead.toString()
                     })
                 })
             }
@@ -115,7 +115,7 @@ function predict() {
     //有身故
     if ($('.check1:checked').val() == '1') {
         if (life < payment) {
-            $('#dgain').text(payment - life)
+            $('#dgain').text((payment - life) + '以太幣')
             $('#predict_company_money, #predict_company_money2').text(company)
             $('#predict_death_money, #predict_death_money2').text(death + payment - life)
         }

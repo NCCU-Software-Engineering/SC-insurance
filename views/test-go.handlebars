@@ -1,0 +1,160 @@
+{{#section 'css'}}
+<link rel="stylesheet" href="css/test.css">
+<link rel="stylesheet" href="css/MyDate.css">
+<link rel="stylesheet" href="css/Timelinr.css"> {{/section}}
+
+<section id="main">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>智能合約模擬</h1>
+                <div>
+                    <div style="font-size: 2rem;">
+                        <div style="display: inline-block; width:23rem;">保險公司帳戶餘額：</div>
+                        <div style="display: inline-block;" id="money_company"></div>
+                        <div style="display: inline-block;" id="money_company-dif"></div>
+                    </div>
+                    <div style="font-size: 2rem;">
+                        <div style="display: inline-block; width:23rem;">您的帳戶餘額：</div>
+                        <div style="display: inline-block;" id="money_your"></div>
+                        <div style="display: inline-block;" id="money_your-dif"></div>
+                    </div>
+                    <div style="font-size: 2rem; ">
+                        <div style="display: inline-block; width:23rem;">身故受益人帳戶餘額：</div>
+                        <div style="display: inline-block;" id="money_dead"></div>
+                        <div style="display: inline-block;" id="money_dead-dif"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </div>
+</section>
+
+<div id="address" style="display:none;">{{address}}</div>
+
+<section id="event_button">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="jcountTimer" id="myDate1">
+                    <p></p>
+                    <span class="year"><div></div><small>year</small></span>
+                    <span class="month"><div></div><small>month</small></span>
+                    <span class="day"><div></div><small>day</small></span>
+                </h3>
+            </div>
+            <div class="col-md-4">
+                <h3 class="jcountTimer" id="myDate2">
+                    <p></p>
+                    <span class="year"><div></div><small>year</small></span>
+                    <span class="month"><div></div><small>month</small></span>
+                    <span class="day"><div></div><small>day</small></span>
+                </h3>
+            </div>
+            <div class="col-md-4" style="margin-top:3rem">
+                <div class="btn-group.btn-group-justified" role="group">
+                    <button class="btn btn-primary btn-lg" id="auto">開始執行</button>
+                    <button class="btn btn-primary btn-lg" id="stop">暫停</button>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="timeline">
+                    <ul id="dates">
+                    </ul>
+                    <ul id="issues">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="out">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default" id="state_panel">
+                    <div class="panel-heading" id="state_heading">智能保單目前狀態</div>
+                    <div class="panel-body" id="state_body">
+                        <dl class="dl-horizontal">
+
+                            <dt class="text-success">保費(以太幣)：</dt>
+                            <dd id="payment" class="text-success"></dd>
+
+                            <dt class="text-success">保費給付次數：</dt>
+                            <dd id="payTime" class="text-success"></dd>
+
+                            <dt class="text-success">目前合約日期：</dt>
+                            <dd id="nowTime" class="text-success"></dd>
+
+                            <dt class="text-success">契約撤銷期限：</dt>
+                            <dd id="revocationPeriod" class="text-success"></dd>
+
+                            <dt class="text-success">下次年金給付日：</dt>
+                            <dd id="paymentDate" class="text-success"></dd>
+
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default" id="inf_panel">
+                    <div class="panel-heading" id="inf_heading">智能保單部署資料</div>
+                    <div class="panel-body" id="inf_body">
+                        <dl class="dl-horizontal">
+
+                            <dt class="text-info">保險公司：</dt>
+                            <dd id="company" class="text-info"></dd>
+
+                            <dt class="text-info">被保人：</dt>
+                            <dd id="insurer" class="text-info"></dd>
+
+                            <dt class="text-info">給付間格：</dt>
+                            <dd id="timeInterval" class="text-info"></dd>
+
+                            <dt class="text-info">是否保證：</dt>
+                            <dd id="isGuarantee" class="text-info"></dd>
+
+                            <dt class="text-info">受益人：</dt>
+                            <dd id="beneficiarie" class="text-info"></dd>
+                            <!--
+                                <dt class="text-info">死亡受益人：</dt>
+                                <dd id="deathBeneficiary" class="text-info"></dd>
+                                -->
+                            <dt class="text-info">合約部署時間：</dt>
+                            <dd id="deployTime" class="text-info"></dd>
+
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <!--
+                <div class="col-md-6">
+                    <div class="panel panel-default" id="event_panel">
+                        <div class="panel-heading" id="event_heading">合約狀態異動紀錄</div>
+                        <div class="panel-body" id="event_body">請先選擇合約</div>
+                    </div>
+                </div>
+                -->
+        </div>
+    </div>
+</section>
+
+{{#section 'script'}}
+<script src="js/jquery.timelinr-0.9.6.js"></script>
+<script src="js/web3.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/MyDate.js"></script>
+<script src="js/test-go.js"></script>
+{{/section}}
