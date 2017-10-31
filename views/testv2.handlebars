@@ -17,14 +17,17 @@
                 <div style="font-size: 2rem;">
                     <h4 style="display: inline-block; width:23rem;">保險公司帳戶餘額：</h4>
                     <h4 style="display: inline-block;" id="company_money">{{company_money}}</h4>
+                    以太幣
                 </div>
                 <div style="font-size: 2rem;">
                     <h4 style="display: inline-block; width:23rem;">您的帳戶餘額：</h4>
                     <h4 style="display: inline-block;" id="user_money">{{user_money}}</h4>
+                    以太幣
                 </div>
                 <div style="font-size: 2rem; ">
                     <h4 style="display: inline-block; width:23rem;">身故受益人帳戶餘額：</h4>
                     <h4 style="display: inline-block;" id="death_money">{{death_money}}</h4>
+                    以太幣
                 </div>
             </div>
             <div class="col-md-6" style="background-color:lightgoldenrodyellow;">
@@ -32,14 +35,17 @@
                 <div style="font-size: 2rem;">
                     <h4 style="display: inline-block; width:23rem;">保險公司帳戶餘額：</h4>
                     <h4 style="display: inline-block;" id="predict_company_money"></h4>
+                    以太幣
                 </div>
                 <div style="font-size: 2rem;">
                     <h4 style="display: inline-block; width:23rem;">您的帳戶餘額：</h4>
                     <h4 style="display: inline-block;" id="predict_user_money"></h4>
+                    以太幣
                 </div>
                 <div style="font-size: 2rem; ">
                     <h4 style="display: inline-block; width:23rem;">身故受益人帳戶餘額：</h4>
                     <h4 style="display: inline-block;" id="predict_death_money"></h4>
+                    以太幣
                 </div>
             </div>
         </div>
@@ -96,22 +102,22 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="guarantee-type">是否保證</label>
+                        <label class="col-sm-3 control-label" for="revokation-type"></label>
                         <div class="col-sm-8">
                             <label class="radio-inline">
-                                <input type="radio" name="isGuarantee" class="check1" value="1" checked="checked">是</label>
+                                <input type="radio" name="isRevokation" class="check2" value="1">撤銷</label>
                             <label class="radio-inline">
-                                <input type="radio" name="isGuarantee" class="check1" value="0">否</label>
+                                <input type="radio" name="isRevokation" class="check2" value="0" checked="checked">不撤銷</label>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="revokation-type">是否撤銷</label>
+                        <label class="col-sm-3 control-label" for="guarantee-type"></label>
                         <div class="col-sm-8">
                             <label class="radio-inline">
-                                <input type="radio" name="isRevokation" class="check2" value="1">是</label>
+                                <input type="radio" name="isGuarantee" class="check1" value="1" checked="checked">保證型保單</label>
                             <label class="radio-inline">
-                                <input type="radio" name="isRevokation" class="check2" value="0" checked="checked">否</label>
+                                <input type="radio" name="isGuarantee" class="check1" value="0">不保證型保單</label>
                         </div>
                     </div>
 
