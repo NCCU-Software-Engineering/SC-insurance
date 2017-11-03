@@ -1,8 +1,16 @@
 let web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+
 let buy = [2017, 11]
 let dead = [2023, 6]
 
+let company_money
+let user_money
+let death_money
+
 $(function () {
+
+    google.charts.load('current', { 'packages': ['corechart'] })
+    google.charts.setOnLoadCallback(drawChart)
 
     $('.drag').draggable({
         containment: '.container',
@@ -18,14 +26,18 @@ $(function () {
         stop: function () {
             let num = parseInt($(this).css('left')) - 12
             $('#' + $(this).attr('name')).text(toDate(num, $(this).attr('name')))
-
             predict()
+            google.charts.setOnLoadCallback(drawChart)
         }
     })
 
-    $('#company_money').text(web3.fromWei(web3.eth.getBalance('0x1ad59a6d33002b819fe04bb9c9d0333f990750a4'), "ether").toFixed(3))
-    $('#user_money').text(web3.fromWei(web3.eth.getBalance('0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6'), "ether").toFixed(3))
-    $('#death_money').text(web3.fromWei(web3.eth.getBalance('0x68a874f2e8d20718af2ebb48dc10940ede50c080'), "ether").toFixed(3))
+    company_money = web3.fromWei(web3.eth.getBalance('0x1ad59a6d33002b819fe04bb9c9d0333f990750a4'), "ether")
+    user_money = web3.fromWei(web3.eth.getBalance('0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6'), "ether")
+    death_money = web3.fromWei(web3.eth.getBalance('0x68a874f2e8d20718af2ebb48dc10940ede50c080'), "ether")
+
+    $('#company_money').text(company_money.toFixed(3))
+    $('#user_money').text(user_money.toFixed(3))
+    $('#death_money').text(death_money.toFixed(3))
 
     //年齡
     init_age()
@@ -137,37 +149,51 @@ function predict() {
     $('#alias').text(alias)
     $('#premium').text(payment)
     $('#annuity').text(annuity)
+}
 
-    /*
-    $('#predict_company_money').text(1)
-    let year = $('[name=death-age] option:selected').val() - $('.20-75 option:selected').val()
-    if ($('.check2:checked').val() == '1') {
-        $('#predict_company_money').text(company)
-        $('#predict_user_money').text(user)
-        $('#predict_death_money').text(death)
+function drawChart() {
+
+    let company = Number($('#company_money').text())
+    let user = Number($('#user_money').text())
+    let death = Number($('#death_money').text())
+    let payment = Number($('input[name=payment]').val())
+    let annuity = Number($('input[name=annuity]').val())
+    let life = dead[0] - buy[0]
+    if (dead[1] < buy[1])
+        life--
+    let y
+
+    let idata = [
+        ['Year', '保險公司帳戶', '您的帳戶', '身故受益人帳戶'],
+        ['購買前', company, user, death],
+        ['2017', company += payment, user -= payment, death]
+    ]
+    for (y = 2018; y < dead[0] || (y == dead[0] && 11 <= dead[1]); y++) {
+        idata.push([y.toString(), --company, ++user, death])
     }
-    else if ($('[name=death-time] option:selected').val() == 'before-buy') {
-        $('#predict_company_money').text(company)
-        $('#predict_user_money').text(user)
-        $('#predict_death_money').text(death)
-    }
-    else if ($('[name=death-time] option:selected').val() == 'before-confirm') {
-        $('#predict_company_money').text(company)
-        $('#predict_user_money').text(user)
-        $('#predict_death_money').text(death)
-    }
-    else if ($('[name=death-time] option:selected').val() == 'after-confirm') {
-        if ($('.check1:checked').val() == '0') {
-            $('#predict_company_money').text(company + premium - annuity * year)
-            $('#predict_user_money').text(user - premium + annuity * year)
-            $('#predict_death_money').text(death)
+    //有身故
+    if ($('.check1:checked').val() == '1') {
+        console.log('yaaa')
+        if (life < payment) {
+            death += (payment - life)
+            company -= (payment - life)
+            idata[idata.length-1][1] = company
+            idata[idata.length-1][3] = death
         }
-        else {
-            console.log('4.2')
-            $('#predict_company_money').text(company + ((premium - annuity * year) > 0 ? 0 : (premium - annuity * year)))
-            $('#predict_user_money').text(user - premium + annuity * year)
-            $('#predict_death_money').text(death + ((premium - annuity * year) > 0 ? (premium - annuity * year) : 0))
-        }
     }
-    */
+
+    for (let i = 0; i < 5; i++) {
+        idata.push([(y + i + 1).toString(), company, user, death])
+    }
+    console.log(idata)
+    var data = google.visualization.arrayToDataTable(idata);
+
+    var options = {
+        title: '年金走向圖',
+        hAxis: { title: 'Year', titleTextStyle: { color: '#333' } },
+        vAxis: { viewWindow: { min: 700, max: 1100 } }
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
 }

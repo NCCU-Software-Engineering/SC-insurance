@@ -226,44 +226,18 @@
     </div>
 </section>
 
-<!--
 <section id="chart">
     <div class="container">
         <div class="raw">
-            <div id="chart_div" style="width: 100%; height: 500px;"></div>
+            <div id="chart_div" style="height: 400px;"></div>
         </div>
     </div>
 </section>
--->
 
 {{#section 'script'}}
 <script type="text/javascript" src="/jquery-ui.min.js"></script>
 <script type="text/javascript" src="http://www.pureexample.com/js/lib/jquery.ui.touch-punch.min.js"></script>
 <script type="text/javascript" src="js/web3.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['Year', '保險公司帳戶', '您的帳戶', '身故受益人帳戶'],
-            ['2016', 1000, 400, 600],
-            ['2017', 1000, 400, 600],
-            ['2018', 1170, 460, 600],
-            ['2019', 660, 1120, 600],
-            ['2020', 1030, 540, 600]
-        ]);
-
-        var options = {
-            title: '年金走向圖',
-            hAxis: { title: 'Year', titleTextStyle: { color: '#333' } },
-            vAxis: { minValue: 0 }
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-    }
-</script>
 <script type="text/javascript" src="data/trialdata.js"></script>
 <script type="text/javascript" src="js/testv3.js"></script> {{/section}}
