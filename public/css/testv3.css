@@ -1,14 +1,23 @@
+h4{
+    margin: 5px 0 5px 0;
+}
+
 #time {
     height: 250px;
 }
 
 .icon_box {
     width: 1170px;
-    height: 199px;
+    height: 202px;
     position: relative;
+    text-align: center;
 }
 
 .drag {
+    position: absolute;
+}
+
+.nodrag {
     position: absolute;
 }
 
@@ -55,3 +64,5 @@
     text-align: center;
     background-color: white;
 }
+
+#chart_div

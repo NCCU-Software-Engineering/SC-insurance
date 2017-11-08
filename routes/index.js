@@ -96,6 +96,10 @@ router.get('/testv3', sign, async function (req, res, next) {
     res.render('testv3', { user_name: req.session.user_name })
 })
 
+//測試頁面v3執行畫面
+router.get('/test-go', sign, async function (req, res, next) {
+    res.render('test-go', { user_name: req.session.user_name })
+})
 
 router.get('/verify', function (req, res, next) {
     res.render('verify', { user_name: req.session.user_name })
@@ -204,7 +208,7 @@ router.get('/auto_payeth', async function (req, res, next) {
     let user = await mysql.getUserByID(req.session.user_ID)
     testContract.buy({
         from: user.account,
-        value: web3.toWei(26, "ether"),
+        value: web3.toWei(req.query.ether, "ether"),
         gas: 4444444
     })
     res.send('done')

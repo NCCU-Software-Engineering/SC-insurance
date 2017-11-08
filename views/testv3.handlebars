@@ -6,58 +6,71 @@
 <section id="main">
     <div class="container">
         <div class="row">
-            <div>
+
+            <div class="col-md-12">
                 <h1>智能保單模擬</h1>
             </div>
-        </div>
-        <div class="row">
 
             <div class="col-md-5">
-                <h3>帳戶餘額</h3>
-                <div style="font-size: 2rem;">
-                    <h4 style="display: inline-block; width:18rem;">保險公司帳戶餘額：</h4>
-                    <h4 style="display: inline-block;" id="company_money"></h4>
-                </div>
-                <div style="font-size: 2rem;">
-                    <h4 style="display: inline-block; width:18rem;">您的帳戶餘額：</h4>
-                    <h4 style="display: inline-block;" id="user_money"></h4>
-                </div>
-                <div style="font-size: 2rem; ">
-                    <h4 style="display: inline-block; width:18rem;">身故受益人帳戶餘額：</h4>
-                    <h4 style="display: inline-block;" id="death_money"></h4>
-                </div>
-
-                <h3>預期結果</h3>
-                <div style="font-size: 2rem;">
-                    <h4 style="display: inline-block; width:18rem;">保險公司帳戶餘額：</h4>
-                    <h4 style="display: inline-block;" id="predict_company_money"></h4>
-                </div>
-                <div style="font-size: 2rem;">
-                    <h4 style="display: inline-block; width:18rem;">您的帳戶餘額：</h4>
-                    <h4 style="display: inline-block;" id="predict_user_money"></h4>
-                </div>
-                <div style="font-size: 2rem; ">
-                    <h4 style="display: inline-block; width:18rem;">身故受益人帳戶餘額：</h4>
-                    <h4 style="display: inline-block;" id="predict_death_money"></h4>
+                <div style="background-color:lightblue; padding:1rem; margin-bottom:10px;">
+                    <h3 style="margin-top:10px;">帳戶餘額</h3>
+                    <div style="font-size: 2rem;">
+                        <h4 style="display: inline-block; width:18rem;">保險公司帳戶餘額：</h4>
+                        <h4 style="display: inline-block;" id="company_money"></h4>
+                        以太幣
+                    </div>
+                    <div style="font-size: 2rem;">
+                        <h4 style="display: inline-block; width:18rem;">您的帳戶餘額：</h4>
+                        <h4 style="display: inline-block;" id="user_money"></h4>
+                        以太幣
+                    </div>
+                    <div style="font-size: 2rem; ">
+                        <h4 style="display: inline-block; width:18rem;">身故受益人帳戶餘額：</h4>
+                        <h4 style="display: inline-block;" id="death_money"></h4>
+                        以太幣
+                    </div>
                 </div>
 
-                <h3>詳細內容</h3>
-                <div style="font-size: 2rem;">
-                    <h4 style="display: inline-block; width:18rem;">存活時間</h4>
-                    <h4 style="display: inline-block;" id="life"></h4>
+                <div style="background-color:lightgoldenrodyellow; padding:1rem; margin-bottom:10px;">
+                    <h3 style="margin-top:10px;">預期結果</h3>
+                    <div style="font-size: 2rem;">
+                        <h4 style="display: inline-block; width:18rem;">保險公司帳戶餘額：</h4>
+                        <h4 style="display: inline-block;" id="predict_company_money"></h4>
+                        以太幣
+                    </div>
+                    <div style="font-size: 2rem;">
+                        <h4 style="display: inline-block; width:18rem;">您的帳戶餘額：</h4>
+                        <h4 style="display: inline-block;" id="predict_user_money"></h4>
+                        以太幣
+                    </div>
+                    <div style="font-size: 2rem; ">
+                        <h4 style="display: inline-block; width:18rem;">身故受益人帳戶餘額：</h4>
+                        <h4 style="display: inline-block;" id="predict_death_money"></h4>
+                        以太幣
+                    </div>
                 </div>
-                <div style="font-size: 2rem;">
-                    <h4 style="display: inline-block; width:18rem;">賺/賠</h4>
-                    <h4 style="display: inline-block;" id="gain"></h4>
-                </div>
-                <div style="font-size: 2rem; ">
-                    <h4 style="display: inline-block; width:18rem;">身故受益人</h4>
-                    <h4 style="display: inline-block;" id="dgain"></h4>
+
+                <div style="background-color:rgb(191, 241, 191); padding:1rem;">
+                    <h3 style="margin-top:10px;">詳細內容</h3>
+                    <div style="font-size: 2rem;">
+                        <h4 style="display: inline-block; width:18rem;">存活時間</h4>
+                        <h4 style="display: inline-block;" id="life"></h4>
+                        年
+                    </div>
+                    <div style="font-size: 2rem;">
+                        <h4 style="display: inline-block; width:18rem;">被保人獲利</h4>
+                        <h4 style="display: inline-block;" id="gain"></h4>
+                        以太幣
+                    </div>
+                    <div style="font-size: 2rem; ">
+                        <h4 style="display: inline-block; width:18rem;">身故受益人獲利</h4>
+                        <h4 style="display: inline-block;" id="dgain"></h4>
+                    </div>
                 </div>
             </div>
 
             <div class="col-md-7">
-                <h3>填入參數</h3>
+                <h3 style="padding-left:4rem;">填入參數</h3>
                 <form class="form-horizontal" style="margin-top: 1rem">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">保單名稱</label>
@@ -105,22 +118,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="guarantee-type">是否保證</label>
+                        <label class="col-sm-3 control-label" for="guarantee-type"></label>
                         <div class="col-sm-8">
                             <label class="radio-inline">
-                                <input type="radio" name="isGuarantee" class="check1" value="1" checked="checked">是</label>
+                                <input type="radio" name="isGuarantee" class="check1" value="1" checked="checked">保證型保單</label>
                             <label class="radio-inline">
-                                <input type="radio" name="isGuarantee" class="check1" value="0">否</label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" for="revokation-type">是否撤銷</label>
-                        <div class="col-sm-8">
-                            <label class="radio-inline">
-                                <input type="radio" name="isRevokation" class="check2" value="1">是</label>
-                            <label class="radio-inline">
-                                <input type="radio" name="isRevokation" class="check2" value="0" checked="checked">否</label>
+                                <input type="radio" name="isGuarantee" class="check1" value="0">不保證型保單</label>
                         </div>
                     </div>
 
@@ -131,6 +134,7 @@
                         </div>
                     </div>
 
+                    <!--確認選單-->
                     <div class="modal fade" id="checkresult" role="dialog">
                         <div class="modal-dialog">
                             <!-- Modal content-->
@@ -187,12 +191,18 @@
     <div class="container">
 
         <div class="row icon_box">
-            <div class="drag icon" name="buy">
-                <h4 id="buy">2017年10月</h4>
+            <div class="nodrag icon" name="buy">
+                <h4>購買日期：
+                    <br>
+                    <div id="buy">2017年11月</div>
+                </h4>
                 <img src="imgs/buy.png"></img>
             </div>
             <div class="drag icon" name="dead">
-                <h4 id="dead">2023年6月</h4>
+                <h4>身故日期：
+                    <br>
+                    <div id="dead">2023年6月</div>
+                </h4>
                 <img src="imgs/dead.png"></img>
             </div>
         </div>
@@ -212,18 +222,15 @@
             <div class="dot"></div>
             <div class="biggerdot"></div>
         </div>
-        <!--
-        <div class="row icon_box">
-            <div class="drag icon" name="buy">
-                <h4 id="buy">2017年10月</h4>
-                <img src="imgs/buy.png"></img>
-            </div>
-            <div class="drag icon" name="dead">
-                <h4 id="dead">2023年6月</h4>
-                <img src="imgs/dead.png"></img>
-            </div>
+
+    </div>
+</section>
+
+<section id="chart">
+    <div class="container">
+        <div class="raw">
+            <div id="chart_div" style="height: 400px;"></div>
         </div>
-        -->
     </div>
 </section>
 
@@ -231,5 +238,6 @@
 <script type="text/javascript" src="/jquery-ui.min.js"></script>
 <script type="text/javascript" src="http://www.pureexample.com/js/lib/jquery.ui.touch-punch.min.js"></script>
 <script type="text/javascript" src="js/web3.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="data/trialdata.js"></script>
 <script type="text/javascript" src="js/testv3.js"></script> {{/section}}
