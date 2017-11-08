@@ -126,7 +126,7 @@ function setTimeLine(logs){
                     $('#timeline #issues #' + element.args.timestamp[0]).append('購買成功')
                 else
                     $('#timeline #issues #' + element.args.timestamp[0]).append('付款金額不足')
-                $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+                $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br><br>')
                 break
             case 'confirmEvent':
                 $('#timeline #issues #' + element.args.timestamp[0]).append('確認合約：')
@@ -134,31 +134,31 @@ function setTimeLine(logs){
                     $('#timeline #issues #' + element.args.timestamp[0]).append('確認成功')
                 else
                     $('#timeline #issues #' + element.args.timestamp[0]).append('確認失敗')
-                $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+                $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br><br>')
                 break
             case 'revokeEvent':
                 $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷合約：')
                 if (element.args.inf == 'revoke the contract')
                     $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷成功')
                 else
-                    $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷失敗<br>不在可撤銷期間內')
-                $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷失敗 不在可撤銷期間內')
+                $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br><br>')
                 break
             case 'payEvent':
-                $('#timeline #issues #' + element.args.timestamp[0]).append('通知保險公司給付年金：<br>')
+                $('#timeline #issues #' + element.args.timestamp[0]).append('通知保險公司給付年金：')
                 $('#timeline #issues #' + element.args.timestamp[0]).append('第' + element.args.payTime + '次給付年金通知')
-                $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+                $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br><br>')
                 break
             case 'companyPayEvent':
                 if (element.args.inf == 'company pay success') {
-                    $('#timeline #issues #' + element.args.timestamp[0]).append('保險公司年金給付：<br>')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('保險公司年金給付：')
                     $('#timeline #issues #' + element.args.timestamp[0]).append('給付被保人 ' + element.args.value / 1000000000000000000 + '以太幣')
-                    $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br><br>')
                 }
                 else if (element.args.inf == 'company pay deathBeneficiary success'){
-                    $('#timeline #issues #' + element.args.timestamp[0]).append('保險公司年金給付：<br>')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('保險公司年金給付：')
                     $('#timeline #issues #' + element.args.timestamp[0]).append('給付身故受益人 ' + element.args.value/1000000000000000000 + '以太幣')
-                    $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br><br>')
                 }
                 break
             case 'deathEvent':
@@ -173,7 +173,7 @@ function setTimeLine(logs){
                     $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷期間內去世<br>結束保單')
                 else if (element.args.inf == 'death in confirmd')
                     $('#timeline #issues #' + element.args.timestamp[0]).append('結束保單')
-                $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br>')
+                $('#timeline #issues #' + element.args.timestamp[0]).append('(' + slash(element.args.timestamp) + ')<br><br>')
                 break
         }
     })
@@ -186,7 +186,7 @@ function reTimeLine() {
 function initTimeLine() {
     for (var i = 2017; i < 2110; i++) {
         $('#timeline #dates').append('<li><a href="#' + i + '" id="d' + i + '">' + i + '</a></li>')
-        $('#timeline #issues').append('<li id="' + i + '"></li>')
+        $('#timeline #issues').append('<li id="' + i + '" style="position:relative;left:-200px"></li>')
     }
     $().timelinr({
         orientation: 'horizontal',
