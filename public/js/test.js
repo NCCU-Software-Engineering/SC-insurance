@@ -248,28 +248,47 @@ function updateMoney() {
     let money_your_dif = (web3.fromWei(web3.eth.getBalance(nidhogg5)) - money_your).toFixed(3)
     let money_dead_dif = (web3.fromWei(web3.eth.getBalance(deathBeneficiary)) - money_dead).toFixed(3)
 
-    if (money_company_dif >= 0) {
+    if (money_company_dif == 0) {
         $('#money_company-dif').text('(+' + money_company_dif + ')')
         $('#money_company-dif').css('color', 'green')
     }
-    if (money_your_dif >= 0) {
+    if (money_your_dif == 0) {
         $('#money_your-dif').text('(+' + money_your_dif + ')')
         $('#money_your-dif').css('color', 'green')
     }
-    if (money_dead_dif >= 0) {
+    if (money_dead_dif == 0) {
+        $('#money_dead-dif').text('(+' + money_dead_dif + ')')
+        $('#money_dead-dif').css('color', 'green')
+    }
+
+    if (money_company_dif > 0) {
+        playAudio();
+        $('#money_company-dif').text('(+' + money_company_dif + ')')
+        $('#money_company-dif').css('color', 'green')
+    }
+    if (money_your_dif > 0) {
+        playAudio();
+        $('#money_your-dif').text('(+' + money_your_dif + ')')
+        $('#money_your-dif').css('color', 'green')
+    }
+    if (money_dead_dif > 0) {
+        playAudio();
         $('#money_dead-dif').text('(+' + money_dead_dif + ')')
         $('#money_dead-dif').css('color', 'green')
     }
 
     if (money_company_dif < 0) {
+        playAudio();
         $('#money_company-dif').text('(' + money_company_dif + ')')
         $('#money_company-dif').css('color', 'red')
     }
     if (money_your_dif < 0) {
+        playAudio();
         $('#money_your-dif').text('(' + money_your_dif + ')')
         $('#money_your-dif').css('color', 'red')
     }
     if (money_dead_dif < 0) {
+        playAudio();
         $('#money_dead-dif').text('(' + money_dead_dif + ')')
         $('#money_dead-dif').css('color', 'red')
     }
@@ -400,4 +419,8 @@ function ethAddress(address) {
         default:
             return address
     }
+}
+
+function playAudio(){
+    $('#coin').trigger('play');
 }
