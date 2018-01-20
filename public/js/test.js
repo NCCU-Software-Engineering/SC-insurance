@@ -1,7 +1,7 @@
 let web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
 let adrress
 let testContract
-let myDate1 = new MyDate('#myDate1', 2017, 8, 17, '模擬智能合約目前日期(Time Travel)')
+let myDate1 = new MyDate('#myDate1', 2017, 8, 17, '模擬智能保單目前日期(Time Travel)')
 let myDate2 = new MyDate('#myDate2', 0, 0, 0, '契約撤銷期限')
 let autoRun
 
@@ -32,7 +32,23 @@ $(document).ready(function () {
         nowBlock = web3.eth.blockNumber
 
         switch ($(this).attr('id')) {
-
+            case "pay":
+                $('#pay').hide()
+                $('#check').show()
+                testContract.buy({
+                    from: nidhogg5,
+                    value: web3.toWei(10, "ether"),
+                    gas: 4444444
+                })
+                break
+            case "check":
+                $('#check').hide()
+                $('#next_day').show()
+                testContract.confirm(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate(),{
+                    from: nidhogg5,
+                    gas: 4444444
+                })
+                break
             case "next_day":
                 console.log("next_day");
                 myDate.setDate(myDate.getDate() + 1)
@@ -148,7 +164,9 @@ function update() {
     $("#nowTime").text(slash(testContract.getNowTime()))
     $("#revocationPeriod").text(slash(testContract.getRevocationPeriod()))
     $("#paymentDate").text(slash(testContract.getPaymentDate()))
-
+    if(testContract.getState().toString() == 4){
+        $("#paymentDate").text(slash([0,0,0]))
+    }
     let events = testContract.allEvents({ fromBlock: 0, toBlock: 'latest' });
     events.get(function (error, logs) {
         //console.log(logs)
@@ -160,7 +178,7 @@ function update() {
             switch (element.event) {
 
                 case 'buyEvent':
-                    $('#timeline #issues #' + element.args.timestamp[0]).append('購買合約：')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('購買保單：')
                     if (element.args.inf == 'success buy')
                         $('#timeline #issues #' + element.args.timestamp[0]).append('購買成功')
                     else
@@ -170,7 +188,7 @@ function update() {
                     break
 
                 case 'confirmEvent':
-                    $('#timeline #issues #' + element.args.timestamp[0]).append('確認合約：')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('確認保單：')
                     if (element.args.inf == 'success confirm')
                         $('#timeline #issues #' + element.args.timestamp[0]).append('確認成功')
                     else
@@ -179,7 +197,7 @@ function update() {
                     break
 
                 case 'revokeEvent':
-                    $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷合約：')
+                    $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷保單：')
                     if (element.args.inf == 'revoke the contract')
                         $('#timeline #issues #' + element.args.timestamp[0]).append('撤銷成功')
                     else
@@ -262,33 +280,27 @@ function updateMoney() {
     }
 
     if (money_company_dif > 0) {
-        playAudio();
         $('#money_company-dif').text('(+' + money_company_dif + ')')
         $('#money_company-dif').css('color', 'green')
     }
     if (money_your_dif > 0) {
-        playAudio();
         $('#money_your-dif').text('(+' + money_your_dif + ')')
         $('#money_your-dif').css('color', 'green')
     }
     if (money_dead_dif > 0) {
-        playAudio();
         $('#money_dead-dif').text('(+' + money_dead_dif + ')')
         $('#money_dead-dif').css('color', 'green')
     }
 
     if (money_company_dif < 0) {
-        playAudio();
         $('#money_company-dif').text('(' + money_company_dif + ')')
         $('#money_company-dif').css('color', 'red')
     }
     if (money_your_dif < 0) {
-        playAudio();
         $('#money_your-dif').text('(' + money_your_dif + ')')
         $('#money_your-dif').css('color', 'red')
     }
     if (money_dead_dif < 0) {
-        playAudio();
         $('#money_dead-dif').text('(' + money_dead_dif + ')')
         $('#money_dead-dif').css('color', 'red')
     }
@@ -310,7 +322,7 @@ function reTimeLine() {
 
 function initTimeLine() {
 
-    for (var i = 2017; i < 2100; i++) {
+    for (var i = 2018; i < 2100; i++) {
         $('#timeline #dates').append('<li><a href="#' + i + '" id="d' + i + '">' + i + '</a></li>')
         $('#timeline #issues').append('<li id="' + i + '"></li>')
     }
@@ -354,46 +366,46 @@ function setState(state) {
     switch (state) {
         case '0':
             $("#state_panel").addClass("panel panel-default ");
-            $("#state_heading").html("合約狀態：等待付款")
+            $("#state_heading").html("保單狀態：等待付款")
             break
         case '1':
             $("#state_panel").addClass("panel panel-warning");
-            $("#state_heading").html("合約狀態：等待被保人確認中");
+            $("#state_heading").html("保單狀態：等待被保人確認中");
             break
         case '2':
             $("#state_panel").addClass("panel panel-info");
-            $("#state_heading").html("合約狀態：保單可撤銷期內");
+            $("#state_heading").html("保單狀態：保單可撤銷期內");
             myDate2.setText('契約撤銷期限')
             myDate2.satDate(testContract.getRevocationPeriod())
             break
         case '3':
             $("#state_panel").addClass("panel panel-primary");
-            $("#state_heading").html("合約狀態：合約正式生效");
+            $("#state_heading").html("保單狀態：保單正式生效");
             myDate2.setText('下次年金給付日期')
             myDate2.satDate(testContract.getPaymentDate())
             break
         case '4':
             $("#state_panel").addClass("panel panel-success");
-            $("#state_heading").html("合約狀態：合約給付結束");
+            $("#state_heading").html("保單狀態：保單給付結束");
             myDate2.setText('')
             myDate2.satDate([0, 0, 0])
             $('#dead').prop('disabled', true);
             break
         case '5':
             $("#state_panel").addClass("panel panel-danger");
-            $("#state_heading").html("合約狀態：合約已被撤銷");
+            $("#state_heading").html("保單狀態：保單已被撤銷");
             myDate2.setText('')
             myDate2.satDate([0, 0, 0])
             break
         case '6':
             $("#state_panel").addClass("panel panel-danger");
-            $("#state_heading").html("合約狀態：保證型保險 給付死亡受益人");
+            $("#state_heading").html("保單狀態：保證型保險 給付死亡受益人");
             myDate2.setText('')
             myDate2.satDate([0, 0, 0])
             break
         default:
             $("#state_panel").addClass("panel panel-default");
-            $("#state_heading").html("合約狀態：未知狀態???");
+            $("#state_heading").html("保單狀態：未知狀態???");
     }
 }
 
@@ -419,8 +431,4 @@ function ethAddress(address) {
         default:
             return address
     }
-}
-
-function playAudio(){
-    $('#coin').trigger('play');
 }

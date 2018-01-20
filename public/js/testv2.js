@@ -19,7 +19,7 @@ $(function () {
             death_age: $('[name=death-age] option:selected').val()
         },(result)=>{
             setTimeLine(result)
-            resetBalane()
+            resetBalance()
         })
     })
 })
@@ -70,8 +70,9 @@ function update() {
         $('input[name=annuity]').val(trial[$(".20-75 option:selected").val()].annuity / 10)
     }
 }
-function resetBalane() {
+function resetBalance() {
     $.post('/getBalance',(result)=>{
+        console.log(result)
         $('[id="company_money"]').text(result.company_money)
         $('[id="user_money"]').text(result.user_money)
         $('[id="death_money"]').text(result.death_money)
@@ -184,7 +185,7 @@ function reTimeLine() {
     })
 }
 function initTimeLine() {
-    for (var i = 2017; i < 2110; i++) {
+    for (var i = 2018; i < 2110; i++) {
         $('#timeline #dates').append('<li><a href="#' + i + '" id="d' + i + '">' + i + '</a></li>')
         $('#timeline #issues').append('<li id="' + i + '" style="position:relative;left:-200px"></li>')
     }

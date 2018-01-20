@@ -69,7 +69,7 @@ router.get('/solidity', sign, function (req, res, next) {
 })
 
 //自動環境
-router.get('/auto', sign, async function (req, res, next) {
+router.get('/auto', async function (req, res, next) {
     let contract = await mysql.getContract()
     let li = ''
     for (var i = 0; i < contract.length; i++) {
@@ -84,7 +84,7 @@ router.get('/test', async function (req, res, next) {
 })
 
 //測試頁面v2
-router.get('/testv2', sign, async function (req, res, next) {
+router.get('/testv2', async function (req, res, next) {
     let company_money = await web3.fromWei(web3.eth.getBalance('0x1ad59a6d33002b819fe04bb9c9d0333f990750a4'), "ether").toFixed(3)
     let user_money = await web3.fromWei(web3.eth.getBalance('0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6'), "ether").toFixed(3)
     let death_money = await web3.fromWei(web3.eth.getBalance('0x68a874f2e8d20718af2ebb48dc10940ede50c080'), "ether").toFixed(3)
@@ -92,12 +92,12 @@ router.get('/testv2', sign, async function (req, res, next) {
 })
 
 //測試頁面v3
-router.get('/testv3', sign, async function (req, res, next) {
+router.get('/testv3', async function (req, res, next) {
     res.render('testv3', { user_name: req.session.user_name })
 })
 
 //測試頁面v3執行畫面
-router.get('/test-go', sign, async function (req, res, next) {
+router.get('/test-go', async function (req, res, next) {
     res.render('test-go', { user_name: req.session.user_name })
 })
 
@@ -207,7 +207,7 @@ router.get('/auto_payeth', async function (req, res, next) {
     let testContract = new contract.getContract(req.query.address)
     let user = await mysql.getUserByID(req.session.user_ID)
     testContract.buy({
-        from: user.account,
+        from: '0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6',
         value: web3.toWei(req.query.ether, "ether"),
         gas: 4444444
     })
@@ -221,13 +221,13 @@ router.get('/auto_confirm', async function (req, res, next) {
     let myDate = new Date()
     myDate.setDate(myDate.getDate() + 11)
     testContract.confirm(myDate.getFullYear(), myDate.getMonth() + 1, myDate.getDate(), {
-        from: web3.eth.coinbase,
+        from: '0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6',
         gas: 4444444
     })
     res.redirect('/')
 })
 //取得帳戶餘額
-router.post('/getBalance', sign, async function (req, res, next) {
+router.post('/getBalance', async function (req, res, next) {
     let company_money = await web3.fromWei(web3.eth.getBalance('0x1ad59a6d33002b819fe04bb9c9d0333f990750a4'), "ether").toFixed(3)
     let user_money = await web3.fromWei(web3.eth.getBalance('0xa4716ae2279e6e18cf830da2a72e60fb9d9b51c6'), "ether").toFixed(3)
     let death_money = await web3.fromWei(web3.eth.getBalance('0x68a874f2e8d20718af2ebb48dc10940ede50c080'), "ether").toFixed(3)

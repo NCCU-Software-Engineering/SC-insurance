@@ -4,13 +4,10 @@
 <link rel="stylesheet" href="css/Timelinr.css"> {{/section}}
 
 <section id="main">
-    <audio id="coin" src="audio/336934__shnur__coin7.wav">
-    您的瀏覽器不支援audio
-    </audio>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6">
-                <h1>智能合約模擬</h1>
+                <h1>智能保單模擬</h1>
                 <p style="font-size: 2rem;">{{alias}}</p>
                 <p style="font-size: 2rem;">{{predict}}</p>
             </div>
@@ -61,18 +58,10 @@
             </div>
             <div class="col-md-4">
                 <div class="btn-group.btn-group-justified" role="group" style="margin-bottom: 10px;">
-                    <button class="btn btn-success btn-lg" id="next_day">下一天</button>
-                    <button class="btn btn-success btn-lg" id="next_month">下一月</button>
-                    <button class="btn btn-success btn-lg" id="next_year">下一年</button>
-                </div>
-                <div class="btn-group.btn-group-justified" role="group" style="margin-bottom: 10px;">
-                    <button class="btn btn-success btn-lg" id="go">指定日期</button>
-                    <input id="datePicker" type="date" name="user_date">
                 </div>
                 <div class="btn-group.btn-group-justified" role="group">
                     <button class="btn btn-primary btn-lg" id="auto">自動執行</button>
                     <button class="btn btn-primary btn-lg" id="stop" style="display:none;">停止自動</button>
-                    <button class="btn btn-primary btn-lg" id="revoke">撤銷合約</button>
                     <button class="btn btn-primary btn-lg" id="dead">被保人往生</button>
                 </div>
             </div>
@@ -113,7 +102,7 @@
                             <dt class="text-success">保費給付次數：</dt>
                             <dd id="payTime" class="text-success"></dd>
 
-                            <dt class="text-success">目前合約日期：</dt>
+                            <dt class="text-success">目前保單日期：</dt>
                             <dd id="nowTime" class="text-success"></dd>
 
                             <dt class="text-success">契約撤銷期限：</dt>
