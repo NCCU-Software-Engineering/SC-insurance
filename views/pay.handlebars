@@ -25,6 +25,9 @@
                 <h4 for="money">金額(以太幣):</h4>
                 <input type="text" class="form-control" id="money" readonly="readonly">
                 <br>
+                <h4 for="money">input your keyfile</h4>
+                <input type="file" class="form-control" id="keyfile">
+                <br>
             </div>
         </div>
         <button class="btn btn-primary" id="payeth">確認</button>
@@ -32,5 +35,7 @@
 </section>
 
 {{#section 'script'}}
+<script src="js/dist/web3.min.js"></script>
 <script src="js/pay.js"></script>
+<script src="js/data.js"></script>
 {{/section}}
