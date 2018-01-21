@@ -70,33 +70,6 @@ router.get('/solidity', sign, function (req, res, next) {
 
 
 
-
-
-//產生驗證碼
-router.post('/createcode', function (req, res, next) {
-    let randomString = crypto.randomBytes(32).toString('hex').substr(0, 8);
-    mysql.setVerification(req.session.user_ID, randomString)
-    let cont = "您的驗證碼為: " + randomString
-    send.newsletter("0912254446", cont)
-
-    res.send('done')
-})
-
-//驗證碼
-router.post('/verify', function (req, res, next) {
-    mysql.getVerification(req.session.user_ID, (result) => {
-        if (req.body.code == result[0].verification) {
-            mysql.setVerification(req.session.user_ID, 'true')
-            res.send('success')
-        }
-        else {
-            res.send('error')
-        }
-    })
-})
-
-
-
 function getAge(birthday) {
     let today = new Date();
     let result = {}

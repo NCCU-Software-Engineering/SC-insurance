@@ -1,9 +1,9 @@
-var web3 = require('./web3.js');
-var data = require('./data.js');
-var send = require('./notice.js');
-var credentials = require('./credentials.js');
+const web3 = require('./web3')
+const data = require('./data')
+const send = require('./notice')
+const credentials = require('./credentials')
 
-var annuityContract = web3.eth.contract(data.interface);
+var annuityContract = web3.eth.contract(data.interface)
 
 function deploy(insuredAddress, deathBeneficiaryAddress, payment, annuity, paymentDate, isGuarantee, beneficiary, deathBeneficiary, callback) {
 

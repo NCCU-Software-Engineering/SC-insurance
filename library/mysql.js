@@ -1,13 +1,13 @@
-var mysql = require('mysql');
-var web3 = require('../library/web3.js');
-var credentials = require('./credentials.js');
+const mysql = require('mysql')
+const web3 = require('./web3')
+const credentials = require('./credentials')
 
-var connection = mysql.createConnection({
+const connection = mysql.createConnection({
     host: credentials.mysql.host,
     user: credentials.mysql.user,
     password: credentials.mysql.password,
     database: 'smart'
-});
+})
 
 function connect() {
     connection.connect((err) => {
