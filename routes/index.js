@@ -1,19 +1,19 @@
-var express = require('express')
-var crypto = require('crypto')
-var format = require('string-format')
-var fs = require("fs")
-var path = require('path')
+const express = require('express')
+const crypto = require('crypto')
+const format = require('string-format')
+const fs = require("fs")
+const path = require('path')
 
-var web3 = require('../library/web3.js')
-var contract = require('../library/contract.js')
-var mysql = require('../library/mysql.js')
-var notice = require('../library/notice.js')
+const web3 = require('../library/web3')
+const contract = require('../library/contract')
+const mysql = require('../library/mysql')
+const notice = require('../library/notice')
 
-var router = express.Router()
+const router = express.Router()
 
 mysql.connect()
 
-var sign = async function (req, res, next) {
+const sign = async function (req, res, next) {
     if (req.session.user_ID && req.session.user_name) {
         next()
     }
@@ -53,6 +53,12 @@ router.get('/buy', sign, function (req, res, next) {
 router.get('/pay', sign, async function (req, res, next) {
     let user = await mysql.getUserByID(req.session.user_ID)
     res.render('pay', { user_name: req.session.user_name, account: user.account })
+})
+
+//錢包頁面
+router.get('/wallet', async function (req, res, next) {
+    let user = await mysql.getUserByID(req.session.user_ID)
+    res.render('wallet')
 })
 
 //智能合約 傳統合約 對照
