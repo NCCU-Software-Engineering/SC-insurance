@@ -1,3 +1,7 @@
+var express = require('express')
+
+var router = express.Router()
+
 //測試頁面
 router.get('/test', async function (req, res, next) {
     res.render('test', { user_name: req.session.user_name, address: req.query.address, alias: req.query.alias, predict: req.query.predict })
@@ -196,3 +200,5 @@ router.post('/getResult', async function (req, res, next) {
         }
     })
 })
+
+module.exports = router

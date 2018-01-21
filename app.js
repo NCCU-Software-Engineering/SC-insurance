@@ -1,21 +1,22 @@
-var express = require('express')
-var session = require('express-session')
-var cookieParser = require('cookie-parser')
-var logger = require('morgan')
+const express = require('express')
+const session = require('express-session')
+const cookieParser = require('cookie-parser')
+const logger = require('morgan')
 
-var path = require('path')
-var favicon = require('serve-favicon')
-var bodyParser = require('body-parser')
+const path = require('path')
+const favicon = require('serve-favicon')
+const bodyParser = require('body-parser')
 
-var credentials = require('./library/credentials.js')
+const credentials = require('./library/credentials')
 
-var index = require('./routes/index')
-var users = require('./routes/users')
+const index = require('./routes/index')
+const users = require('./routes/users')
+const test = require('./routes/test')
 
-var app = express()
+const app = express()
 
 //view engine setup
-var handlebars = require('express-handlebars').create({
+const handlebars = require('express-handlebars').create({
     defaultLayout: 'main',
     helpers: {
         section: function (name, options) {
@@ -51,6 +52,7 @@ app.use(express.static(path.join(__dirname, 'bower_components', 'jquery-ui')))
 app.use(express.static(path.join(__dirname, 'bower_components', 'sweetalert2', 'dist')))
 
 app.use('/', index)
+app.use('/', test)
 app.use('/users', users)
 
 //catch 404 and forward to error handler

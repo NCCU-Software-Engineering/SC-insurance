@@ -68,8 +68,6 @@ router.get('/solidity', sign, function (req, res, next) {
     })
 })
 
-
-
 function getAge(birthday) {
     let today = new Date();
     let result = {}
@@ -95,4 +93,4 @@ function getAge(birthday) {
     return (result)
 }
 
-module.exports = router;
+module.exports = router
