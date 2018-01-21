@@ -1,13 +1,13 @@
 {{#section 'css'}}
 <link rel="stylesheet" href="css/wallet.css"></link>
-{{/section}} 
+{{/section}}
 
 <!--教學頁面-->
 <section id="guide">
     <div class="container">
         <div class="row">
             <button>開啟mist</button>
-            <button>下載mist</button>
+            <button onclick="location.href='https://github.com/ethereum/mist/releases'">下載mist</button>
         </div>
     </div>
 </section>
@@ -16,12 +16,45 @@
 <section id="wallet">
     <div class="container">
         <div class="row">
-            <button>123</button>
-            <button>456</button>
+            <h2>保單資訊</h2>
+            <dl class="dl-horizontal">
+                <dt>保單編號</dt>
+                <dd>nccuIS_000152</dd>
+
+                <dt>保單名稱</dt>
+                <dd>我的第一張保單</dd>
+
+                <dt>保單類型</dt>
+                <dd>保證型保單</dd>
+
+                <dt>受益人</dt>
+                <dd>王小明</dd>
+
+                <dt>身故受益人</dt>
+                <dd>王大明</dd>
+
+                <dt>身故受益人關係</dt>
+                <dd>直系血親：父子</dd>
+
+                <dt>保險年期</dt>
+                <dd>終身</dd>
+            </dl>
+
+
+            <h2>帳戶資訊</h2>
+            <dl class="dl-horizontal">
+                <dt>平台</dt>
+                <dd id="platform"></dd>
+            </dl>
+            <button id="requestAccount">新增帳號</button>
+            <br>
+            <button id="bip">bip</button>
+            <button id="bloop">bloop</button>
+            <button id="invite">invite</button>
         </div>
     </div>
 </section>
 
 {{#section 'script'}}
-<script src="js/wallet.js"></script>
-{{/section}}
+<script src="js/web3.min.js"></script>
+<script src="js/wallet.js"></script> {{/section}}
