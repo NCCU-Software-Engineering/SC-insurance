@@ -128,14 +128,33 @@ router.get('/payeth', async function (req, res, next) {
     let testContract = new contract.getContract(req.query.address)
     let user = await mysql.getUserByID(req.session.user_ID)
     let policy = await mysql.getContractByAddress(req.query.address)
-    testContract.buy({
+    /*testContract.buy({
         from: user.account,
         value: web3.toWei(policy.payment, "ether"),
         gas: 4444444
-    })
-    mysql.buyContract(req.query.address)
-    notice.confirmEmail(user.email, policy, req.query.address, req.session.user_ID)
-    res.send('done')
+    })*/
+    await web3.eth.sendTransaction({
+        from: web3.eth.coinbase,
+        to: req.query.account,
+        value: web3.toWei(policy.payment+1, "ether"),
+        gas: 210000
+    }, function(err, transactionHash) {
+        if (!err){
+            console.log(transactionHash);
+            console.log(web3.eth.getBalance(req.query.account))
+            web3.eth.sendRawTransaction(req.query.raw, function(err, hash) {
+                if (!err){
+                    console.log(hash); 
+                    mysql.buyContract(req.query.address)
+                    notice.confirmEmail(user.email, policy, req.query.address, req.session.user_ID)
+                    res.send('done')
+                }
+                else{
+                    console.log(err)
+                }
+            });
+        }
+    });
 })
 
 //確認合約

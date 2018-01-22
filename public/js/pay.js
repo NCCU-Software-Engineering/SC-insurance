@@ -37,10 +37,12 @@ $(function () {
         reader.readAsText(file)
     })
     $('#payeth').click(function () {
-        signTx(keyfile,$("#pwd").val(),address,$("#money").val())
-        /*$.get('/payeth', {
+        let account = web3.eth.accounts.decrypt(keyfile,$("#pwd").val());
+        let raw = signTx(account,keyfile,$("#pwd").val(),address,$("#money").val())
+        $.get('/payeth', {
+            account: account.address,
             address: address,
-            amount: $("#money").val()
+            raw: raw
         }, (result) => {
             swal({
                 title: '付款成功',
@@ -48,24 +50,23 @@ $(function () {
             }).then(() => {
                 window.location = '/'
             })
-        })*/
+        })
     })
     function addZero(n) {
         return 'nccuin' + (n < 10000 ? (n < 1000 ? (n < 100 ? (n < 10 ? "0000" : "000") : "00") : "0") : "") + n
     }
 
-    function signTx(keyfile,password,address,value){
-        let account = web3.eth.accounts.decrypt(keyfile,password);
+    function signTx(account,keyfile,password,address,value){
         console.log(account);
         let tx = account.signTransaction({
             to: address,
             value: web3.utils.toWei(value, 'ether'),
             gas: 2000000,
-            gasPrice: '222222222222222',
+            gasPrice: '22222222',
             data: datas,
             nonce: 0,
             chainId: 1
         }, account.privateKey);
-        console.log(tx.serialize());
+        return tx.rawTransaction;
     }
 });
