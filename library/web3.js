@@ -1,6 +1,10 @@
-const Web3 = require('web3')
-const setting = require('./setting')
+var credentials = require('./credentials.js');
+var Web3 = require('web3')
 
-var web3 = new Web3(new Web3.providers.HttpProvider(setting.web3_providers))
+//testrpc
+var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+
+//testnet
+//var web3 = new Web3(new Web3.providers.HttpProvider(credentials.web3.HttpProvider))
 
 module.exports = web3

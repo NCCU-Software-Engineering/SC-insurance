@@ -1,44 +1,46 @@
 {
-	"name": "app",
-	"version": "2.0.0",
-	"private": true,
-	"scripts": {
-		"start": "node ./bin/www",
-		"ganache-cli": "ganache-cli --port 8545 --gasPrice 0 --account=\"0x5f9a53f726597a482f492f4f8d4b949ab6f6d0616d326365b6bd9269f1776ff8,1000000000050000000000\" --account=\"0x5695b35083430c171aeddf9bb9aa7f1a52ac850922f08f9d4e41278dc5352620,100000000005000000000\" --account=\"0x11d4a1735ee1698d1be285cd211f257674605ed0a356a677bc39edda587b76e7,0\" --account=\"0x502381e1ab07f460c9db9e0e2addd42e03ef6f2c149a6abf1d4f8f16ce6f66d0,800000000050000000000\""
-	},
-	"dependencies": {
-		"body-parser": "~1.15.2",
-		"cookie-parser": "~1.4.3",
-		"debug": "~2.2.0",
-		"express": "~4.14.0",
-		"express-handlebars": "^3.0.0",
-		"express-session": "^1.15.6",
-		"fb": "^2.0.0",
-		"fs": "0.0.1-security",
-		"morgan": "~1.7.0",
-		"mysql": "^2.15.0",
-		"nodemailer": "^4.4.2",
-		"scrypt": "^6.0.3",
-		"serve-favicon": "~2.3.0",
-		"string-format": "^0.5.0",
-		"web3": "^0.20.4"
-	},
-	"main": "app.js",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/NCCU-Software-Engineering/SC-insurance.git"
-	},
-	"author": "autumn",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/NCCU-Software-Engineering/SC-insurance/issues"
-	},
-	"homepage": "https://github.com/NCCU-Software-Engineering/SC-insurance#readme",
-	"description": "安裝modules\r ---\r npm install",
-	"keywords": [
-		"smart_contract",
-		"ethereum",
-		"blockchain",
-		"annuity"
-	]
+  "name": "app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "testrpc": "testrpc --port 8545 --gasPrice 0 --account=\"0x5f9a53f726597a482f492f4f8d4b949ab6f6d0616d326365b6bd9269f1776ff8,1000000000050000000000\" --account=\"0x5695b35083430c171aeddf9bb9aa7f1a52ac850922f08f9d4e41278dc5352620,100000000005000000000\" --account=\"0x11d4a1735ee1698d1be285cd211f257674605ed0a356a677bc39edda587b76e7,0\" --account=\"0x502381e1ab07f460c9db9e0e2addd42e03ef6f2c149a6abf1d4f8f16ce6f66d0,800000000050000000000\""
+  },
+  "dependencies": {
+    "angular": "^1.6.6",
+    "body-parser": "~1.15.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "express": "~4.14.0",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.6",
+    "fb": "^2.0.0",
+    "fs": "0.0.1-security",
+    "morgan": "~1.7.0",
+    "mysql": "^2.14.1",
+    "nodemailer": "^4.1.1",
+    "scrypt": "^6.0.3",
+    "serve-favicon": "~2.3.0",
+    "solc": "^0.4.17",
+    "string-format": "^0.5.0",
+    "web3": "~0.18.4"
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NCCU-Software-Engineering/SC-insurance.git"
+  },
+  "author": "autumn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NCCU-Software-Engineering/SC-insurance/issues"
+  },
+  "homepage": "https://github.com/NCCU-Software-Engineering/SC-insurance#readme",
+  "description": "安裝modules\r ---\r npm install",
+  "keywords": [
+    "smart_contract",
+    "ethereum",
+    "blockchain",
+    "annuity"
+  ]
 }

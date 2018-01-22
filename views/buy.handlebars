@@ -1,3 +1,6 @@
+{{#section 'css'}}
+<link rel="stylesheet" href="css/buy.css"> {{/section}}
+
 <section>
     <div class="container">
         <div class="row">
@@ -11,33 +14,35 @@
         <div class="row">
 
             <div class="col-md-4">
-
+                <!--
                 <div class="thumbnail">
-                    <img src="imgs/credit card.jpg" alt="...">
+                    <img src="imgs/credit card.png" alt="...">
                     <div class="caption">
                         <h3>線上刷卡</h3>
-                        <a href="#" class="btn btn-primary" role="button">付款</a>
+                        <p></p>
+                        <p><a href="#" class="btn btn-primary" role="button">付款</a>
                     </div>
                 </div>
-
+                -->
             </div>
-
-            <div class="col-md-4">
-                <div class="thumbnail">
-                    <img src="imgs/ethereum.png" alt="...">
-                    <div class="caption">
-                        <h3>以太幣</h3>
-                        <a href="#" class="btn btn-primary" role="button">付款</a>
-                    </div>
-                </div>
-            </div>
-
+            <!--
             <div class="col-md-4">
                 <div class="thumbnail">
                     <img src="imgs/atm.jpg" alt="...">
                     <div class="caption">
                         <h3>銀行轉帳</h3>
-                        <a href="#" class="btn btn-primary" role="button">付款</a>
+                        <p></p>
+                        <p><a href="#" class="btn btn-primary" role="button">付款</a>
+                    </div>
+                </div>
+            </div>
+            -->
+            <div class="col-md-4">
+                <div class="thumbnail">
+                    <img src="imgs/ethereum.png" alt="...">
+                    <div class="caption">
+                        <h3>以太幣</h3>
+                        <p><a href="/pay" class="btn btn-primary" role="button">付款</a>
                     </div>
                 </div>
             </div>
@@ -47,3 +52,7 @@
     </div>
 </section>
 </form>
+
+{{#section 'script'}}
+<script src="js/buy.js"></script>
+{{/section}}

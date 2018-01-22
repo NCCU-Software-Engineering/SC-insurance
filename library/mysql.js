@@ -1,20 +1,20 @@
-const mysql = require('mysql')
-const web3 = require('./web3')
-const credentials = require('./credentials')
+var mysql = require('mysql');
+var web3 = require('../library/web3.js');
+var credentials = require('./credentials.js');
 
-const connection = mysql.createConnection({
+var connection = mysql.createConnection({
     host: credentials.mysql.host,
     user: credentials.mysql.user,
     password: credentials.mysql.password,
     database: 'smart'
-})
+});
 
 function connect() {
     connection.connect((err) => {
         if (err) {
             console.log('error when connecting to db:', err)
-            // 10秒後重新連線
-            setTimeout(connect, 10000)
+            // 2秒後重新連線
+            //setTimeout(handleDisconnect, 2000)
         }
         else {
             console.log('connecting to db')
@@ -36,7 +36,7 @@ async function sing_in(ID, password) {
             return { type: 1, inf: '登入成功', ID: user.ID, name: user.name }
         }
     } catch (err) {
-        console.error(err)
+        console.error(err);
     }
 }
 
@@ -51,7 +51,7 @@ async function sing_up(ID, password, name, identity, email, phone, birthday, add
             return { type: false, inf: '此帳號已有人註冊過' }
         }
     } catch (err) {
-        console.error(err)
+        console.error(err);
     }
 }
 
@@ -64,7 +64,7 @@ function getUserByID(ID) {
             } else {
                 reject(err)
             }
-        })
+        });
     })
 }
 
@@ -88,10 +88,10 @@ function getAccountCount() {
     let cmd = "SELECT count(account) FROM user";
     connection.query(cmd, (err, result) => {
         if (!err) {
-            return result
+            return result;
         }
         else {
-            console.log(err)
+            console.log(err);
         }
     })
 }
@@ -109,7 +109,7 @@ async function addContract(ID, address, alias, payment, paymentDate, isGuarantee
 }
 
 function getContractByID(ID) {
-    let cmd = "SELECT * FROM contract WHERE ID = ?"
+    let cmd = "SELECT * FROM contract WHERE ID = ?";
     return new Promise(function (resolve, reject) {
         connection.query(cmd, [ID], (err, result) => {
             if (!err) {
@@ -122,7 +122,7 @@ function getContractByID(ID) {
 }
 
 function getContract() {
-    let cmd = "SELECT * FROM contract"
+    let cmd = "SELECT * FROM contract";
     return new Promise(function (resolve, reject) {
         connection.query(cmd, (err, result) => {
             if (!err) {
@@ -161,7 +161,7 @@ function buyContract(address) {
 }
 
 function getContractCount(ID) {
-    let cmd = "SELECT auto FROM contract where ID = ?"
+    let cmd = "SELECT auto FROM contract where ID = ?";
     return new Promise(function (resolve, reject) {
         connection.query(cmd, [ID], (err, result) => {
             if (!err) {
@@ -177,27 +177,27 @@ function getAccountByID(ID, callback) {
     let cmd = "SELECT account FROM user WHERE ID = ?";
     connection.query(cmd, [ID], (err, result) => {
         if (!err) {
-            callback(result)
+            callback(result);
         } else {
-            console.log(err)
+            console.log(err);
         }
-    })
+    });
 }
 
 function setVerification(ID, code) {
-    let cmd = "UPDATE user SET verification = '" + code + "' WHERE ID = '" + ID + "' "
-    connection.query(cmd)
+    let cmd = "UPDATE user SET verification = '" + code + "' WHERE ID = '" + ID + "' ";
+    connection.query(cmd);
 }
 
 function getVerification(ID, callback) {
-    let cmd = "SELECT verification FROM user WHERE ID = ?"
+    let cmd = "SELECT verification FROM user WHERE ID = ?";
     connection.query(cmd, [ID], (err, result) => {
         if (!err) {
-            callback(result)
+            callback(result);
         } else {
-            console.log(err)
+            console.log(err);
         }
-    })
+    });
 }
 
 module.exports = {

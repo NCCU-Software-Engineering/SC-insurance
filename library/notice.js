@@ -1,14 +1,14 @@
-const nodemailer = require('nodemailer')
-const credentials = require("./credentials")
-const request = require('request')
+var nodemailer = require('nodemailer');
+var credentials = require("./credentials.js")
+var request = require('request');
 
-const mailTransport = nodemailer.createTransport({
+var mailTransport = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
         user: credentials.gmail.user,
         pass: credentials.gmail.password,
     }
-})
+});
 
 function email(target, subject, text) {
     mailTransport.sendMail({
@@ -22,7 +22,7 @@ function email(target, subject, text) {
         } else {
             console.log('訊息發送: ' + info.response);
         }
-    })
+    });
 }
 
 function newsletter(phone, mbody) {
@@ -45,7 +45,7 @@ function newsletter(phone, mbody) {
         } else {
             console.log(body);
         }
-    })
+    });
 }
 
 function confirmEmail(target, policy, address, user_ID){
@@ -96,6 +96,10 @@ function revocationPeriodEmail(target, policy, myDate, address, id) {
     email(target, '正大人壽網路投保電子保單契約撤銷期通知', content)
 }
 
+function revocationEmail() {
+
+
+}
 
 function deadEmail(email, policy, myDate) {
     send.email(email, '正大人壽網路投保電子保單契約撤銷期通知', content)
@@ -104,5 +108,6 @@ function deadEmail(email, policy, myDate) {
 module.exports = {
     confirmEmail: confirmEmail,
     revocationPeriodEmail: revocationPeriodEmail,
+    revocationEmail: revocationEmail,
     deadEmail: deadEmail
 }

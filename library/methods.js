@@ -1,7 +1,7 @@
-var web3 = require('./web3')
-var data = require('./data')
+var web3 = require('./web3.js');
+var data = require('./data.js');
 
-var annuityContract = web3.eth.contract(data.interface)
+var annuityContract = web3.eth.contract(data.interface);
 
 function deploy(payment, annuity, isGuarantee, beneficiary, callback) {
     let date = new Date();
