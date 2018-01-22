@@ -1,5 +1,6 @@
 section {
     display: none;
+    font-size: 2rem;
 }
 
 button {
@@ -9,4 +10,11 @@ button {
     border-radius: 4px;
     margin: 5px;
     padding: 5px;
+    width: 100px;
+}
+
+select {
+    border: 2px solid #4CAF50; /* Green */
+    border-radius: 4px;
+    margin: 5px;
 }

@@ -27,6 +27,9 @@
                 <dt>保單類型</dt>
                 <dd>保證型保單</dd>
 
+                <dt>保費</dt>
+                <dd>10以太幣</dd>
+
                 <dt>受益人</dt>
                 <dd>王小明</dd>
 
@@ -40,21 +43,27 @@
                 <dd>終身</dd>
             </dl>
 
-
             <h2>帳戶資訊</h2>
+            <select>
+                <option>請選擇帳號</option>
+            </select>
             <dl class="dl-horizontal">
                 <dt>平台</dt>
                 <dd id="platform"></dd>
+                
+                <dt>目前選擇帳號</dt>
+                <dd id="account"></dd>
+                
+                <dt>帳號餘額</dt>
+                <dd id="balance"></dd>
             </dl>
-            <button id="requestAccount">新增帳號</button>
-            <br>
-            <button id="bip">bip</button>
-            <button id="bloop">bloop</button>
-            <button id="invite">invite</button>
+
+            <button id="buy">付款</button>
         </div>
     </div>
 </section>
 
 {{#section 'script'}}
-<script src="js/web3.min.js"></script>
+<script src="js/dist/web3.min.js"></script>
+<script src="js/data.js"></script>
 <script src="js/wallet.js"></script> {{/section}}

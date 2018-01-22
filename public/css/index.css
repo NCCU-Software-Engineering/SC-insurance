@@ -6,7 +6,7 @@
     padding-top: 2rem;
     padding-bottom: 2rem;
     background: #000 url("/imgs/bg/bg1.jpg") no-repeat;
-    background-size: 100% 100%;
+    background-size: auto;
 }
 
 #product h1 {
@@ -33,7 +33,6 @@
 }
 
 
-
 /*
  *content
 */
@@ -43,7 +42,7 @@
     padding-left: 3rem;
 }
 
-h3{
+h3 {
     font-size: 3rem;
     color: darkgreen;
 }
@@ -76,28 +75,30 @@ dd {
     background-color: skyblue;
     margin: 10px;
 }
+
 .overlay {
     display: none;
     width: 100%;
     height: 100%;
-    position: fixed; 
-    top:0;
-    left:0;
-    background: rgba(0,0,0,0.8);
-    z-index:10;
-    color:#fff;
-    overflow:hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10;
+    color: #fff;
+    overflow: hidden;
 }
-.overobj{
+
+.overobj {
     display: inline-block;
-    width:30%;
-    overflow:hidden;
+    width: 30%;
+    overflow: hidden;
     margin: 0 auto;
     position: relative;
     top: 25%;
     left: 35%;
 }
 
-.closebtn{
+.closebtn {
     float: right;
 }
