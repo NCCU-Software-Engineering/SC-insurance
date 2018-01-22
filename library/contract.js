@@ -1,41 +1,48 @@
-var web3 = require('./web3.js');
-var data = require('./data.js');
-var send = require('./notice.js');
-var credentials = require('./credentials.js');
+const web3 = require('./web3')
+const data = require('./data')
+const send = require('./notice')
+const setting = require('./setting')
 
-var annuityContract = web3.eth.contract(data.interface);
+var annuityContract = web3.eth.contract(data.interface)
 
 function deploy(insuredAddress, deathBeneficiaryAddress, payment, annuity, paymentDate, isGuarantee, beneficiary, deathBeneficiary, callback) {
 
-    console.log("isGuarantee", isGuarantee)
+    return new Promise(function (resolve, reject) {
 
-    let date = new Date();
-    //web3.personal.unlockAccount(credentials.account.company, '', 300);
+        console.log("isGuarantee", isGuarantee)
 
-    annuityContract.new(
-        insuredAddress,
-        deathBeneficiaryAddress,
-        [date.getFullYear(), date.getMonth() + 1, + date.getDate()],
-        payment*1000000000000000000,
-        annuity*1000000000000000000,
-        paymentDate,
-        (isGuarantee == 1),
-        '正大人壽',
-        beneficiary,
-        deathBeneficiary,
-        {
-            from: credentials.account.company,
-            data: data.bytecode,
-            gas: 0x47E7C4
-        }, function (e, contract) {
-            if (typeof contract.address !== 'undefined') {
-                //console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
-                callback(contract.address);
-            }
-            else {
-                //console.log('contract.address undefined')
-            }
-        })
+        let date = new Date()
+        web3.personal.unlockAccount(setting.account.company, setting.password, 1000)
+        
+        resolve('0x00');
+
+        /*
+        annuityContract.new(
+            insuredAddress,
+            deathBeneficiaryAddress,
+            [date.getFullYear(), date.getMonth() + 1, + date.getDate()],
+            payment * 1000000000000000000,
+            annuity * 1000000000000000000,
+            paymentDate,
+            (isGuarantee == 1),
+            '正大人壽',
+            beneficiary,
+            deathBeneficiary,
+            {
+                from: credentials.account.company,
+                data: data.bytecode,
+                gas: 0x47E7C4
+            }, function (e, contract) {
+                if (typeof contract.address !== 'undefined') {
+                    //console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
+                    callback(contract.address);
+                }
+                else {
+                    //console.log('contract.address undefined')
+                }
+            })
+        */
+    })
 }
 
 function getContract(adress) {
