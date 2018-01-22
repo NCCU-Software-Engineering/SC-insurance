@@ -8,6 +8,7 @@ const favicon = require('serve-favicon')
 const bodyParser = require('body-parser')
 
 const credentials = require('./library/credentials')
+const mysql = require('./library/mysql')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
@@ -72,5 +73,7 @@ app.listen(app.get('port'), function () {
     console.log('Express started on http://localhost:' + app.get('port') + '\n' +
         'press Ctrl-C to terminate')
 })
+
+mysql.connect()
 
 module.exports = app

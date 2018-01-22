@@ -2,10 +2,12 @@
  *body
 */
 
-html, body {
+html,
+body {
     font-family: 'Noto Sans TC', sans-serif;
     min-width: 1200px;
 }
+
 
 /*
  *header
