@@ -8,10 +8,15 @@ $(function () {
     else {
         $('#wallet').show()
 
-        var myContract = new web3.eth.Contract(data.interface, '0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe')
-        let user = await mysql.getUserByID(req.session.user_ID)
-        let policy = await mysql.getContractByAddress(req.query.address)
+        if ($('#isGuarantee').html() == '不保證型保單') {
+            $('#guarantee').hide()
+        }
+
+        let url = new URL(window.location.href)
+        let address = url.searchParams.get('address')
+
         web3 = new Web3(web3.currentProvider)
+        let myContract = new web3.eth.Contract(data.interface, address)
 
         $('#platform').html(mist.platform)
 
@@ -25,7 +30,7 @@ $(function () {
             mist.sounds.bip()
             $('option').eq(0).attr('disabled', true)
             $('#account').html($(this).find(":selected").text())
-            web3.eth.getBalance($('#account').html()).then(balance => $('#balance').html(balance))
+            update()
         })
 
         mist.menu.clear()
@@ -38,12 +43,71 @@ $(function () {
             console.log('我被按下了耶')
         })
 
-        $('#buy').click({
-            contract.buy({
-                from: user.account,
-                value: web3.toWei(policy.payment, "ether"),
+        $('#buy').click(function () {
+            
+            $('#send').show()
+
+            myContract.methods.buy().send({
+                from: $('select').find(":selected").text(),
+                value: web3.utils.toWei('5', "ether"),
                 gas: 4444444
+            }).on('transactionHash', function(hash){
+                $('#su').html('交易進行中')
+                $('#hash').html(hash)
+            }).on('confirmation', function(confirmationNumber, receipt){
+                $('#confirmationNumber').html(confirmationNumber)
+                console.log(confirmationNumber)
+            }).on('receipt', function(receipt){
+                $('#su').html('交易完成')
+            })
+
+            myContract.once('buyEvent', {
+                fromBlock: 0
+            }, function (error, event) {
+                console.log(event)
+                update()
             })
         })
+
+        function update() {
+            web3.eth.getBalance(
+                $('#account').html()
+            ).then(
+                balance => $('#balance').html(web3.utils.fromWei(balance, 'ether'))
+                )
+            setState()
+        }
+
+        function setState() {
+            myContract.methods.getState().call({
+                from: $('select').find(":selected").text()
+            }, function (error, result) {
+                switch (result) {
+                    case '0':
+                        $("#state").html("等待付款")
+                        break
+                    case '1':
+                        $("#state").html("付款成功，等待被保人確認中")
+                        break
+                    case '2':
+                        $("#state").html("保單可撤銷期內")
+                        break
+                    case '3':
+                        $("#state").html("保單正式生效")
+                        break
+                    case '4':
+                        $("#state").html("保單給付結束")
+                        break
+                    case '5':
+                        $("#state").html("保單已被撤銷");
+                        break
+                    case '6':
+                        $("#state").html("保證型保險 給付死亡受益人")
+                        break
+                    default:
+                        $("#state").html("未知狀態???")
+                }
+            })
+        }
     }
 })

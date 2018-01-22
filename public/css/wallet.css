@@ -18,3 +18,7 @@ select {
     border-radius: 4px;
     margin: 5px;
 }
+
+#send {
+    display: none;
+}

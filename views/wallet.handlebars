@@ -19,25 +19,33 @@
             <h2>保單資訊</h2>
             <dl class="dl-horizontal">
                 <dt>保單編號</dt>
-                <dd>nccuIS_000152</dd>
+                <dd>{{auto}}</dd>
+
+                <dt>保單地址</dt>
+                <dd>{{address}}</dd>
 
                 <dt>保單名稱</dt>
-                <dd>我的第一張保單</dd>
+                <dd>{{alias}}</dd>
 
                 <dt>保單類型</dt>
-                <dd>保證型保單</dd>
+                <dd id="isGuarantee">{{isGuarantee}}</dd>
 
                 <dt>保費</dt>
-                <dd>10以太幣</dd>
+                <dd>{{payment}}以太幣</dd>
 
                 <dt>受益人</dt>
-                <dd>王小明</dd>
+                <dd>{{name}}</dd>
 
-                <dt>身故受益人</dt>
-                <dd>王大明</dd>
+                <div id="guarantee">
+                    <dt>身故受益人</dt>
+                    <dd>{{deathBeneficiary}}</dd>
 
-                <dt>身故受益人關係</dt>
-                <dd>直系血親：父子</dd>
+                    <dt>身故受益人關係</dt>
+                    <dd>{{deathBeneficiaryRelationship}}</dd>
+                </div>
+
+                <dt>保單狀態</dt>
+                <dd id="state"></dd>
 
                 <dt>保險年期</dt>
                 <dd>終身</dd>
@@ -50,13 +58,27 @@
             <dl class="dl-horizontal">
                 <dt>平台</dt>
                 <dd id="platform"></dd>
-                
+
                 <dt>目前選擇帳號</dt>
                 <dd id="account"></dd>
-                
+
                 <dt>帳號餘額</dt>
                 <dd id="balance"></dd>
             </dl>
+
+            <div id="send">
+                <h2>保單資訊</h2>
+                <dl class="dl-horizontal">
+                    <dt>交易狀態</dt>
+                    <dd id="su"></dd>
+
+                    <dt>txHash</dt>
+                    <dd id="hash"></dd>
+
+                    <dt>確認區塊數</dt>
+                    <dd id="confirmationNumber"></dd>
+                </dl>
+            </div>
 
             <button id="buy">付款</button>
         </div>

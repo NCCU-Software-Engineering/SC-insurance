@@ -1,5 +1,5 @@
 let width = 0
-let data
+let data = false
 
 $(function () {
 
@@ -23,6 +23,7 @@ $(function () {
 		}).then(() => {
 			widthCount()
 			$.post("deploy", $('form').serialize(), (result) => {
+				console.log('部屬成功')
 				data = result
 			})
 		}).catch()
@@ -31,32 +32,26 @@ $(function () {
 })
 
 function showSwal() {
-	if (data.type) {
+	if (data) {
 		swal({
 			title: '智能保單部署成功',
 			html: '保單編號：' + paddingLeft(data.number, 6) + '<br>保單名稱：' + data.alias + '<br>保單對應智能合約地址：<br>' + data.address,
 			type: 'success',
 			closeOnConfirm: false
 		}).then(() => {
-			window.location = '/buy'
+			window.location = '/buy?address=' + data.address
 		})
 	}
 	else {
-		swal({
-			title: '智能保單部署失敗',
-			text: data.inf,
-			type: 'error',
-		})
-		width = 0
-		$('#progress').css('width', '0%')
+		setTimeout(showSwal, 5000)
 	}
 }
 
 function widthCount() {
-	width += 5;
+	width += 1;
 	$('#progress').css('width', width + '%')
 	if (width < 100) {
-		setTimeout(widthCount, 100)
+		setTimeout(widthCount, 500)
 	}
 	else {
 		setTimeout(showSwal, 500)

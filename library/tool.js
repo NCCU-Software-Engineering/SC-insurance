@@ -23,6 +23,14 @@ function getAge(birthday) {
     return (result)
 }
 
+function paddingLeft(str, lenght) {
+	if (str.length >= lenght)
+		return 'nccuIS_' + str
+	else
+		return paddingLeft('0' + str, lenght);
+}
+
 module.exports = {
     getAge: getAge,
+    paddingLeft: paddingLeft,
 }
