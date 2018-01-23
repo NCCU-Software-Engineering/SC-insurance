@@ -44,38 +44,44 @@ $(function () {
         })
 
         $('#buy').click(function () {
-            
-            $('#send').show()
+
+            //$('#send').show()
+
+            reupdate()
 
             myContract.methods.buy().send({
                 from: $('select').find(":selected").text(),
-                value: web3.utils.toWei('5', "ether"),
+                value: web3.utils.toWei('2.5', "ether"),
                 gas: 4444444
-            }).on('transactionHash', function(hash){
+            }).on('transactionHash', function (hash) {
                 $('#su').html('交易進行中')
                 $('#hash').html(hash)
-            }).on('confirmation', function(confirmationNumber, receipt){
+                console.log(hash)
+            }).on('confirmation', function (confirmationNumber, receipt) {
                 $('#confirmationNumber').html(confirmationNumber)
                 console.log(confirmationNumber)
-            }).on('receipt', function(receipt){
+            }).on('receipt', function (receipt) {
                 $('#su').html('交易完成')
+                console.log(receipt)
             })
 
             myContract.once('buyEvent', {
                 fromBlock: 0
             }, function (error, event) {
                 console.log(event)
-                update()
             })
         })
 
         function update() {
             web3.eth.getBalance(
                 $('#account').html()
-            ).then(
-                balance => $('#balance').html(web3.utils.fromWei(balance, 'ether'))
-                )
+            ).then(balance => $('#balance').html(web3.utils.fromWei(balance, 'ether')))
             setState()
+        }
+
+        function reupdate() {
+            update()
+            setTimeout(reupdate, 1000)
         }
 
         function setState() {
