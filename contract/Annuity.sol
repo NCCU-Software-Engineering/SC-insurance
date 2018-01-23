@@ -205,6 +205,7 @@ contract Annuity {
         //契約撤銷期內死亡
         else if(_state == State.canBeRevoked) {
             //有保證
+             _state = State.ending;
             if(_isGuarantee) {
                 _deathBeneficiaryAddress.transfer(_payment);
                 deathEvent(msg.sender , "death(thansfer to deathBeneficiary)", 0, 0, _nowTime);
